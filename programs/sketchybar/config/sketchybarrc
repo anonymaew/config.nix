@@ -1,0 +1,48 @@
+#!/bin/sh
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+ITEM_DIR="$CONFIG_DIR/items"
+source "$CONFIG_DIR/settings.sh"
+
+SPACER_COUNT=0
+
+spacer() {
+  SPACER_COUNT=$((SPACER_COUNT+1))
+  sketchybar --add item spacer"$SPACER_COUNT" "$1" \
+             --set spacer"$SPACER_COUNT" width="$SPACING" \
+                                         background.drawing=off 
+}
+
+sketchybar --bar position=top height=24 color=0x00000000 blur_radius=30 corner_radius=6 y_offset=10 margin=10 font_smoothing=on padding_left=-99 padding_right=-99
+
+default=(
+  icon.font="JetBrainsMono Nerd Font:Bold:16.0"
+  icon.color="$TEXT"
+  icon.padding_left=10
+  icon.padding_right=10
+  label.font="SF Compact:Regular:13.0"
+  label.color="$TEXT"
+  label.padding_right=10
+  background.color="$BACKGROUND"
+  background.height=24
+  background.corner_radius=6
+)
+sketchybar --default "${default[@]}"
+
+ITEMS=("spaces" "front_app")
+for ITEM in "${ITEMS[@]}"
+do
+  source "$ITEM_DIR/$ITEM.sh"
+  spacer left
+done
+
+ITEMS=("battery" "stats")
+for ITEM in "${ITEMS[@]}"
+do
+  source "$ITEM_DIR/$ITEM.sh"
+  spacer right
+done
+
+source "$ITEM_DIR/calendar.sh"
+
+sketchybar --update
