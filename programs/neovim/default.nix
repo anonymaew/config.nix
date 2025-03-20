@@ -1,11 +1,4 @@
-{ pkgs, ... }:
-# let
-#   nixvim = import (builtins.fetchGit {
-#     url = "https://github.com/nix-community/nixvim";
-#     ref = "main";
-#   }); in
-{
-
+{...}: {
   programs.nixvim = {
     enable = true;
 
@@ -77,7 +70,7 @@
         settings = {
           highlight = {
             enable = true;
-            disable = [ "latex" ];
+            disable = ["latex"];
           };
           indent.enable = true;
         };
@@ -90,14 +83,15 @@
         enable = true;
         settings = {
           formatters_by_ft = {
-            cpp = [ "clang_format" ];
-            python = [ "ruff_organize_imports" "ruff_format" ];
-            javascript = [ "prettierd" ];
-            javascriptreact = [ "prettierd" ];
-            typescript = [ "prettierd" ];
-            typescriptreact = [ "prettierd" ];
-            html = [ "prettierd" ];
-            astro = [ "prettierd" ];
+            cpp = ["clang_format"];
+            python = ["ruff_organize_imports" "ruff_format"];
+            javascript = ["prettierd"];
+            javascriptreact = ["prettierd"];
+            typescript = ["prettierd"];
+            typescriptreact = ["prettierd"];
+            html = ["prettierd"];
+            astro = ["prettierd"];
+            nix = ["alejandra"];
           };
           # allows formatting on save
           format_on_save = {
@@ -113,19 +107,15 @@
         enable = true;
         servers = {
           astro.enable = true;
-          clangd={
-            enable = true;
-            # temp fix on macos
-            # cmd = ["/usr/bin/clangd"];
-          };
+          clangd.enable = true;
           # ts_ls.enable = true;
           nil_ls.enable = true;
-          tinymist={
+          tinymist = {
             enable = true;
-            settings={
+            settings = {
               formatterMode = "typstyle";
               exportPdf = "onType";
-            #   semanticTokens = "disable";
+              #   semanticTokens = "disable";
             };
           };
           pylsp.enable = true;
@@ -142,16 +132,6 @@
           "K" = "hover";
         };
       };
-
-      # lsp-format.enable = true;
-      # none-ls = {
-      #   enable = true;
-      #   enableLspFormat = true;
-      #   settings.updateInInsert = false; 
-      #   sources.formatting = {
-      #     prettier.enable = true;
-      #   };
-      # };
 
       # autocompletion
       blink-cmp = {
@@ -178,4 +158,3 @@
   };
   # xdg.configFile."nvim/init.lua".source = ./init.lua;
 }
-

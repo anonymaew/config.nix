@@ -34,6 +34,7 @@
     typst
     xq-xml
     # darwin.xcode
+    alejandra
 
     bat
     btop
