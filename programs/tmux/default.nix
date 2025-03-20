@@ -11,14 +11,10 @@
           # TODO: upgrade to 0.4
           plugin = catppuccin;
           extraConfig = ''
-            set -g @catppuccin_flavour 'mocha'
-            set -g @catppuccin_date_time_text '%a %h %d %H:%M:%S'
-            set -g @catppuccin_status_background "default"
-            set -g @catppuccin_status_left_separator  ""
-            set -g @catppuccin_status_right_separator " "
-            set -g @catppuccin_status_right_separator_inverse "no"
-            set -g @catppuccin_status_fill "icon"
-            set -g @catppuccin_status_connect_separator "no"
+            set -g @catppuccin_flavour "mocha"
+            set -g @catppuccin_window_status_style "rounded"
+            set -g status-left ""
+            set -g status-right "#{E:@catppuccin_status_session}"
           '';
         }
         {
@@ -53,8 +49,8 @@
         bind '"' split-window -v -c "#{pane_current_path}"
 
         # temp fix for tmux-sensible bug, revise later
-        set -gu default-command
-        set -g default-shell "$SHELL"
+        # set -gu default-command
+        # set -g default-shell "$SHELL"
       '';
     };
 }
