@@ -1,5 +1,10 @@
-{ pkgs, vars, lib, ... }: {
-  imports = (import ./programs/darwin-default.nix);
+{
+  pkgs,
+  vars,
+  lib,
+  ...
+}: {
+  imports = import ./programs/darwin-default.nix;
   users.users.${vars.name} = {
     name = "${vars.name}";
     home = "/Users/${vars.name}";
@@ -11,7 +16,7 @@
     enable = true;
     package = pkgs.nix;
     settings = {
-      "extra-experimental-features" = [ "nix-command" "flakes" ];
+      "extra-experimental-features" = ["nix-command" "flakes"];
     };
   };
   ids.gids.nixbld = 350;
@@ -22,18 +27,11 @@
   };
 
   environment.systemPackages = with pkgs; [
-    act
+    # act
     bun
-    docker
-    go
-    hugo
-    # nodejs_22
-    # prettierd
-    # python3
-    rustup
-    typst
+    # docker
+    # go
     xq-xml
-    # darwin.xcode
     alejandra
 
     bat
@@ -61,7 +59,7 @@
     rsync
     smartmontools
     speedtest-cli
-    texliveFull
+    # texliveFull
     watch
     # wireguard-tools
     wget
@@ -70,55 +68,52 @@
     ollama
   ];
 
-  homebrew =
-    {
-      enable = true;
-      onActivation =
-        {
-          autoUpdate = true;
-          cleanup = "uninstall";
-          upgrade = true;
-        };
-      taps = [
-        "cfergeau/crc"
-        "FelixKratz/formulae"
-      ];
-      brews = [
-        "borders"
-        "vfkit"
-      ];
-      casks = [
-        "alacritty"
-        "android-platform-tools"
-        "audacity"
-        "bitwarden"
-        "blender"
-        "db-browser-for-sqlite"
-        "eloston-chromium"
-        "firefox"
-        "font-jetbrains-mono-nerd-font"
-        "gimp"
-        "jellyfin-media-player"
-        "josm"
-        "libreoffice"
-        {
-          name = "librewolf";
-          args = { no_quarantine = true; };
-        }
-        "localsend"
-        "macfuse"
-        "nikitabobko/tap/aerospace"
-        "steam"
-        "stolendata-mpv"
-        "whisky"
-        "wireshark"
-        "zen-browser"
-        "zoom"
-        "zotero"
-      ];
+  homebrew = {
+    enable = true;
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "uninstall";
+      upgrade = true;
     };
+    taps = [
+      "cfergeau/crc"
+      "FelixKratz/formulae"
+    ];
+    brews = [
+      "borders"
+      "vfkit"
+    ];
+    casks = [
+      "alacritty"
+      "android-platform-tools"
+      "audacity"
+      "bitwarden"
+      "blender"
+      "db-browser-for-sqlite"
+      "eloston-chromium"
+      "firefox"
+      "font-jetbrains-mono-nerd-font"
+      "gimp"
+      "jellyfin-media-player"
+      "josm"
+      "libreoffice"
+      {
+        name = "librewolf";
+        args = {no_quarantine = true;};
+      }
+      "localsend"
+      "macfuse"
+      "nikitabobko/tap/aerospace"
+      "steam"
+      "stolendata-mpv"
+      "whisky"
+      "wireshark"
+      "zen-browser"
+      "zoom"
+      "zotero"
+    ];
+  };
 
   # system.configurationRevision = self.rev or self.dirtyRev or null;
   system.stateVersion = 4;
 }
-
