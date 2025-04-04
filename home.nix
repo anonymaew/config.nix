@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   home = {
     username = "napatsc";
     homeDirectory = "/Users/napatsc";
@@ -30,9 +30,6 @@
       initExtra = ''
         eval "$(direnv hook zsh)"
       '';
-      sessionVariables = {
-        PYTHON_HISTORY = "$XDG_STATE_HOME/python_history";
-      };
     };
   };
 

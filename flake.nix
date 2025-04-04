@@ -21,31 +21,35 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nixvim }:
-    let
-      vars = {
-        name = "napatsc";
-      };
-    in
-    {
-      darwinConfigurations = {
-        macair = nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          modules = [
-            ./default.nix
-            home-manager.darwinModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                # backupFileExtension = "backup";
-                users."${vars.name}" = import ./home.nix;
-                sharedModules = [ nixvim.homeManagerModules.nixvim ];
-              };
-            }
-          ];
-          specialArgs = { inherit vars; };
-        };
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    nix-darwin,
+    home-manager,
+    nixvim,
+  }: let
+    vars = {
+      name = "napatsc";
+    };
+  in {
+    darwinConfigurations = {
+      macair = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          ./default.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              # backupFileExtension = "backup";
+              users."${vars.name}" = import ./home.nix;
+              sharedModules = [nixvim.homeManagerModules.nixvim];
+            };
+          }
+        ];
+        specialArgs = {inherit vars;};
       };
     };
+  };
 }
