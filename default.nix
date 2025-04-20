@@ -27,11 +27,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # act
-    bun
-    # docker
-    # go
-    xq-xml
+    # bun
     alejandra
 
     bat
@@ -39,7 +35,7 @@
     coreutils
     dasel
     direnv
-    entr
+    # entr
     eza
     fastfetch
     ffmpeg-full
@@ -59,9 +55,7 @@
     rsync
     smartmontools
     speedtest-cli
-    # texliveFull
-    watch
-    # wireguard-tools
+    # watch
     wget
     yt-dlp
 
@@ -97,10 +91,6 @@
       "jellyfin-media-player"
       "josm"
       "libreoffice"
-      {
-        name = "librewolf";
-        args = {no_quarantine = true;};
-      }
       "localsend"
       "macfuse"
       "nikitabobko/tap/aerospace"
