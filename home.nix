@@ -27,7 +27,7 @@
         kaf = "kubectl apply -f";
         l = "eza -1al --icons=always --group-directories-first --total-size";
       };
-      initExtra = ''
+      initContent = ''
         eval "$(direnv hook zsh)"
       '';
     };

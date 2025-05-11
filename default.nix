@@ -29,6 +29,7 @@
   environment.systemPackages = with pkgs; [
     # bun
     alejandra
+    prettierd
 
     bat
     btop
@@ -98,7 +99,7 @@
       "stolendata-mpv"
       "whisky"
       "wireshark"
-      "zen-browser"
+      "zen"
       "zoom"
       "zotero"
     ];

@@ -27,7 +27,7 @@
       signcolumn = "yes";
     };
     # keep the sign on when typing
-    diagnostics.update_in_insert = true;
+    diagnostic.settings.update_in_insert = true;
 
     keymaps = [
       {
@@ -64,6 +64,9 @@
       fugitive.enable = true;
       vim-surround.enable = true;
 
+      # oil
+      oil.enable = true;
+
       # better syntax highlighter
       treesitter = {
         enable = true;
@@ -90,6 +93,7 @@
             typescript = ["prettierd"];
             typescriptreact = ["prettierd"];
             html = ["prettierd"];
+            htmlhugo = ["prettierd"];
             astro = ["prettierd"];
             nix = ["alejandra"];
           };
@@ -149,12 +153,6 @@
 
       web-devicons.enable = true;
     };
-  };
-  programs.neovim = {
-    enable = false;
-
-    defaultEditor = true;
-    vimAlias = true;
   };
   # xdg.configFile."nvim/init.lua".source = ./init.lua;
 }
