@@ -2,18 +2,13 @@
   home = {
     username = "napatsc";
     homeDirectory = "/Users/napatsc";
-    stateVersion = "24.05";
+    stateVersion = "25.05";
   };
 
   xdg.enable = true;
 
   programs = {
     home-manager.enable = true;
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-      enableZshIntegration = true;
-    };
     zsh = {
       enable = true;
       autosuggestion.enable = true;
@@ -35,6 +30,7 @@
 
   imports = [
     ./programs/alacritty
+    ./programs/direnv
     ./programs/k9s
     ./programs/neovim
     ./programs/starship
