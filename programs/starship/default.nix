@@ -25,7 +25,7 @@
         "$character"
       ];
 
-      continuation_prompt = "[>](grey)";
+      continuation_prompt = "[>   ](grey)";
 
       character = {
         format = "$symbol ";
@@ -89,70 +89,68 @@
 
       direnv = {
         disabled = false;
-        format = "[$symbol$loaded$allowed]($style) ";
-        symbol = "󱁿";
+        format = "[$symbol($loaded$allowed )]($style)";
+        symbol = "󱁿 ";
         allowed_msg = "";
         not_allowed_msg = "!";
         loaded_msg = "";
         unloaded_msg = "?";
       };
-
       nix_shell = {
-        # disabled = true;
-        format = "[$symbol]($style) ";
-        symbol = "";
+        format = "[$symbol]($style)";
+        symbol = " ";
       };
       python = {
         symbol = "🐍";
-        format = "[$symbol(\($virtualenv\))]($style) ";
+        format = "[$symbol(\($virtualenv\) )]($style)";
       };
 
       gcloud.disabled = true;
 
-      bun.format = "[$symbol]($style) ";
-      buf.format = "[$symbol]($style) ";
-      cmake.format = "[$symbol]($style) ";
-      cobol.format = "[$symbol]($style) ";
-      crystal.format = "[$symbol]($style) ";
-      daml.format = "[$symbol]($style) ";
-      dart.format = "[$symbol]($style) ";
-      deno.format = "[$symbol]($style) ";
-      dotnet.format = "symbol(🎯 $tfm )]($style) ";
-      elixir.format = "[$symbol]($style) ";
-      elm.format = "[$symbol]($style) ";
-      erlang.format = "[$symbol]($style) ";
-      fennel.format = "[$symbol]($style) ";
-      gleam.format = "[$symbol]($style) ";
-      golang.format = "[$symbol]($style) ";
-      gradle.format = "[$symbol]($style) ";
-      haxe.format = "[$symbol]($style) ";
-      helm.format = "[$symbol]($style) ";
-      java.format = "[$symbol]($style) ";
-      julia.format = "[$symbol]($style) ";
-      kotlin.format = "[$symbol]($style) ";
-      lua.format = "[$symbol]($style) ";
-      meson.format = "[$symbol]($style) ";
-      nim.format = "[$symbol]($style) ";
-      nodejs.format = "[$symbol]($style) ";
-      ocaml.format = "[$symbol(\($switch_indicator$switch_name\) )]($style) ";
-      opa.format = "[$symbol]($style) ";
-      perl.format = "[$symbol]($style) ";
-      pixi.format = "[$symbol($environment )]($style) ";
-      php.format = "[$symbol]($style) ";
-      pulumi.format = "[$symbol$stack]($style) ";
-      purescript.format = "[$symbol]($style) ";
-      quarto.format = "[$symbol]($style) ";
-      raku.format = "[$symbol]($style) ";
-      red.format = "[$symbol]($style) ";
-      rlang.format = "[$symbol]($style) ";
-      ruby.format = "[$symbol]($style) ";
-      rust.format = "[$symbol]($style) ";
-      solidity.format = "[$symbol]($style) ";
-      typst.format = "[$symbol]($style) ";
-      swift.format = "[$symbol]($style) ";
-      vagrant.format = "[$symbol]($style) ";
-      vlang.format = "[$symbol]($style) ";
-      zig.format = "[$symbol]($style) ";
+      bun.format = "[$symbol]($style)";
+      buf.format = "[$symbol]($style)";
+      cmake.format = "[$symbol]($style)";
+      cobol.format = "[$symbol]($style)";
+      crystal.format = "[$symbol]($style)";
+      daml.format = "[$symbol]($style)";
+      dart.format = "[$symbol]($style)";
+      deno.format = "[$symbol]($style)";
+      dotnet.format = "symbol(🎯 $tfm )]($style)";
+      elixir.format = "[$symbol]($style)";
+      elm.format = "[$symbol]($style)";
+      erlang.format = "[$symbol]($style)";
+      fennel.format = "[$symbol]($style)";
+      gleam.format = "[$symbol]($style)";
+      golang.format = "[$symbol]($style)";
+      gradle.format = "[$symbol]($style)";
+      haxe.format = "[$symbol]($style)";
+      helm.format = "[$symbol]($style)";
+      java.format = "[$symbol]($style)";
+      julia.format = "[$symbol]($style)";
+      kotlin.format = "[$symbol]($style)";
+      lua.format = "[$symbol]($style)";
+      meson.format = "[$symbol]($style)";
+      nim.format = "[$symbol]($style)";
+      nodejs.format = "[$symbol]($style)";
+      ocaml.format = "[$symbol(\($switch_indicator$switch_name\) )]($style)";
+      opa.format = "[$symbol]($style)";
+      perl.format = "[$symbol]($style)";
+      pixi.format = "[$symbol($environment )]($style)";
+      php.format = "[$symbol]($style)";
+      pulumi.format = "[$symbol$stack]($style)";
+      purescript.format = "[$symbol]($style)";
+      quarto.format = "[$symbol]($style)";
+      raku.format = "[$symbol]($style)";
+      red.format = "[$symbol]($style)";
+      rlang.format = "[$symbol]($style)";
+      ruby.format = "[$symbol]($style)";
+      rust.format = "[$symbol]($style)";
+      solidity.format = "[$symbol]($style)";
+      typst.format = "[$symbol]($style)";
+      swift.format = "[$symbol]($style)";
+      vagrant.format = "[$symbol]($style)";
+      vlang.format = "[$symbol]($style)";
+      zig.format = "[$symbol]($style)";
     };
   };
 }
