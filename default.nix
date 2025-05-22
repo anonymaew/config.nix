@@ -26,6 +26,7 @@
     zsh.enable = true;
   };
 
+  system.primaryUser = vars.name;
   environment.systemPackages = with pkgs; [
     # bun
     alejandra
@@ -63,6 +64,7 @@
     ollama
   ];
 
+  # TBD
   homebrew = {
     enable = true;
     onActivation = {
