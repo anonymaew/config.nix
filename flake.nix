@@ -19,14 +19,23 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # homebrew without homebrew
+    brew-api = {
+      url = "github:BatteredBunny/brew-api";
+      flake = false;
+    };
+    brew-nix = {
+      url = "github:BatteredBunny/brew-nix";
+      inputs.brew-api.follows = "brew-api";
+    };
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
+  outputs = {
     nix-darwin,
     home-manager,
+    brew-nix,
     nixvim,
+    ...
   }: let
     vars = {
       name = "napatsc";
@@ -37,6 +46,7 @@
         system = "aarch64-darwin";
         modules = [
           ./default.nix
+          brew-nix.darwinModules.default
           home-manager.darwinModules.home-manager
           {
             home-manager = {

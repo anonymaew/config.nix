@@ -27,6 +27,8 @@
   };
 
   system.primaryUser = vars.name;
+
+  brew-nix.enable = true;
   environment.systemPackages = with pkgs; [
     # bun
     alejandra
@@ -62,50 +64,41 @@
     yt-dlp
 
     ollama
-  ];
 
-  # TBD
-  homebrew = {
-    enable = true;
-    onActivation = {
-      autoUpdate = true;
-      cleanup = "uninstall";
-      upgrade = true;
-    };
-    taps = [
-      "cfergeau/crc"
-      "FelixKratz/formulae"
-    ];
-    brews = [
-      "borders"
-      "vfkit"
-    ];
-    casks = [
-      "alacritty"
-      "android-platform-tools"
-      "audacity"
-      "bitwarden"
-      "blender"
-      "db-browser-for-sqlite"
-      "eloston-chromium"
-      "firefox"
-      "font-jetbrains-mono-nerd-font"
-      "gimp"
-      "jellyfin-media-player"
-      "josm"
-      "libreoffice"
-      "localsend"
-      "macfuse"
-      "nikitabobko/tap/aerospace"
-      "steam"
-      "stolendata-mpv"
-      "whisky"
-      "wireshark"
-      "zen"
+    brewCasks."alacritty"
+    brewCasks.audacity
+    brewCasks."android-platform-tools"
+    brewCasks."bitwarden"
+    brewCasks."blender"
+    brewCasks."db-browser-for-sqlite"
+    brewCasks."eloston-chromium"
+    brewCasks."firefox"
+    brewCasks."ghostty"
+    brewCasks."gimp"
+    brewCasks."inkscape"
+    brewCasks."jellyfin-media-player"
+    brewCasks."josm"
+    brewCasks."localsend"
+    brewCasks."whisky"
+    brewCasks."zen"
+    brewCasks."zotero"
+
+    aerospace
+    jankyborders
+    mpv-unwrapped
+    steam-unwrapped
+    vfkit
+    wireshark
+    zoom-us
+  ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "steam-unwrapped"
       "zoom"
-      "zotero"
     ];
-  };
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
 
   # system.configurationRevision = self.rev or self.dirtyRev or null;
   system.stateVersion = 4;
