@@ -1,4 +1,8 @@
-{ pkgs, vars, ... }: {
+{
+  pkgs,
+  vars,
+  ...
+}: {
   services.sketchybar = {
     enable = true;
     package = pkgs.sketchybar;
