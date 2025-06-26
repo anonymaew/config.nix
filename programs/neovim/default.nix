@@ -151,6 +151,22 @@
         };
       };
 
+      # hinting better moves
+      hardtime = {
+        enable = true;
+        settings.restriction_mode = "hint";
+      };
+
+      # notification box
+      notify = {
+        enable = true;
+        settings = {
+          background_colour = "#000000";
+          render = "wrapped-compact";
+          stages = "static";
+        };
+      };
+
       web-devicons.enable = true;
     };
   };
