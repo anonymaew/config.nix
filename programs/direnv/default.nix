@@ -5,4 +5,5 @@
     nix-direnv.enable = true;
     enableZshIntegration = true;
   };
+  xdg.configFile."direnv/direnvrc".source = ./direnvrc;
 }
