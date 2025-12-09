@@ -1,6 +1,6 @@
 [
   ./aerospace
   # ./skhd
-  ./sketchybar
+  # ./sketchybar
   # ./yabai
 ]

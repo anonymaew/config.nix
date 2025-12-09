@@ -2,7 +2,7 @@
 
 sketchybar --add event aerospace_workspace_change
 
-for SID in $(/opt/homebrew/bin/aerospace list-workspaces --all)
+for SID in $(aerospace list-workspaces --all)
 do
   sketchybar --add item space.$SID left \
              --subscribe space.$SID aerospace_workspace_change \
