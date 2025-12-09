@@ -9,7 +9,10 @@
 
     colorschemes.vscode = {
       enable = true;
-      settings.transparent = true;
+      settings = {
+        transparent = true;
+        italic_comments = true;
+      };
     };
 
     globals = {
@@ -25,6 +28,8 @@
       clipboard = "unnamedplus";
       # no weird sign shifting
       signcolumn = "yes";
+      completeopt = ["menuone" "noselect" "popup"];
+      winborder = "rounded";
     };
     # keep the sign on when typing
     diagnostic.settings.update_in_insert = true;
@@ -113,12 +118,13 @@
           astro.enable = true;
           clangd.enable = true;
           # ts_ls.enable = true;
+          lua_ls.enable = true;
           nil_ls.enable = true;
           tinymist = {
             enable = true;
             settings = {
               formatterMode = "typstyle";
-              exportPdf = "onType";
+              exportPdf = "onDocumentHasTitle";
               #   semanticTokens = "disable";
             };
           };
@@ -135,11 +141,19 @@
           "<leader>rn" = "rename";
           "K" = "hover";
         };
+        onAttach = ''
+          vim.lsp.completion.enable(true, client.id, bufnr, {
+            autotrigger = true,
+            convert = function(item)
+              return { abbr = item.label:gsub("%b()", "") }
+            end,
+          })
+        '';
       };
 
       # autocompletion
       blink-cmp = {
-        enable = true;
+        # enable = true;
         settings = {
           appearance = {
             nerd_font_variant = "normal";
@@ -149,12 +163,6 @@
             border = "rounded";
           };
         };
-      };
-
-      # hinting better moves
-      hardtime = {
-        enable = true;
-        settings.restriction_mode = "hint";
       };
 
       # notification box
