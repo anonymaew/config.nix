@@ -14,9 +14,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nixvim
-    nixvim = {
-      url = "github:nix-community/nixvim";
+    neovim-nightly = {
+      url = "path:./flakes/neovim-nightly";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # homebrew without homebrew
@@ -37,79 +36,77 @@
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nix-darwin,
-    home-manager,
-    brew-nix,
-    nixvim,
-    mac-app-util,
-    deploy-rs,
-    ...
-  }: let
-    vars = {
-      name = "napatsc";
-    };
-  in {
-    darwinConfigurations = {
-      macair = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [
-          ./default.nix
-          ./system.nix
-          brew-nix.darwinModules.default
-          home-manager.darwinModules.home-manager
-          mac-app-util.darwinModules.default
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users."${vars.name}".imports = [
-                ./home.nix
-                (./. + "/users/${vars.name}")
-                nixvim.homeModules.nixvim
-                mac-app-util.homeManagerModules.default
-              ];
-            };
-          }
-        ];
-        specialArgs = {inherit vars;};
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+      brew-nix,
+      mac-app-util,
+      deploy-rs,
+      ...
+    }@inputs:
+    let
+      vars = {
+        name = "napatsc";
+      };
+    in
+    {
+      darwinConfigurations = {
+        macair = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./default.nix
+            ./system.nix
+            brew-nix.darwinModules.default
+            home-manager.darwinModules.home-manager
+            mac-app-util.darwinModules.default
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users."${vars.name}".imports = [
+                  ./home.nix
+                  (./. + "/users/${vars.name}")
+                  { _module.args = inputs; }
+                  mac-app-util.homeManagerModules.default
+                ];
+              };
+            }
+          ];
+          specialArgs = { inherit vars; };
+        };
+      };
+      nixosConfigurations.homelab = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./homelab/configuration.nix ];
+        specialArgs = { inherit vars; };
+      };
+      deploy.nodes.homelab = {
+        hostname = "homelab";
+        interactiveSudo = true;
+        remoteBuild = true;
+        profiles.system = {
+          sshUser = "napatsc";
+          user = "root";
+          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.homelab;
+        };
+      };
+      nixosConfigurations.hetzner-sg = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./hetzner/configuration.nix ];
+        specialArgs = { inherit vars; };
+      };
+      deploy.nodes.hetzner-sg = {
+        hostname = "hetzner-sg";
+        interactiveSudo = true;
+        remoteBuild = true;
+        profiles.system = {
+          sshUser = "napatsc";
+          user = "root";
+          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.hetzner-sg;
+        };
       };
     };
-    nixosConfigurations.homelab = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [./homelab/configuration.nix];
-      specialArgs = {inherit vars;};
-    };
-    deploy.nodes.homelab = {
-      hostname = "homelab";
-      interactiveSudo = true;
-      remoteBuild = true;
-      profiles.system = {
-        sshUser = "napatsc";
-        user = "root";
-        path =
-          deploy-rs.lib.x86_64-linux.activate.nixos
-          self.nixosConfigurations.homelab;
-      };
-    };
-    nixosConfigurations.linode = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [./linode/configuration.nix];
-      specialArgs = {inherit vars;};
-    };
-    deploy.nodes.linode = {
-      hostname = "linode";
-      interactiveSudo = true;
-      remoteBuild = true;
-      profiles.system = {
-        sshUser = "napatsc";
-        user = "root";
-        path =
-          deploy-rs.lib.x86_64-linux.activate.nixos
-          self.nixosConfigurations.linode;
-      };
-    };
-  };
 }

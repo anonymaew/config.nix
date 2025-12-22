@@ -30,7 +30,7 @@ require('mason').setup()
 require('mason-lspconfig').setup({
 	-- define lsp servers here
 	ensure_installed = {
-		'ltex_plus', 'lua_ls', 'ruff', 'rust_analyzer', 'svelte','tinymist', 'ty'
+		'ltex_plus', 'lua_ls', 'ruff', 'rust_analyzer', 'svelte', 'tinymist', 'ty'
 	}
 })
 vim.lsp.config('tinymist', { -- typst: compile PDF on save (titled doc)
@@ -44,6 +44,7 @@ vim.lsp.config('lua_ls', { -- lua: making awareness of vim api
 		}
 	}
 })
+vim.lsp.enable('nil_ls')
 
 -- show autocompletion window on type and do linting on save
 -- source: https://neovim.io/doc/user/lsp.html#lsp-attach
@@ -84,6 +85,8 @@ vim.opt.completeopt = "menuone,noinsert,popup"
 vim.pack.add({
 	-- vscode theme
 	{ src = 'https://github.com/Mofiqul/vscode.nvim' },
+	--
+	{ src = 'https://github.com/christoomey/vim-tmux-navigator' },
 	-- icons; allow plugins to use nerdfont icons
 	{ src = 'https://github.com/nvim-tree/nvim-web-devicons' },
 	-- lualine; beautify bottom status bar
@@ -94,11 +97,12 @@ vim.pack.add({
 	{ src = 'https://github.com/stevearc/oil.nvim' },
 })
 
-vim.cmd.colorscheme('vscode')
 require('vscode').setup({
 	transparent = true,
 	italic_comments = true,
 })
+vim.cmd.colorscheme('vscode')
+-- require('tmux-navigator').setup()
 require('lualine').setup({
 	options = {
 		section_separators = '', component_separators = '|'
