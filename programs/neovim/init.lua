@@ -8,8 +8,15 @@ vim.opt.winborder = 'rounded'     -- rounded window box border
 vim.opt.undofile = true           -- allow undo after reopening
 vim.opt.swapfile = false          -- disable hidden swapfiles for buffer
 vim.opt.clipboard = 'unnamedplus' -- allow sharing with system clipboard
-vim.opt.signcolumn = 'yes'        -- show warning on number col
-vim.opt.textwidth = 80
+vim.opt.signcolumn = 'number'     -- show warning on number col
+vim.opt.textwidth = 80            -- window size: 80 chars
+-- folding related
+vim.opt.foldenable = false        -- dont fold all code when open
+vim.opt.foldtext = ''             -- folded text: highlight, no stats
+-- use treesitter syntax as folding method (optimal)
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldmethod = 'expr'
+
 vim.diagnostic.config({
 	update_in_insert = true, -- keep showing warning while typing
 	virtual_text = true,    -- warning text inline
@@ -30,7 +37,7 @@ require('mason').setup()
 require('mason-lspconfig').setup({
 	-- define lsp servers here
 	ensure_installed = {
-		'ltex_plus', 'lua_ls', 'ruff', 'rust_analyzer', 'svelte', 'tinymist', 'ty'
+		'ltex_plus', 'lua_ls', 'ruff', 'rust_analyzer', 'tinymist', 'ty'
 	}
 })
 vim.lsp.config('tinymist', { -- typst: compile PDF on save (titled doc)
@@ -44,7 +51,23 @@ vim.lsp.config('lua_ls', { -- lua: making awareness of vim api
 		}
 	}
 })
+vim.lsp.enable('svelte')
+vim.lsp.enable('eslint')
+vim.lsp.enable('html')
+vim.lsp.enable('ts_ls')
 vim.lsp.enable('nil_ls')
+-- start treesitter automatically
+vim.api.nvim_create_autocmd('FileType', {
+	callback = function()
+		local ok, parser = pcall(vim.treesitter.start)
+		if not ok then -- fail-safe start
+			vim.notify(
+				"Tree‑sitter: parser not available for this buffer",
+				vim.log.levels.WARN
+			)
+		end
+	end,
+})
 
 -- show autocompletion window on type and do linting on save
 -- source: https://neovim.io/doc/user/lsp.html#lsp-attach
@@ -85,7 +108,7 @@ vim.opt.completeopt = "menuone,noinsert,popup"
 vim.pack.add({
 	-- vscode theme
 	{ src = 'https://github.com/Mofiqul/vscode.nvim' },
-	--
+	-- seamless vim/tmux navigation
 	{ src = 'https://github.com/christoomey/vim-tmux-navigator' },
 	-- icons; allow plugins to use nerdfont icons
 	{ src = 'https://github.com/nvim-tree/nvim-web-devicons' },
