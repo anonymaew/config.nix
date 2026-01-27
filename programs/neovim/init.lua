@@ -16,6 +16,8 @@ vim.opt.foldtext = ''             -- folded text: highlight, no stats
 -- use treesitter syntax as folding method (optimal)
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.opt.foldmethod = 'expr'
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
 
 vim.diagnostic.config({
 	update_in_insert = true, -- keep showing warning while typing
@@ -33,13 +35,17 @@ vim.pack.add({
 	-- declaratively install lsp servers
 	{ src = 'https://github.com/mason-org/mason-lspconfig.nvim' },
 })
+local lsp_servers = {
+	'eslint', 'html', 'ltex_plus', 'lua_ls', 'nil_ls', 'ruff', 'rust_analyzer',
+	'svelte', 'tinymist', 'ts_ls', 'ty'
+};
+
 require('mason').setup()
 require('mason-lspconfig').setup({
 	-- define lsp servers here
-	ensure_installed = {
-		'ltex_plus', 'lua_ls', 'ruff', 'rust_analyzer', 'tinymist', 'ty'
-	}
+	ensure_installed = lsp_servers
 })
+
 vim.lsp.config('tinymist', { -- typst: compile PDF on save (titled doc)
 	settings = { exportPdf = 'onDocumentHasTitle' },
 })
@@ -51,15 +57,11 @@ vim.lsp.config('lua_ls', { -- lua: making awareness of vim api
 		}
 	}
 })
-vim.lsp.enable('svelte')
-vim.lsp.enable('eslint')
-vim.lsp.enable('html')
-vim.lsp.enable('ts_ls')
-vim.lsp.enable('nil_ls')
+
 -- start treesitter automatically
 vim.api.nvim_create_autocmd('FileType', {
 	callback = function()
-		local ok, parser = pcall(vim.treesitter.start)
+		local ok, _ = pcall(vim.treesitter.start)
 		if not ok then -- fail-safe start
 			vim.notify(
 				"Tree‑sitter: parser not available for this buffer",
@@ -108,8 +110,6 @@ vim.opt.completeopt = "menuone,noinsert,popup"
 vim.pack.add({
 	-- vscode theme
 	{ src = 'https://github.com/Mofiqul/vscode.nvim' },
-	-- seamless vim/tmux navigation
-	{ src = 'https://github.com/christoomey/vim-tmux-navigator' },
 	-- icons; allow plugins to use nerdfont icons
 	{ src = 'https://github.com/nvim-tree/nvim-web-devicons' },
 	-- lualine; beautify bottom status bar
@@ -122,10 +122,8 @@ vim.pack.add({
 
 require('vscode').setup({
 	transparent = true,
-	italic_comments = true,
 })
 vim.cmd.colorscheme('vscode')
--- require('tmux-navigator').setup()
 require('lualine').setup({
 	options = {
 		section_separators = '', component_separators = '|'
