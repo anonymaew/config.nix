@@ -11,12 +11,12 @@
   in {
     packages.${system}.neovim-nightly = pkgs.neovim-unwrapped.overrideDerivation
 		(oldAttrs: {
-			version = "nightly-2025-12-21";
+			version = "nightly-2026-02-26";
 			src = pkgs.fetchFromGitHub {
 				owner = "neovim";
 				repo = "neovim";
 				tag = "nightly";
-				hash = "sha256-FLTN6GQZaQfddZBwOOcTxK90PNGtAjsx+FBvU/LxtUk=";
+				hash = "sha256-Vpi4LLI0ehUW1Ci20MAj3IhbsF/A7WCq/rWRoPa3Ycs=";
 			};
 			doInstallCheck = false;
 		});
