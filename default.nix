@@ -16,72 +16,71 @@
     enable = true;
     package = pkgs.nix;
     settings = {
-      "extra-experimental-features" = ["nix-command" "flakes"];
+      extra-experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      use-xdg-base-directories = true;
     };
   };
   ids.gids.nixbld = 350;
 
   programs = {
-    gnupg.agent.enable = true;
     zsh.enable = true;
   };
 
-  system.primaryUser = vars.name;
-
   brew-nix.enable = true;
   environment.systemPackages = with pkgs; [
-    alejandra
-    prettierd
+    bun
+    # gcc
+		goose-cli
+    pandoc
+    rustup
+    typst
+    uv
 
-    bat
     btop
-    dasel
+    container
+		curlFull
+    # dasel
     direnv
+    docker-compose
     eza
     fastfetch
     ffmpeg-full
     fzf
-    gnupg
-    ifstat-legacy
+    git
     imagemagick
     inetutils
     just
     kubectl
-    lazydocker
+		kubernetes-helm
     lazygit
+    less
     libreoffice-bin
-    moreutils
     ncurses
-    nix-search-tv
-    pandoc
     parallel
     podman
-    podman-compose
     rsync
     smartmontools
-    speedtest-cli
     uutils-coreutils-noprefix
     wget
     wireguard-tools
     yt-dlp
 
-    ollama
+    # ollama
 
     audacity
-    brewCasks.android-platform-tools
+    android-tools
     bitwarden-desktop
-    blender
-    # brewCasks.eloston-chromium
-    firefox
-    # brewCasks.ghostty
-    gimp
-    inkscape
-    jellyfin-media-player
-    josm
+    # brewCasks.blender
+    brewCasks.gimp
+    brewCasks.helium-browser
+    brewCasks.inkscape
     localsend
-    qbittorrent
-    utm
-    sqlitebrowser
+		brewCasks.obs
+    # tailscale-gui
+		# brewCasks.tailscale-app
     brewCasks.zen
     zotero
 
@@ -90,7 +89,6 @@
     mpv-unwrapped
     steam-unwrapped
     vfkit
-    wireshark
     zoom-us
   ];
   nixpkgs.config = {
@@ -99,7 +97,6 @@
         "steam-unwrapped"
         "zoom"
       ];
-    allowBroken = true;
   };
 
   fonts.packages = with pkgs; [
@@ -109,7 +106,4 @@
     nerd-fonts.symbols-only
     noto-fonts
   ];
-
-  # system.configurationRevision = self.rev or self.dirtyRev or null;
-  system.stateVersion = 4;
 }
