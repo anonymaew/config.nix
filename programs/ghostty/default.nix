@@ -5,7 +5,7 @@
     enableZshIntegration = true;
     settings = {
       theme = "dark:Catppuccin Mocha,light:Catppuccin Latte";
-      # font-family = ["JetBrainsMonoNL Nerd Font Mono"];
+      font-family = ["JetBrains Mono" "Anuphan"];
       font-feature = ["-calt" "-liga" "-dlig"];
       # macos-titlebar-proxy-icon = "hidden";
       macos-titlebar-style = "hidden";
