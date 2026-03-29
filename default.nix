@@ -33,7 +33,7 @@
   environment.systemPackages = with pkgs; [
     bun
     # gcc
-		goose-cli
+		# goose-cli
     pandoc
     rustup
     typst
@@ -74,6 +74,7 @@
     android-tools
     bitwarden-desktop
     # brewCasks.blender
+		brewCasks.cmux
     brewCasks.gimp
     brewCasks.helium-browser
     brewCasks.inkscape
