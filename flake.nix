@@ -14,10 +14,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    neovim-nightly = {
-      url = "path:./flakes/neovim-nightly";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     # homebrew without homebrew
     brew-api = {
       url = "github:BatteredBunny/brew-api";
@@ -42,7 +38,6 @@
     nix-darwin,
     home-manager,
     brew-nix,
-    neovim-nightly,
     mac-app-util,
     deploy-rs,
     ...

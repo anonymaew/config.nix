@@ -1,8 +1,8 @@
-{ pkgs, neovim-nightly, ... }:
+{ pkgs, ... }:
 {
   programs.neovim = {
     enable = true;
-    package = neovim-nightly.packages.${pkgs.system}.neovim-nightly;
+		defaultEditor = true;
     extraPackages = with pkgs; [
       # programming language platform
       cargo
