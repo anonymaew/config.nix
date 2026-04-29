@@ -27,10 +27,10 @@
   networking.hostName = "homelab"; # Define your hostname.
   # Enables wireless support via wpa_supplicant.
 
-  networking.wg-quick.interfaces.client = {
-    autostart = true;
-    configFile = "/home/napatsc/client.conf";
-  };
+  # networking.wg-quick.interfaces.client = {
+  #   autostart = true;
+  #   configFile = "/home/napatsc/client.conf";
+  # };
 
   # networking.wireless = {
   #   enable = true;
@@ -42,6 +42,7 @@
     "net.ipv4.ip_unprivileged_port_start" = 443;
   };
   networking.enableIPv6 = true;
+	networking.wg-quick.interfaces."wg-client".configFile = "/home/napatsc/wg-client.conf";
   # systemd.user.services = {
   #   "podman.socket".enable = true;
   #   "podman-restart.service".enable = true;
@@ -161,11 +162,23 @@
     oci-containers.backend = "podman";
     podman = {
       enable = true;
-      extraPackages = with pkgs; [podman-compose];
+      extraPackages = with pkgs; [docker-compose];
       autoPrune.enable = true;
       dockerSocket.enable = true;
       defaultNetwork.settings.dns_enabled = true;
     };
+  };
+
+  # k3s experimentation
+  services.k3s = {
+    enable = true;
+    role = "agent";
+    tokenFile = "/home/napatsc/token.txt";
+    serverAddr = "https://10.0.0.1:6443";
+		extraFlags = [
+		  "--node-ip=10.0.0.2"
+			"--flannel-iface=wg-client"
+		];
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -184,8 +197,12 @@
   services.tailscale.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [
+    6443 # k8s API
+  ];
+  networking.firewall.allowedUDPPorts = [ 
+		8472 # k3s, flannel
+	];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 }

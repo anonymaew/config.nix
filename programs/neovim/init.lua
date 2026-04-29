@@ -57,6 +57,7 @@ vim.lsp.config('lua_ls', { -- lua: making awareness of vim api
 		}
 	}
 })
+vim.lsp.config('oxfmt', {})
 
 -- start treesitter automatically
 vim.api.nvim_create_autocmd('FileType', {
@@ -118,6 +119,11 @@ vim.pack.add({
 	{ src = 'https://github.com/lukas-reineke/indent-blankline.nvim' },
 	-- oil; enable files editing like vim
 	{ src = 'https://github.com/stevearc/oil.nvim' },
+	-- Agentic AI coding
+	-- { src = 'https://www.github.com/nvim-lua/plenary.nvim' },
+	-- { src = 'https://www.github.com/olimorris/codecompanion.nvim' },
+	-- better code folding
+	{ src = 'https://github.com/chrisgrieser/nvim-origami' }
 })
 
 require('vscode').setup({
@@ -131,3 +137,34 @@ require('lualine').setup({
 })
 require('ibl').setup()
 require('oil').setup()
+require('origami').setup()
+-- require('codecompanion').setup({
+-- 	-- adapters = {
+-- 	-- 	http = {
+-- 	-- 		ollama = function()
+-- 	-- 			return require("codecompanion.adapters").extend("ollama", {
+-- 	-- 				env = {
+-- 	-- 					url = "https://llama.napatsc.com",
+-- 	-- 					api_key = "ollama-lol",
+-- 	-- 				},
+-- 	-- 				headers = {
+-- 	-- 					["Content-Type"] = "application/json",
+-- 	-- 					-- ["Authorization"] = "Bearer ${api_key}",
+-- 	-- 				},
+-- 	-- 				parameters = {
+-- 	-- 					sync = true,
+-- 	-- 				},
+-- 	-- 			})
+-- 	-- 		end,
+-- 	-- 	},
+-- 	-- },
+-- 	interactions = {
+-- 		chat = {
+-- 			adapter = "goose"
+-- 			-- {
+-- 			-- 	name = "ollama",
+-- 			-- 	model = "openai/gpt-oss-20b"
+-- 			-- }
+-- 		}
+-- 	}
+-- })

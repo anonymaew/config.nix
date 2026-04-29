@@ -7,8 +7,7 @@
   pkgs,
   vars,
   ...
-}:
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -31,14 +30,22 @@
     "net.ipv4.ip_unprivileged_port_start" = 80;
   };
   networking.enableIPv6 = true;
+	networking.wg-quick.interfaces."wg-server".configFile = "/home/napatsc/wg-server.conf";
 
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
       80
       443
+      6443 # k3s API
+      2379 # k3s, etcd clients
+      2380 # k3s, etcd peers
     ];
-    allowedUDPPorts = [ 51820 ];
+    allowedUDPPorts = [
+      443
+      8472 # k3s, flannel
+      51820
+    ];
   };
   # networking.wg-quick.interfaces.server = {
   #   autostart = true;
@@ -71,7 +78,7 @@
     "${vars.name}" = {
       isNormalUser = true;
       linger = true;
-      extraGroups = [ "wheel" ];
+      extraGroups = ["wheel"];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDe/pgCTH3B4AzKAVMcA2l42jJq2K4tiObkLNsvbrJZG napatsc@macair"
       ];
@@ -94,17 +101,29 @@
 
   virtualisation = {
     containers = {
-      enable = true;
-      registries.search = [ "docker.io" ];
+      # enable = true;
+      registries.search = ["docker.io"];
     };
     oci-containers.backend = "podman";
     podman = {
-      enable = true;
-      extraPackages = with pkgs; [ podman-compose ];
+      # enable = true;
+      extraPackages = with pkgs; [podman-compose];
       autoPrune.enable = true;
       dockerSocket.enable = true;
       defaultNetwork.settings.dns_enabled = true;
     };
+  };
+
+  services.k3s = {
+    enable = true;
+    role = "server";
+    clusterInit = true;
+		extraFlags = [
+		  "--node-external-ip=5.223.55.249"
+		  "--advertise-address=10.0.0.1"
+			"--flannel-iface=wg-server"
+			"--disable=traefik"
+		];
   };
 
   # List services that you want to enable:
@@ -112,7 +131,7 @@
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
-    ports = [ 2222 ];
+    ports = [2222];
     settings = {
       PasswordAuthentication = false;
     };
@@ -121,7 +140,6 @@
   # services.tailscale.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

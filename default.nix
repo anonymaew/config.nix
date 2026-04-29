@@ -32,8 +32,6 @@
   brew-nix.enable = true;
   environment.systemPackages = with pkgs; [
     bun
-    # gcc
-		# goose-cli
     pandoc
     rustup
     typst
@@ -43,11 +41,11 @@
     container
 		curlFull
     # dasel
-    direnv
+    # direnv
     docker-compose
     eza
     fastfetch
-    ffmpeg-full
+    # ffmpeg-full
     fzf
     git
     imagemagick
@@ -69,11 +67,13 @@
     yt-dlp
 
     # ollama
+		pi-coding-agent
 
     audacity
     android-tools
     bitwarden-desktop
     # brewCasks.blender
+		# brewCasks.cap
 		brewCasks.cmux
     brewCasks.gimp
     brewCasks.helium-browser
@@ -81,6 +81,7 @@
     localsend
 		brewCasks.obs
     # tailscale-gui
+		# recordly
 		# brewCasks.tailscale-app
     brewCasks.zen
     zotero

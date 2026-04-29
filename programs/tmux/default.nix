@@ -31,6 +31,7 @@
       set -g status-justify absolute-centre
       set -g renumber-windows on
       set -g set-clipboard on
+			set -g extended-keys on
 
       set -g status-style 'bg=default'
       setw -g window-status-style 'fg=color7'
