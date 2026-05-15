@@ -169,16 +169,37 @@
     };
   };
 
-  # k3s experimentation
+  # k3s
   services.k3s = {
     enable = true;
     role = "agent";
     tokenFile = "/home/napatsc/token.txt";
     serverAddr = "https://10.0.0.1:6443";
-		extraFlags = [
-		  "--node-ip=10.0.0.2"
-			"--flannel-iface=wg-client"
-		];
+    extraFlags = [
+      "--node-ip=10.0.0.2"
+      "--flannel-iface=wg-client"
+      "--node-label=storage-tier=large"
+    ];
+  };
+
+  # Ensure /mnt/fast exists for local-path-provisioner (fast/NVMe tier)
+  systemd.services."k3s-storage-dirs" = {
+    description = "Ensure k3s local-path-provisioner mount points exist";
+    serviceConfig.Type = "oneshot";
+    script = "mkdir -p /mnt/fast /mnt/hdd/k3s-storage";
+    wantedBy = ["multi-user.target"];
+  };
+
+  # Symlink old path for backward compatibility with existing services
+  systemd.services."data-symlink" = {
+    description = "Symlink /home/napatsc/data → /mnt/hdd (backward compat)";
+    serviceConfig.Type = "oneshot";
+    script = ''
+      if [ ! -e /home/napatsc/data ]; then
+        ln -s /mnt/hdd /home/napatsc/data
+      fi
+    '';
+    wantedBy = ["multi-user.target"];
   };
 
   # Some programs need SUID wrappers, can be configured further or are

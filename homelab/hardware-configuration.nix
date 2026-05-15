@@ -30,8 +30,8 @@
       fsType = "vfat";
       options = ["fmask=0077" "dmask=0077"];
     };
-    # the drive
-    "/home/${vars.name}/data" = {
+    # the drive (HDD — used for large-capacity k3s storage)
+    "/mnt/hdd" = {
       device = "/dev/disk/by-uuid/edcabddc-ad0a-45d0-93e2-aaca76425e0b";
       fsType = "btrfs";
       options = ["compress=zstd"];

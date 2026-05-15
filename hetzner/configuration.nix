@@ -118,12 +118,20 @@
     enable = true;
     role = "server";
     clusterInit = true;
-		extraFlags = [
-		  "--node-external-ip=5.223.55.249"
-		  "--advertise-address=10.0.0.1"
-			"--flannel-iface=wg-server"
-			"--disable=traefik"
-		];
+    extraFlags = [
+      "--node-external-ip=5.223.55.249"
+      "--advertise-address=10.0.0.1"
+      "--flannel-iface=wg-server"
+      "--disable=traefik"
+    ];
+  };
+
+  # Ensure /mnt/fast exists for local-path-provisioner (fast/NVMe tier)
+  systemd.services."k3s-storage-dirs" = {
+    description = "Ensure k3s local-path-provisioner mount points exist";
+    serviceConfig.Type = "oneshot";
+    script = "mkdir -p /mnt/fast";
+    wantedBy = ["multi-user.target"];
   };
 
   # List services that you want to enable:
