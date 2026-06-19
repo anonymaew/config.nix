@@ -31,7 +31,10 @@
   brew-nix.enable = true;
   environment.systemPackages = with pkgs; [
     bun
+		nodejs
     pandoc
+		php
+		php84Packages.composer
     rustup
     typst
     uv
@@ -39,12 +42,11 @@
     btop
     container
 		curlFull
-    # dasel
-    # direnv
     docker-compose
+		delta
     eza
     fastfetch
-    # ffmpeg-full
+    ffmpeg-full
     fzf
     git
     imagemagick
@@ -66,27 +68,27 @@
     yt-dlp
 
     # ollama
+		agent-browser
 		pi-coding-agent
 
     audacity
     android-tools
-    bitwarden-desktop
+		brewCasks.bitwarden # bitwarden-desktop
     # brewCasks.blender
-		# brewCasks.cap
-		brewCasks.cmux
+		# brewCasks.cmux
     brewCasks.gimp
     brewCasks.helium-browser
-    brewCasks.inkscape
+    inkscape # brewCasks.inkscape
     localsend
 		brewCasks.obs
     # tailscale-gui
 		# recordly
-		# brewCasks.tailscale-app
+		brewCasks.tailscale-app
     brewCasks.zen
-    zotero
+    zotero # brewCasks.zotero
 
     aerospace
-    jankyborders
+    # jankyborders
     mpv-unwrapped
     steam-unwrapped
     vfkit
