@@ -1,3 +1,6 @@
+-- Non-Nix machines: needs npm, cargo, python3 for LSP server installation.
+-- Install deps first, or set vim.g.nix_mode=true to skip Mason entirely.
+
 --------------------
 -- Common options --
 --------------------
@@ -24,28 +27,50 @@ vim.diagnostic.config({
 	virtual_text = true,    -- warning text inline
 })
 
+-----------------------
+-- Plugin management --
+-----------------------
+-- On Nix: plugins come from programs.neovim.plugins (default.nix)
+-- On non-Nix: install via vim.pack.add()
+if not vim.g.nix_mode then
+	-- LSP / tool plugins
+	vim.pack.add({
+		{ src = 'https://github.com/mason-org/mason.nvim' },
+		{ src = 'https://github.com/neovim/nvim-lspconfig' },
+		{ src = 'https://github.com/mason-org/mason-lspconfig.nvim' },
+	})
+	-- Decorations / QoL plugins
+	vim.pack.add({
+		-- vscode theme
+		{ src = 'https://github.com/Mofiqul/vscode.nvim' },
+		-- icons; allow plugins to use nerdfont icons
+		{ src = 'https://github.com/nvim-tree/nvim-web-devicons' },
+		-- lualine; beautify bottom status bar
+		{ src = 'https://github.com/nvim-lualine/lualine.nvim' },
+		-- tab space by line guidance
+		{ src = 'https://github.com/lukas-reineke/indent-blankline.nvim' },
+		-- oil; enable files editing like vim
+		{ src = 'https://github.com/stevearc/oil.nvim' },
+		-- Agentic AI coding
+		-- { src = 'https://www.github.com/nvim-lua/plenary.nvim' },
+		-- { src = 'https://www.github.com/olimorris/codecompanion.nvim' },
+		-- better code folding
+		{ src = 'https://github.com/chrisgrieser/nvim-origami' },
+	})
+end
+
 -----------------
 -- LSP related --
 -----------------
-vim.pack.add({
-	-- lsp registries
-	{ src = 'https://github.com/mason-org/mason.nvim' },
-	-- lsp config registries
-	{ src = 'https://github.com/neovim/nvim-lspconfig' },
-	-- declaratively install lsp servers
-	{ src = 'https://github.com/mason-org/mason-lspconfig.nvim' },
-})
+-- Servers to enable.
+-- NOTE: "ty" is not a valid lspconfig/Mason server name so it was removed.
+--       If you need a spell-checker LSP try "typos_lsp" instead.
 local lsp_servers = {
 	'eslint', 'html', 'ltex_plus', 'lua_ls', 'nil_ls', 'ruff', 'rust_analyzer',
-	'svelte', 'tinymist', 'ts_ls', 'ty'
+	'svelte', 'tinymist', 'ts_ls'
 };
 
-require('mason').setup()
-require('mason-lspconfig').setup({
-	-- define lsp servers here
-	ensure_installed = lsp_servers
-})
-
+-- Custom LSP configs (must be set BEFORE enabling servers, so overrides take effect)
 vim.lsp.config('tinymist', { -- typst: compile PDF on save (titled doc)
 	settings = { exportPdf = 'onDocumentHasTitle' },
 })
@@ -58,6 +83,22 @@ vim.lsp.config('lua_ls', { -- lua: making awareness of vim api
 	}
 })
 vim.lsp.config('oxfmt', {})
+
+if vim.g.nix_mode then
+	-- Nix: LSP servers from extraPackages (in PATH).
+	-- Use built-in vim.lsp.enable (the new nvim-lspconfig 2.x API) instead of
+	-- the deprecated require('lspconfig').<server>.setup({}).
+	for _, server in ipairs(lsp_servers) do
+		pcall(vim.lsp.enable, server)
+	end
+else
+	-- Non-Nix: use Mason to install and configure LSP servers
+	require('mason').setup()
+	require('mason-lspconfig').setup({
+		-- define lsp servers here
+		ensure_installed = lsp_servers
+	})
+end
 
 -- start treesitter automatically
 vim.api.nvim_create_autocmd('FileType', {
@@ -108,24 +149,6 @@ vim.opt.completeopt = "menuone,noinsert,popup"
 ----------------------------------
 -- Decorations/QoL improvements --
 ----------------------------------
-vim.pack.add({
-	-- vscode theme
-	{ src = 'https://github.com/Mofiqul/vscode.nvim' },
-	-- icons; allow plugins to use nerdfont icons
-	{ src = 'https://github.com/nvim-tree/nvim-web-devicons' },
-	-- lualine; beautify bottom status bar
-	{ src = 'https://github.com/nvim-lualine/lualine.nvim' },
-	-- tab space by line guidance
-	{ src = 'https://github.com/lukas-reineke/indent-blankline.nvim' },
-	-- oil; enable files editing like vim
-	{ src = 'https://github.com/stevearc/oil.nvim' },
-	-- Agentic AI coding
-	-- { src = 'https://www.github.com/nvim-lua/plenary.nvim' },
-	-- { src = 'https://www.github.com/olimorris/codecompanion.nvim' },
-	-- better code folding
-	{ src = 'https://github.com/chrisgrieser/nvim-origami' }
-})
-
 require('vscode').setup({
 	transparent = true,
 })
