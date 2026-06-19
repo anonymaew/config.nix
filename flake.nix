@@ -26,9 +26,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # for MacOS apps fix
-    mac-app-util = {
-      url = "github:hraban/mac-app-util";
-    };
+    mac-app-util.url = "github:hraban/mac-app-util";
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
