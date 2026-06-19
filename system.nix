@@ -1,6 +1,6 @@
 {vars, ...}: {
   system = {
-    stateVersion = 4;
+    stateVersion = 7;
     primaryUser = vars.name;
 
     defaults = {

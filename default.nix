@@ -13,8 +13,6 @@
 
   # services.nix-daemon.enable = true;
   nix = {
-    enable = true;
-    package = pkgs.nix;
     settings = {
       extra-experimental-features = [
         "nix-command"
@@ -22,11 +20,12 @@
       ];
       use-xdg-base-directories = true;
     };
-  };
-  ids.gids.nixbld = 350;
-
-  programs = {
-    zsh.enable = true;
+     gc = {
+       automatic = true;
+       options = "--delete-generations +8";
+     };
+     optimise.automatic = true;
+     settings.auto-optimise-store = true;
   };
 
   brew-nix.enable = true;
