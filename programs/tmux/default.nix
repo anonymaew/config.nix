@@ -1,53 +1,34 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+let
+  # Same tmux.conf used on both Nix and non-Nix:
+  # - On Nix: loaded via extraConfig (sets @nix_tmux, then source-file)
+  # - On non-Nix: copy to ~/.config/tmux/tmux.conf (XDG); TPM handles plugins
+  sharedConfig = ./tmux.conf;
+in
+{
   programs.tmux = {
     enable = true;
     keyMode = "vi";
-    terminal = "screen-256color";
-    plugins = with pkgs.tmuxPlugins; [
-      {
-        plugin = continuum;
-        extraConfig = ''
-          set -g @continuum-restore 'on'
-          set -g @continuum-save-interval '10'
-        '';
-      }
-      {
-        plugin = resurrect;
-        extraConfig = ''
-          resurrect_dir=$XDG_DATA_HOME/tmux/resurrect
-          set -g @resurrect-processes 'btop k9s lazygit ssh'
-          set -g @resurrect-dir $resurrect_dir
-          set -g @resurrect-strategy-vim 'session'
-          set -g @resurrect-strategy-nvim 'session'
-          set -g @resurrect-hook-post-save-all "sed -i 's| --cmd .*-vim-pack-dir||g; s|/etc/profiles/per-user/$USER/bin/||g; s|/nix/store/.*/bin/||g' $(readlink -f $resurrect_dir/last)"
-        '';
-      }
-    ];
+    terminal = "xterm-ghostty";
+    # Plugins managed manually below so we can set status-right first
+    # (continuum needs to prepend its save script to our status-right format).
+    plugins = [ ];
     baseIndex = 1;
     escapeTime = 10;
     focusEvents = true;
     extraConfig = ''
-      set -g status-position top
-      set -g status-justify absolute-centre
-      set -g renumber-windows on
-      set -g set-clipboard on
-			set -g extended-keys on
-
-      set -g status-style 'bg=default'
-      setw -g window-status-style 'fg=color7'
-      setw -g window-status-format ' #I:#{?#{==:#{pane_current_command},zsh},#{b:pane_current_path},#{?#{==:#{pane_current_command},nvim},#{s|n?vim .*\/||:#{pane_title}},#{pane_current_command}}} '
-      setw -g window-status-current-style 'fg=default bold'
-      setw -g window-status-current-format '[#I:#{?#{==:#{pane_current_command},zsh},#{b:pane_current_path},#{?#{==:#{pane_current_command},nvim},#{s|n?vim .*\/||:#{pane_title}},#{pane_current_command}}}]'
-
-      set -g status-left '#S'
+      # ── custom status-right (set before plugins so continuum can prepend) ──
       set -g status-right '#{user}@#h  %H:%M'
 
-      bind-key -T copy-mode-vi 'v' send -X begin-selection
-      bind-key -T copy-mode-vi 'y' send -X copy-selection-and-cancel
+      # ── Nix sentinel (tells tmux.conf to skip TPM) ──
+      set -g @nix_tmux 1
 
-      bind '"' split-window -v -c "#{pane_current_path}"
-      bind %   split-window -h -c "#{pane_current_path}"
-      bind c   new-window   -c    "#{pane_current_path}"
+      # ── manually load plugins (order matters: status-right must be set first) ──
+      run '${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/continuum.tmux'
+      run '${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/resurrect.tmux'
+
+      # ── shared config (general settings, no status-right override) ──
+      source-file ${sharedConfig}
     '';
   };
 }
