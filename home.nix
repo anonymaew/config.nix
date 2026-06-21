@@ -8,12 +8,9 @@
   xdg.enable = true;
 
   programs = {
-    home-manager.enable = true;
     zsh = {
       enable = true;
       autosuggestion.enable = true;
-      dotDir = "${config.xdg.configHome}/zsh";
-      history.path = "${config.xdg.configHome}/zsh/.zsh_history";
       shellAliases = {
         k = "kubectl";
         kg = "kubectl get";
