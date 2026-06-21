@@ -123,6 +123,7 @@
       "--advertise-address=10.0.0.1"
       "--flannel-iface=wg-server"
       "--disable=traefik"
+      "--disable=local-storage" # replaced by our standalone provisioner in homelab-helm
     ];
   };
 
