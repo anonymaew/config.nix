@@ -1,18 +1,16 @@
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   # Same tmux.conf used on both Nix and non-Nix:
   # - On Nix: loaded via extraConfig (sets @nix_tmux, then source-file)
   # - On non-Nix: copy to ~/.config/tmux/tmux.conf (XDG); TPM handles plugins
   sharedConfig = ./tmux.conf;
-in
-{
+in {
   programs.tmux = {
     enable = true;
     keyMode = "vi";
     terminal = "xterm-ghostty";
     # Plugins managed manually below so we can set status-right first
     # (continuum needs to prepend its save script to our status-right format).
-    plugins = [ ];
+    plugins = [];
     baseIndex = 1;
     escapeTime = 10;
     focusEvents = true;

@@ -20,30 +20,30 @@
       ];
       use-xdg-base-directories = true;
     };
-     gc = {
-       automatic = true;
-       options = "--delete-generations +8";
-     };
-     optimise.automatic = true;
-     settings.auto-optimise-store = true;
+    gc = {
+      automatic = true;
+      options = "--delete-generations +8";
+    };
+    optimise.automatic = true;
+    settings.auto-optimise-store = true;
   };
 
   brew-nix.enable = true;
   environment.systemPackages = with pkgs; [
     bun
-		nodejs
+    nodejs
     pandoc
-		php
-		php84Packages.composer
+    php
+    php84Packages.composer
     rustup
     typst
     uv
 
     btop
     container
-		curlFull
+    curlFull
     docker-compose
-		delta
+    delta
     eza
     fastfetch
     ffmpeg-full
@@ -53,7 +53,7 @@
     inetutils
     just
     kubectl
-		kubernetes-helm
+    kubernetes-helm
     lazygit
     less
     libreoffice-bin
@@ -68,22 +68,22 @@
     yt-dlp
 
     # ollama
-		agent-browser
-		pi-coding-agent
+    agent-browser
+    pi-coding-agent
 
     audacity
     android-tools
-		brewCasks.bitwarden # bitwarden-desktop
+    brewCasks.bitwarden # bitwarden-desktop
     # brewCasks.blender
-		# brewCasks.cmux
+    # brewCasks.cmux
     brewCasks.gimp
     brewCasks.helium-browser
     inkscape # brewCasks.inkscape
     localsend
-		brewCasks.obs
+    brewCasks.obs
     # tailscale-gui
-		# recordly
-		brewCasks.tailscale-app
+    # recordly
+    brewCasks.tailscale-app
     brewCasks.zen
     zotero # brewCasks.zotero
 

@@ -30,7 +30,7 @@
     "net.ipv4.ip_unprivileged_port_start" = 80;
   };
   networking.enableIPv6 = true;
-	networking.wg-quick.interfaces."wg-server".configFile = "/home/napatsc/wg-server.conf";
+  networking.wg-quick.interfaces."wg-server".configFile = "/home/napatsc/wg-server.conf";
 
   networking.firewall = {
     enable = true;

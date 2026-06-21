@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   # Same init.lua used on both Nix and non-Nix:
   # - On Nix: loaded via wrapper (sets sentinel, then dofile)
   # - On non-Nix: copy directly to ~/.config/nvim/init.lua

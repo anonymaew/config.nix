@@ -39,19 +39,24 @@
     mac-app-util,
     deploy-rs,
     ...
-  }@inputs: let
+  } @ inputs: let
     vars = {
       name = "napatsc";
     };
     system = "x86_64-linux";
     # Unmodified nixpkgs
-    pkgs = import nixpkgs { inherit system; };
+    pkgs = import nixpkgs {inherit system;};
     # nixpkgs with deploy-rs overlay but force the nixpkgs package
     deployPkgs = import nixpkgs {
       inherit system;
       overlays = [
         deploy-rs.overlays.default
-        (self: super: { deploy-rs = { inherit (pkgs) deploy-rs; lib = super.deploy-rs.lib; }; })
+        (self: super: {
+          deploy-rs = {
+            inherit (pkgs) deploy-rs;
+            lib = super.deploy-rs.lib;
+          };
+        })
       ];
     };
   in {
@@ -71,7 +76,7 @@
               users."${vars.name}".imports = [
                 ./home.nix
                 (./. + "/users/${vars.name}")
-                { _module.args = inputs; }
+                {_module.args = inputs;}
                 mac-app-util.homeManagerModules.default
               ];
             };

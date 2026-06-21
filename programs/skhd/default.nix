@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   services.skhd = {
     enable = true;
     package = pkgs.skhd;
@@ -7,7 +7,7 @@
       alt - k : yabai -m window --focus north
       alt - h : yabai -m window --focus west
       alt - l : yabai -m window --focus east
-       
+
       shift + alt - r : yabai -m space --rotate 270
       shift + alt - y : yabai -m space --mirror y-axis
       shift + alt - x : yabai -m space --mirror x-axis

@@ -42,7 +42,7 @@
     "net.ipv4.ip_unprivileged_port_start" = 443;
   };
   networking.enableIPv6 = true;
-	networking.wg-quick.interfaces."wg-client".configFile = "/home/napatsc/wg-client.conf";
+  networking.wg-quick.interfaces."wg-client".configFile = "/home/napatsc/wg-client.conf";
   # systemd.user.services = {
   #   "podman.socket".enable = true;
   #   "podman-restart.service".enable = true;
@@ -221,9 +221,9 @@
   networking.firewall.allowedTCPPorts = [
     6443 # k8s API
   ];
-  networking.firewall.allowedUDPPorts = [ 
-		8472 # k3s, flannel
-	];
+  networking.firewall.allowedUDPPorts = [
+    8472 # k3s, flannel
+  ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 }
