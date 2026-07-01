@@ -30,6 +30,7 @@
 
   brew-nix.enable = true;
   environment.systemPackages = with pkgs; [
+    ansible
     bun
     nodejs
     pandoc
@@ -101,6 +102,8 @@
         "zoom"
       ];
   };
+
+  nixpkgs.overlays = import ./overlays;
 
   fonts.packages = with pkgs; [
     inter
