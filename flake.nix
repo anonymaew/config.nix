@@ -73,16 +73,21 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users."${vars.name}".imports = [
-                ./home.nix
-                (./. + "/users/${vars.name}")
-                {_module.args = inputs;}
-                mac-app-util.homeManagerModules.default
-              ];
+              users."${vars.name}" = {
+                _module.args = inputs;
+                imports = [
+                  ./home.nix
+                  (./. + "/users/${vars.name}")
+                  mac-app-util.homeManagerModules.default
+                ];
+              };
             };
           }
         ];
-        specialArgs = {inherit vars;};
+        specialArgs = {
+          inherit vars;
+          inherit brew-nix;
+        };
       };
     };
     nixosConfigurations.homelab = nixpkgs.lib.nixosSystem {
