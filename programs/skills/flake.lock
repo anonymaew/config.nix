@@ -1,0 +1,140 @@
+{
+  "nodes": {
+    "agent-browser": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783520190,
+        "narHash": "sha256-2x5/Nc5KCrgk9dYXur7y9Y9z4JzcJVW4WSYWarcL61k=",
+        "owner": "vercel-labs",
+        "repo": "agent-browser",
+        "rev": "afae698a51242166170b6fe4809dd57fe9f75798",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vercel-labs",
+        "repo": "agent-browser",
+        "type": "github"
+      }
+    },
+    "agent-skills-nix": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783581957,
+        "narHash": "sha256-5YdL+P8NDiNRLRH4C4XT4uxbP5qPMfp5xHpjiSH4j84=",
+        "ref": "refs/heads/master",
+        "rev": "8431148129aafc52a865283f259f7c9c83c71f46",
+        "revCount": 1,
+        "type": "git",
+        "url": "https://git.napatsc.com/ns/agent-skills-nix"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.napatsc.com/ns/agent-skills-nix"
+      }
+    },
+    "camoufox-cli": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781794163,
+        "narHash": "sha256-+kmsUEOfvwhm2Fi+bj7+YNYGL6NDDGCsNijKqt/vSXY=",
+        "owner": "bin-huang",
+        "repo": "camoufox-cli",
+        "rev": "27232524aaf417e429f21dac8caa7d4df03197fd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bin-huang",
+        "repo": "camoufox-cli",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783550008,
+        "narHash": "sha256-qbbZUk9IG9dLNwCPwdPBs6I5clxwugRpP+1YU+GPK20=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "f4d01c1d87c7c2ec909549165d5a8338f1bd3315",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "mattpocock-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783516840,
+        "narHash": "sha256-XqF709Y9GMKINzZITlbCTyatG9AxRZh0qn2vcv1Z8yo=",
+        "owner": "mattpocock",
+        "repo": "skills",
+        "rev": "d574778f94cf620fcc8ce741584093bc650a61d3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mattpocock",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1783224372,
+        "narHash": "sha256-8i/87eeoqiGE4yOTjwSA3Eh/ziJRQEmd/unYU+K27sk=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "d407951447dcd00442e97087bf374aad70c04cea",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "agent-browser": "agent-browser",
+        "agent-skills-nix": "agent-skills-nix",
+        "camoufox-cli": "camoufox-cli",
+        "home-manager": "home-manager",
+        "mattpocock-skills": "mattpocock-skills",
+        "nixpkgs": "nixpkgs",
+        "vercel-skills": "vercel-skills"
+      }
+    },
+    "vercel-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783395170,
+        "narHash": "sha256-dMz4M7WAtjlKVrEePsPbS6v4EV6VpG5wBKUrysAIhYw=",
+        "owner": "vercel-labs",
+        "repo": "skills",
+        "rev": "4ce6d48ac44c8b637db87b2102fea3baca719df1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vercel-labs",
+        "repo": "skills",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

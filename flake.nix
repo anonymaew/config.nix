@@ -25,8 +25,15 @@
       inputs.nix-darwin.follows = "nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Agent skills
+    agent-skills = {
+      url = "path:./programs/skills";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     # for MacOS apps fix
     mac-app-util.url = "github:hraban/mac-app-util";
+
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
@@ -36,6 +43,7 @@
     nix-darwin,
     home-manager,
     brew-nix,
+    agent-skills,
     mac-app-util,
     deploy-rs,
     ...
@@ -79,6 +87,8 @@
                   ./home.nix
                   (./. + "/users/${vars.name}")
                   mac-app-util.homeManagerModules.default
+                  agent-skills.homeManagerModules.default
+                  ./programs/skills
                 ];
               };
             };
@@ -97,14 +107,10 @@
     };
     deploy.nodes.homelab = {
       hostname = "homelab";
-      # interactiveSudo = true;
       remoteBuild = true;
       profiles.system = {
-        sshUser = "root";
         user = "root";
-        path =
-          deployPkgs.deploy-rs.lib.activate.nixos
-          self.nixosConfigurations.homelab;
+        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.homelab;
       };
     };
     nixosConfigurations.hetzner-sg = nixpkgs.lib.nixosSystem {
@@ -119,9 +125,7 @@
       profiles.system = {
         sshUser = "napatsc";
         user = "root";
-        path =
-          deployPkgs.deploy-rs.lib.activate.nixos
-          self.nixosConfigurations.hetzner-sg;
+        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.hetzner-sg;
       };
     };
   };
