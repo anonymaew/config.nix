@@ -18,7 +18,10 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -115,7 +118,10 @@
   users.users = {
     "${vars.name}" = {
       isNormalUser = true;
-      extraGroups = ["wheel" "podman"];
+      extraGroups = [
+        "wheel"
+        "podman"
+      ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDe/pgCTH3B4AzKAVMcA2l42jJq2K4tiObkLNsvbrJZG napatsc@macair"
       ];
@@ -190,18 +196,6 @@
     wantedBy = ["multi-user.target"];
   };
 
-  # Symlink old path for backward compatibility with existing services
-  systemd.services."data-symlink" = {
-    description = "Symlink /home/napatsc/data → /mnt/hdd (backward compat)";
-    serviceConfig.Type = "oneshot";
-    script = ''
-      if [ ! -e /home/napatsc/data ]; then
-        ln -s /mnt/hdd /home/napatsc/data
-      fi
-    '';
-    wantedBy = ["multi-user.target"];
-  };
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -214,6 +208,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  security.pam.sshAgentAuth.enable = true;
 
   services.tailscale.enable = true;
 
