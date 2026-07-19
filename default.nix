@@ -30,6 +30,7 @@
         "flakes"
       ];
       use-xdg-base-directories = true;
+      secret-key-files = [ "/etc/nix/nix-secret-key" ];
     };
     gc = {
       automatic = true;

@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   config,
+  lib,
   pkgs,
   vars,
   ...
@@ -11,6 +12,20 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
+
+  sops = {
+    defaultSopsFile = ../../secrets/homelab.yaml;
+    defaultSopsFormat = "yaml";
+    secrets.k3s-token.path = "/home/napatsc/token.txt";
+    secrets.k3s-token.owner = vars.name;
+    secrets.wg-client-private-key = {
+      owner = vars.name;
+    };
+    # Machine-side decryption: convert SSH host key to age key
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    age.generateKey = true;
+    age.keyFile = "/var/lib/sops-nix/key.txt";
+  };
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -22,6 +37,12 @@
     "nix-command"
     "flakes"
   ];
+  nix.settings.trusted-public-keys = [
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "builder:qPTpfl43MdQlIoXVLCvA0/II/esC9F2qhau7skLyV5Y="
+  ];
+  # Disable substituting during cross-build from darwin (cache resolution can fail)
+  nix.settings.builders-use-substitutes = lib.mkForce false;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -45,7 +66,18 @@
     "net.ipv4.ip_unprivileged_port_start" = 443;
   };
   networking.enableIPv6 = true;
-  networking.wg-quick.interfaces."wg-client".configFile = "/home/napatsc/wg-client.conf";
+  networking.wg-quick.interfaces."wg-client" = {
+    addresses = [ "10.0.0.2/32" ];
+    privatekeyFile = config.sops.secrets.wg-client-private-key.path;
+    peers = [
+      {
+        publicKey = "3sGyxUcjFdl2iOUdP7Lx1iblAyQrAltplVc8kWm9mR0=";
+        allowedIPs = [ "10.0.0.1/32" ];
+        endpoint = lib.trim (builtins.readFile config.sops.secrets.wg-client-endpoint.path);
+        persistentKeepalive = 25;
+      }
+    ];
+  };
   # systemd.user.services = {
   #   "podman.socket".enable = true;
   #   "podman-restart.service".enable = true;
@@ -179,7 +211,7 @@
   services.k3s = {
     enable = true;
     role = "agent";
-    tokenFile = "/home/napatsc/token.txt";
+    tokenFile = config.sops.secrets.k3s-token.path;
     serverAddr = "https://10.0.0.1:6443";
     extraFlags = [
       "--node-ip=10.0.0.2"

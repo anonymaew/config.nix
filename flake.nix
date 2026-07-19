@@ -35,98 +35,129 @@
     mac-app-util.url = "github:hraban/mac-app-util";
 
     deploy-rs.url = "github:serokell/deploy-rs";
+    nix-rosetta-builder = {
+      url = "github:cpick/nix-rosetta-builder";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nix-darwin,
-    home-manager,
-    brew-nix,
-    agent-skills,
-    mac-app-util,
-    deploy-rs,
-    ...
-  } @ inputs: let
-    vars = {
-      name = "napatsc";
-    };
-    system = "x86_64-linux";
-    # Unmodified nixpkgs
-    pkgs = import nixpkgs {inherit system;};
-    # nixpkgs with deploy-rs overlay but force the nixpkgs package
-    deployPkgs = import nixpkgs {
-      inherit system;
-      overlays = [
-        deploy-rs.overlays.default
-        (self: super: {
-          deploy-rs = {
-            inherit (pkgs) deploy-rs;
-            lib = super.deploy-rs.lib;
-          };
-        })
-      ];
-    };
-  in {
-    darwinConfigurations = {
-      macair = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [
-          ./default.nix
-          ./system.nix
-          brew-nix.darwinModules.default
-          home-manager.darwinModules.home-manager
-          mac-app-util.darwinModules.default
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users."${vars.name}" = {
-                _module.args = inputs;
-                imports = [
-                  ./home.nix
-                  (./. + "/users/${vars.name}")
-                  mac-app-util.homeManagerModules.default
-                  agent-skills.homeManagerModules.default
-                  ./programs/skills
-                ];
-              };
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+      brew-nix,
+      agent-skills,
+      mac-app-util,
+      deploy-rs,
+      nix-rosetta-builder,
+      sops-nix,
+      ...
+    }@inputs:
+    let
+      vars = {
+        name = "napatsc";
+      };
+      system = "x86_64-linux";
+      # Unmodified nixpkgs
+      pkgs = import nixpkgs { inherit system; };
+      # nixpkgs with deploy-rs overlay but force the nixpkgs package
+      deployPkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+          deploy-rs.overlays.default
+          (self: super: {
+            deploy-rs = {
+              inherit (pkgs) deploy-rs;
+              lib = super.deploy-rs.lib;
             };
-          }
+          })
         ];
-        specialArgs = {
-          inherit vars;
-          inherit brew-nix;
+      };
+    in
+    {
+      darwinConfigurations = {
+        macair = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./default.nix
+            ./system.nix
+            brew-nix.darwinModules.default
+            home-manager.darwinModules.home-manager
+            mac-app-util.darwinModules.default
+            nix-rosetta-builder.darwinModules.default
+            sops-nix.darwinModules.sops
+            {
+              nix-rosetta-builder.onDemand = true;
+            }
+            # Apply overlays (ld64 hardening fix, etc.)
+            {
+              nixpkgs.overlays = import ./overlays/default.nix;
+            }
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  secrets-dir = self + "/secrets";
+                  inherit agent-skills;
+                };
+                users."${vars.name}" = {
+                  imports = [
+                    sops-nix.homeManagerModules.sops
+                    ./home.nix
+                    (./. + "/users/${vars.name}")
+                    mac-app-util.homeManagerModules.default
+                    agent-skills.homeManagerModules.default
+                    ./programs/skills
+                  ];
+                };
+              };
+            }
+          ];
+          specialArgs = {
+            inherit vars;
+            inherit brew-nix;
+          };
+        };
+      };
+      nixosConfigurations.homelab = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./homelab/configuration.nix
+          sops-nix.nixosModules.sops
+        ];
+        specialArgs = { inherit vars; };
+      };
+      deploy.nodes.homelab = {
+        hostname = "homelab";
+        profiles.system = {
+          user = "root";
+          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.homelab;
+        };
+      };
+      nixosConfigurations.hetzner-sg = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hetzner/configuration.nix
+          sops-nix.nixosModules.sops
+        ];
+        specialArgs = { inherit vars; };
+      };
+      deploy.nodes.hetzner-sg = {
+        hostname = "hetzner-sg";
+        interactiveSudo = true;
+        remoteBuild = true;
+        profiles.system = {
+          sshUser = "napatsc";
+          user = "root";
+          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.hetzner-sg;
         };
       };
     };
-    nixosConfigurations.homelab = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [./homelab/configuration.nix];
-      specialArgs = {inherit vars;};
-    };
-    deploy.nodes.homelab = {
-      hostname = "homelab";
-      remoteBuild = true;
-      profiles.system = {
-        user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.homelab;
-      };
-    };
-    nixosConfigurations.hetzner-sg = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [./hetzner/configuration.nix];
-      specialArgs = {inherit vars;};
-    };
-    deploy.nodes.hetzner-sg = {
-      hostname = "hetzner-sg";
-      interactiveSudo = true;
-      remoteBuild = true;
-      profiles.system = {
-        sshUser = "napatsc";
-        user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.hetzner-sg;
-      };
-    };
-  };
 }

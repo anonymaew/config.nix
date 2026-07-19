@@ -13,6 +13,18 @@
     ./hardware-configuration.nix
   ];
 
+  sops = {
+    defaultSopsFile = ../../secrets/hetzner.yaml;
+    defaultSopsFormat = "yaml";
+    secrets.wg-server-private-key = {
+      owner = vars.name;
+    };
+    # Machine-side decryption: convert SSH host key to age key
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    age.generateKey = true;
+    age.keyFile = "/var/lib/sops-nix/key.txt";
+  };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -30,7 +42,17 @@
     "net.ipv4.ip_unprivileged_port_start" = 80;
   };
   networking.enableIPv6 = true;
-  networking.wg-quick.interfaces."wg-server".configFile = "/home/napatsc/wg-server.conf";
+  networking.wg-quick.interfaces."wg-server" = {
+    addresses = [ "10.0.0.1/24" ];
+    privatekeyFile = config.sops.secrets.wg-server-private-key.path;
+    listenPort = 51820;
+    peers = [
+      {
+        publicKey = "iY8CyFPbMe4aNlsqkKhHwTFRvIwqyAxMzUovSVhwTz8=";
+        allowedIPs = [ "10.0.0.2/32" ];
+      }
+    ];
+  };
 
   networking.firewall = {
     enable = true;
