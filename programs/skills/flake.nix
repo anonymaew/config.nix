@@ -16,6 +16,10 @@
     };
 
     # Skill sources
+    ns-skills = {
+      url = "git+https://git.napatsc.com/ns/skills";
+      flake = false;
+    };
     mattpocock-skills = {
       url = "github:mattpocock/skills";
       flake = false;
@@ -34,23 +38,27 @@
     };
   };
 
-  outputs = {
-    agent-skills-nix,
-    mattpocock-skills,
-    agent-browser,
-    camoufox-cli,
-    vercel-skills,
-    ...
-  }: {
-    # Re-export the home-manager module
-    homeManagerModules.default = agent-skills-nix.homeManagerModules.default;
+  outputs =
+    {
+      agent-skills-nix,
+      ns-skills,
+      mattpocock-skills,
+      agent-browser,
+      camoufox-cli,
+      vercel-skills,
+      ...
+    }:
+    {
+      # Re-export the home-manager module
+      homeManagerModules.default = agent-skills-nix.homeManagerModules.default;
 
-    # Expose skill sources for use in the main flake
-    inherit
-      mattpocock-skills
-      agent-browser
-      camoufox-cli
-      vercel-skills
-      ;
-  };
+      # Expose skill sources for use in the main flake
+      inherit
+        ns-skills
+        mattpocock-skills
+        agent-browser
+        camoufox-cli
+        vercel-skills
+        ;
+    };
 }

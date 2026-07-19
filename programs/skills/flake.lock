@@ -107,6 +107,22 @@
         "type": "github"
       }
     },
+    "ns-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784021240,
+        "narHash": "sha256-1afTlgY5f2eMOVyQHdRJBCdukIoFIZl+q7pug8YjB2I=",
+        "ref": "refs/heads/master",
+        "rev": "9cc8c1f42333a697cc9d2c27d9d94c09d56e2278",
+        "revCount": 9,
+        "type": "git",
+        "url": "https://git.napatsc.com/ns/skills"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.napatsc.com/ns/skills"
+      }
+    },
     "root": {
       "inputs": {
         "agent-browser": "agent-browser",
@@ -115,6 +131,7 @@
         "home-manager": "home-manager",
         "mattpocock-skills": "mattpocock-skills",
         "nixpkgs": "nixpkgs",
+        "ns-skills": "ns-skills",
         "vercel-skills": "vercel-skills"
       }
     },
