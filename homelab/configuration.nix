@@ -7,7 +7,8 @@
   pkgs,
   vars,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -195,12 +196,12 @@
   virtualisation = {
     containers = {
       enable = true;
-      registries.search = ["docker.io"];
+      registries.search = [ "docker.io" ];
     };
     oci-containers.backend = "podman";
     podman = {
       enable = true;
-      extraPackages = with pkgs; [docker-compose];
+      extraPackages = with pkgs; [ docker-compose ];
       autoPrune.enable = true;
       dockerSocket.enable = true;
       defaultNetwork.settings.dns_enabled = true;
@@ -225,7 +226,7 @@
     description = "Ensure k3s local-path-provisioner mount points exist";
     serviceConfig.Type = "oneshot";
     script = "mkdir -p /mnt/fast /mnt/hdd/k3s-storage";
-    wantedBy = ["multi-user.target"];
+    wantedBy = [ "multi-user.target" ];
   };
 
   # Some programs need SUID wrappers, can be configured further or are

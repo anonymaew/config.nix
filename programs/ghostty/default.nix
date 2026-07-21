@@ -1,12 +1,19 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   programs.ghostty = {
     enable = true;
     package = pkgs.brewCasks.ghostty;
     enableZshIntegration = true;
     settings = {
       theme = "dark:Catppuccin Mocha,light:Catppuccin Latte";
-      font-family = ["JetBrains Mono" "Anuphan"];
-      font-feature = ["-calt" "-liga" "-dlig"];
+      font-family = [
+        "JetBrains Mono"
+        "Anuphan"
+      ];
+      font-feature = [
+        "-calt"
+        "-liga"
+        "-dlig"
+      ];
       # macos-titlebar-proxy-icon = "hidden";
       macos-titlebar-style = "hidden";
       window-padding-x = 6;

@@ -2,11 +2,12 @@
   pkgs,
   vars,
   ...
-}: {
+}:
+{
   programs.alacritty = {
     enable = true;
     settings = {
-      general.import = ["~/.config/alacritty/colors.toml"];
+      general.import = [ "~/.config/alacritty/colors.toml" ];
       env.TERM = "xterm-256color";
       window = {
         padding = {
@@ -27,7 +28,10 @@
       bell = {
         command = {
           program = "osascript";
-          args = ["-e" "beep"];
+          args = [
+            "-e"
+            "beep"
+          ];
         };
       };
     };

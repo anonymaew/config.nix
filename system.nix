@@ -1,4 +1,4 @@
-{vars, ...}: {
+{ vars, ... }: {
   system = {
     stateVersion = 7;
     primaryUser = vars.name;
@@ -7,7 +7,7 @@
       dock = {
         autohide = true;
         show-recents = false;
-        persistent-apps = [];
+        persistent-apps = [ ];
         tilesize = 48;
         # lock when cursor is moved to bottom left
         wvous-bl-corner = 13;

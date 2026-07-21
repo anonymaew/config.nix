@@ -6,7 +6,7 @@
       alt - k : yabai -m window --focus north
       alt - h : yabai -m window --focus west
       alt - l : yabai -m window --focus east
-       
+
       shift + alt - r : yabai -m space --rotate 270
       shift + alt - y : yabai -m space --mirror y-axis
       shift + alt - x : yabai -m space --mirror x-axis
@@ -25,7 +25,6 @@
 
       shift + alt - p : yabai -m window --space prev;
       shift + alt - n : yabai -m window --space next;
-      '';
-    };
+    '';
   };
 }

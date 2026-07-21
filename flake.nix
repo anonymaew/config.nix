@@ -81,6 +81,9 @@
       };
     in
     {
+      formatter = nixpkgs.lib.genAttrs [ "aarch64-darwin" "x86_64-linux" ] (
+        system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style
+      );
       darwinConfigurations = {
         macair = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";

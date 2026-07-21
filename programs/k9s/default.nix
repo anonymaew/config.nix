@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   programs.k9s = {
     enable = true;
 
@@ -93,11 +94,23 @@
           bgColor = "default";
           chartBgColor = "default";
           dialBgColor = "default";
-          defaultDialColors = ["#a6e3a1" "#f38ba8"];
-          defaultChartColors = ["#a6e3a1" "#f38ba8"];
+          defaultDialColors = [
+            "#a6e3a1"
+            "#f38ba8"
+          ];
+          defaultChartColors = [
+            "#a6e3a1"
+            "#f38ba8"
+          ];
           resourceColors = {
-            cpu = ["#cba6f7" "#89b4fa"];
-            mem = ["#f9e2af" "#fab387"];
+            cpu = [
+              "#cba6f7"
+              "#89b4fa"
+            ];
+            mem = [
+              "#f9e2af"
+              "#fab387"
+            ];
           };
         };
         yaml = {

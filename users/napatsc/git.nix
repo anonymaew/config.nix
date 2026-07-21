@@ -1,4 +1,6 @@
-{...}: {
+{ pkgs, ... }: {
+  home.packages = with pkgs; [ delta ];
+
   programs.git = {
     enable = true;
     settings = {
