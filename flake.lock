@@ -28,6 +28,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
+        "ns-skills": "ns-skills",
         "vercel-skills": "vercel-skills"
       },
       "locked": {
@@ -68,11 +69,11 @@
     "brew-api": {
       "flake": false,
       "locked": {
-        "lastModified": 1783650609,
-        "narHash": "sha256-uWvxiHPU8SGjJhSXRWmXyrNBnatCcVyzNfjMwkaorqA=",
+        "lastModified": 1784397170,
+        "narHash": "sha256-xUNeCrFJ0G0zFPRSYuL8q3X5yFHPdZ/xauHtkJWAmyU=",
         "owner": "BatteredBunny",
         "repo": "brew-api",
-        "rev": "833d2be54e51284a3099115e395f39b58f735ca0",
+        "rev": "3973d52d1ec9de319ffd3665b9bebe5930658ac8",
         "type": "github"
       },
       "original": {
@@ -314,6 +315,26 @@
         "type": "github"
       }
     },
+    "nix-rosetta-builder": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770491098,
+        "narHash": "sha256-ZfhynJqgV3A9hEivcgOEZa+TZnJPc26lIUjzKsSchgI=",
+        "owner": "cpick",
+        "repo": "nix-rosetta-builder",
+        "rev": "50e6070082e0b4fbaf67dd8f346892a1a9ed685c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cpick",
+        "repo": "nix-rosetta-builder",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1743014863,
@@ -423,6 +444,22 @@
         "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
+      }
+    },
+    "ns-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784021240,
+        "narHash": "sha256-1afTlgY5f2eMOVyQHdRJBCdukIoFIZl+q7pug8YjB2I=",
+        "ref": "refs/heads/master",
+        "rev": "9cc8c1f42333a697cc9d2c27d9d94c09d56e2278",
+        "revCount": 9,
+        "type": "git",
+        "url": "https://git.napatsc.com/ns/skills"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.napatsc.com/ns/skills"
       }
     },
     "root": {
