@@ -57,7 +57,7 @@
 
     # GUI apps via brew-nix
     aerospace
-    audacity
+    brewCasks.audacity
     brewCasks.bitwarden
     brewCasks.gimp
     brewCasks.helium-browser
@@ -135,9 +135,10 @@
         "/bin/sh"
         "-c"
         ''
-          mkdir -p ${config.home.homeDirectory}/code/code-stash
-          if ! mount | grep -q code-stash; then
-            /sbin/mount_smbfs //samba@homelab:30445/code-stash ${config.home.homeDirectory}/code/code-stash
+          mountpoint="${config.home.homeDirectory}/code/code-stash"
+          mkdir -p "$mountpoint"
+          if ! mount | grep -q "$mountpoint"; then
+            /sbin/mount_smbfs -N //samba@homelab:30445/code-stash "$mountpoint"
           fi
         ''
       ];
