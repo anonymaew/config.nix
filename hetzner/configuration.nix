@@ -6,6 +6,7 @@
   lib,
   pkgs,
   vars,
+  secrets-dir,
   ...
 }:
 {
@@ -15,15 +16,17 @@
   ];
 
   sops = {
-    defaultSopsFile = ../../secrets/hetzner.yaml;
+    defaultSopsFile = secrets-dir + "/hetzner.yaml";
     defaultSopsFormat = "yaml";
-    secrets.wg-server-private-key = {
+    secrets.wireguard-server-private-key = {
       owner = vars.name;
+      path = "/etc/wireguard/server.key";
     };
+    # Build-time decryption key (local age key)
+    age.keyFile = "/Users/napatsc/.config/sops/age/keys.txt";
     # Machine-side decryption: convert SSH host key to age key
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     age.generateKey = true;
-    age.keyFile = "/var/lib/sops-nix/key.txt";
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -35,6 +38,11 @@
     "nix-command"
     "flakes"
   ];
+  nix.settings.trusted-users = [ "root" "napatsc" ];
+  nix.settings.trusted-public-keys = [
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "builder:qPTpfl43MdQlIoXVLCvA0/II/esC9F2qhau7skLyV5Y="
+  ];
 
   networking.hostName = "hetzner-sg"; # Define your hostname.
 
@@ -43,16 +51,18 @@
     "net.ipv4.ip_unprivileged_port_start" = 80;
   };
   networking.enableIPv6 = true;
-  networking.wg-quick.interfaces."wg-server" = {
-    addresses = [ "10.0.0.1/24" ];
-    privatekeyFile = config.sops.secrets.wg-server-private-key.path;
-    listenPort = 51820;
-    peers = [
-      {
-        publicKey = "iY8CyFPbMe4aNlsqkKhHwTFRvIwqyAxMzUovSVhwTz8=";
-        allowedIPs = [ "10.0.0.2/32" ];
-      }
-    ];
+  networking.wireguard.interfaces = {
+    "wg-server" = {
+      ips = [ "10.0.0.1/24" ];
+      privateKeyFile = config.sops.secrets.wireguard-server-private-key.path;
+      listenPort = 51820;
+      peers = [
+        {
+          publicKey = "iY8CyFPbMe4aNlsqkKhHwTFRvIwqyAxMzUovSVhwTz8=";
+          allowedIPs = [ "10.0.0.2/32" ];
+        }
+      ];
+    };
   };
 
   networking.firewall = {

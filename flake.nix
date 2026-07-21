@@ -135,11 +135,13 @@
           ./homelab/configuration.nix
           sops-nix.nixosModules.sops
         ];
-        specialArgs = { inherit vars; };
+        specialArgs = { inherit vars; secrets-dir = self + "/secrets"; };
       };
       deploy.nodes.homelab = {
         hostname = "homelab";
+        interactiveSudo = true;
         profiles.system = {
+          sshUser = "napatsc";
           user = "root";
           path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.homelab;
         };
@@ -150,12 +152,11 @@
           ./hetzner/configuration.nix
           sops-nix.nixosModules.sops
         ];
-        specialArgs = { inherit vars; };
+        specialArgs = { inherit vars; secrets-dir = self + "/secrets"; };
       };
       deploy.nodes.hetzner-sg = {
         hostname = "hetzner-sg";
         interactiveSudo = true;
-        remoteBuild = true;
         profiles.system = {
           sshUser = "napatsc";
           user = "root";

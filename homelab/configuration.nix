@@ -1,11 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# and in the NixOS manual (accessible by running 'nixos-help').
 {
   config,
   lib,
   pkgs,
   vars,
+  secrets-dir,
   ...
 }:
 {
@@ -15,11 +16,14 @@
   ];
 
   sops = {
-    defaultSopsFile = ../../secrets/homelab.yaml;
+    defaultSopsFile = secrets-dir + "/homelab.yaml";
     defaultSopsFormat = "yaml";
     secrets.k3s-token.path = "/home/napatsc/token.txt";
     secrets.k3s-token.owner = vars.name;
-    secrets.wg-client-private-key = {
+    secrets.wireguard-client-private-key = {
+      owner = vars.name;
+    };
+    secrets.wireguard-client-endpoint = {
       owner = vars.name;
     };
     # Machine-side decryption: convert SSH host key to age key
@@ -29,7 +33,7 @@
   };
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
@@ -42,6 +46,7 @@
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "builder:qPTpfl43MdQlIoXVLCvA0/II/esC9F2qhau7skLyV5Y="
   ];
+  nix.settings.trusted-users = [ "root" "napatsc" ];
   # Disable substituting during cross-build from darwin (cache resolution can fail)
   nix.settings.builders-use-substitutes = lib.mkForce false;
 
@@ -51,11 +56,6 @@
 
   networking.hostName = "homelab"; # Define your hostname.
   # Enables wireless support via wpa_supplicant.
-
-  # networking.wg-quick.interfaces.client = {
-  #   autostart = true;
-  #   configFile = "/home/napatsc/client.conf";
-  # };
 
   # networking.wireless = {
   #   enable = true;
@@ -67,18 +67,23 @@
     "net.ipv4.ip_unprivileged_port_start" = 443;
   };
   networking.enableIPv6 = true;
-  networking.wg-quick.interfaces."wg-client" = {
-    addresses = [ "10.0.0.2/32" ];
-    privatekeyFile = config.sops.secrets.wg-client-private-key.path;
-    peers = [
-      {
-        publicKey = "3sGyxUcjFdl2iOUdP7Lx1iblAyQrAltplVc8kWm9mR0=";
-        allowedIPs = [ "10.0.0.1/32" ];
-        endpoint = lib.trim (builtins.readFile config.sops.secrets.wg-client-endpoint.path);
-        persistentKeepalive = 25;
-      }
-    ];
+
+
+  networking.wireguard.interfaces = {
+    "wg-client" = {
+      ips = [ "10.0.0.2/32" ];
+      privateKeyFile = config.sops.secrets.wireguard-client-private-key.path;
+      peers = [
+        {
+          publicKey = "P9wKaHV3uRFa+/t6oyvECnOel75XhYqdprTVGT8LJHo=";
+          allowedIPs = [ "10.0.0.1/32" ];
+          endpoint = "5.223.55.249:51820";
+          persistentKeepalive = 25;
+        }
+      ];
+    };
   };
+
   # systemd.user.services = {
   #   "podman.socket".enable = true;
   #   "podman-restart.service".enable = true;
@@ -141,13 +146,13 @@
   #
   #   # use the example session manager (no others are packaged yet so this is enabled by default,
   #   # no need to redefine it in your config for now)
-  #   #media-session.enable = true;
+  #   #audio-session.enable = true;
   # };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   users.users = {
     "${vars.name}" = {
       isNormalUser = true;
@@ -229,7 +234,7 @@
     wantedBy = [ "multi-user.target" ];
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
+  # Some programs need SUID wrappers, can be configured further, or are
   # started in user sessions.
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
