@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   home = {
     username = "napatsc";
     homeDirectory = "/Users/napatsc";
@@ -27,7 +28,7 @@
     docker-compose
     eza
     fastfetch
-    ffmpeg-full
+    ffmpeg
     fzf
     imagemagick
     inetutils
@@ -47,6 +48,13 @@
     android-tools
     # tailscale
 
+    # Fonts
+    inter
+    jetbrains-mono
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only
+    noto-fonts
+
     # GUI apps via brew-nix
     aerospace
     audacity
@@ -60,6 +68,7 @@
     steam-unwrapped
     # brewCasks.tailscale-app
 
+    brewCasks.slack
     brewCasks.zen
     zoom-us
     zotero
@@ -98,11 +107,6 @@
     ANSIBLE_CONFIG = "${config.xdg.configHome}/ansible/ansible.cfg";
   };
 
-  # home.packages = with pkgs; [
-  #   xdg-utils
-  #   xdg-user-dirs
-  # ];
-
   imports = [
     # ./programs/alacritty
     ./programs/direnv
@@ -117,6 +121,31 @@
     ./programs/taskwarrior
     ./programs/tmux
   ];
+
+  # SMB mount for k3s network storage (SMB NodePort 30445 → pod port 445)
+  # First time: mount manually with password to save to keychain:
+  #   mkdir -p ~/code/code-stash
+  #   mount -t smbfs //samba:YOUR_PASSWORD@homelab:30445/code-stash ~/code/code-stash
+  # After that, this agent auto-mounts on login (password from keychain).
+  launchd.agents.smb-code-stash = {
+    enable = true;
+    config = {
+      Label = "com.napatsc.smb-code-stash";
+      ProgramArguments = [
+        "/bin/sh"
+        "-c"
+        ''
+          mkdir -p ${config.home.homeDirectory}/code/code-stash
+          if ! mount | grep -q code-stash; then
+            /sbin/mount_smbfs //samba@homelab:30445/code-stash ${config.home.homeDirectory}/code/code-stash
+          fi
+        ''
+      ];
+      RunAtLoad = true;
+      StandardOutPath = "/tmp/smb-code-stash.log";
+      StandardErrorPath = "/tmp/smb-code-stash.log";
+    };
+  };
 
   sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
 }
