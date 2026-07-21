@@ -43,7 +43,6 @@
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "builder:qPTpfl43MdQlIoXVLCvA0/II/esC9F2qhau7skLyV5Y="
   ];
-
   networking.hostName = "hetzner-sg"; # Define your hostname.
 
   boot.kernel.sysctl = {
@@ -58,7 +57,7 @@
       listenPort = 51820;
       peers = [
         {
-          publicKey = "iY8CyFPbMe4aNlsqkKhHwTFRvIwqyAxMzUovSVhwTz8=";
+          publicKey = "73lxEoHgR6yO6KjyaX5bAtxh34u5QRna1T4x+sbE6AQ=";
           allowedIPs = [ "10.0.0.2/32" ];
         }
       ];

@@ -71,11 +71,11 @@
 
   networking.wireguard.interfaces = {
     "wg-client" = {
-      ips = [ "10.0.0.2/32" ];
+      ips = [ "10.0.0.2/24" ];
       privateKeyFile = config.sops.secrets.wireguard-client-private-key.path;
       peers = [
         {
-          publicKey = "P9wKaHV3uRFa+/t6oyvECnOel75XhYqdprTVGT8LJHo=";
+          publicKey = "OftSct+II9iOIEWXr7qOjfGmyu3zQGMXRHijAltyul4=";
           allowedIPs = [ "10.0.0.1/32" ];
           endpoint = "5.223.55.249:51820";
           persistentKeepalive = 25;
@@ -255,7 +255,8 @@
     6443 # k8s API
   ];
   networking.firewall.allowedUDPPorts = [
-    8472 # k3s, flannel
+    51820 # wireguard
+    8472  # k3s, flannel
   ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
