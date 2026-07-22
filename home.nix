@@ -63,6 +63,7 @@
     brewCasks.helium-browser
     inkscape
     localsend
+    brewCasks.markdown-preview
     mpv-unwrapped
     brewCasks.obs
     steam-unwrapped
