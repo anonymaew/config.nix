@@ -42,6 +42,10 @@
     "nix-command"
     "flakes"
   ];
+  nix.settings.auto-optimise-store = true;
+  nix.gc.automatic = true;
+  nix.gc.options = "--delete-generations +8";
+  nix.optimise.automatic = true;
   nix.settings.trusted-public-keys = [
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "builder:qPTpfl43MdQlIoXVLCvA0/II/esC9F2qhau7skLyV5Y="
