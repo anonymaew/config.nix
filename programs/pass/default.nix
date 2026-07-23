@@ -1,5 +1,8 @@
+# pass — password store
 { ... }: {
-  programs.password-store = {
-    enable = true;
+  flake.homeModules.pass = { ... }: {
+    programs.password-store = {
+      enable = true;
+    };
   };
 }

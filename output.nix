@@ -58,16 +58,21 @@ in
                 inputs.agent-skills.homeManagerModules.default
                 ./programs/skills
 
-                # Migrated programs (Phase 2) — registered via programs/ -> flake-parts
-                self.homeManagerModules.tmux
-                self.homeManagerModules.ghostty
-                self.homeManagerModules.starship
-                self.homeManagerModules.direnv
-                self.homeManagerModules.neovim
-                self.homeManagerModules.k9s
-                self.homeManagerModules.pi
-                self.homeManagerModules.taskwarrior
-                self.homeManagerModules.gnupg
+                # Programs — individual Home Manager modules
+                self.homeModules.yabai
+                self.homeModules.skhd
+                # self.homeModules.sketchybar # deactivated
+                self.homeModules.ghostty
+                self.homeModules.aerospace
+                self.homeModules.pass
+                self.homeModules.neovim
+                self.homeModules.tmux
+                self.homeModules.direnv
+                self.homeModules.starship
+                self.homeModules.taskwarrior
+                self.homeModules.gnupg
+                self.homeModules.pi
+                self.homeModules.k9s
               ];
             };
           };

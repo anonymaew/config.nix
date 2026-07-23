@@ -1,9 +1,12 @@
+# direnv — environment directory switcher
 { ... }: {
-  programs.direnv = {
-    enable = true;
-    silent = true;
-    nix-direnv.enable = true;
-    enableZshIntegration = true;
+  flake.homeModules.direnv = { ... }: {
+    programs.direnv = {
+      enable = true;
+      silent = true;
+      nix-direnv.enable = true;
+      enableZshIntegration = true;
+    };
+    xdg.configFile."direnv/direnvrc".source = ./direnvrc;
   };
-  xdg.configFile."direnv/direnvrc".source = ./direnvrc;
 }

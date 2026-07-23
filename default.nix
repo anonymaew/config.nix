@@ -6,7 +6,6 @@
   ...
 }:
 {
-  imports = import ./programs/darwin-default.nix;
   users.users.${vars.name} = {
     name = "${vars.name}";
     home = "/Users/${vars.name}";
@@ -15,9 +14,7 @@
 
   brew-nix.enable = true;
   nixpkgs.config.allowUnfree = true;
-  # nixpkgs.overlays = import ./overlays ++ [brew-nix.overlays.default];
 
-  # services.nix-daemon.enable = true;
   nix = {
     settings = {
       extra-experimental-features = [
@@ -34,5 +31,4 @@
     optimise.automatic = true;
     settings.auto-optimise-store = true;
   };
-
 }

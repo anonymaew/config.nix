@@ -1,19 +1,17 @@
-{
-  pkgs,
-  vars,
-  ...
-}:
-{
-  services.sketchybar = {
-    enable = true;
-    package = pkgs.sketchybar;
-    extraPackages = with pkgs; [
-      ifstat-legacy
-    ];
-  };
-  home-manager.users.${vars.name}.xdg.configFile."sketchybar" = {
-    source = ./config;
-    recursive = true;
-    onChange = "sketchybar --reload";
-  };
+# sketchybar — status bar for macOS
+# Deactivated — kept for later reactivation.
+{ ... }: {
+  # flake.homeModules.sketchybar = { pkgs, ... }: {
+  #   programs.sketchybar = {
+  #     enable = true;
+  #     package = pkgs.sketchybar;
+  #     extraPackages = with pkgs; [
+  #       ifstat-legacy
+  #     ];
+  #     config = {
+  #       source = ./config;
+  #       recursive = true;
+  #     };
+  #   };
+  # };
 }

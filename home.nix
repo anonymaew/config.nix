@@ -46,7 +46,6 @@
     wireguard-tools
     yt-dlp
     android-tools
-    # tailscale
 
     # Fonts
     inter
@@ -108,20 +107,7 @@
     ANSIBLE_CONFIG = "${config.xdg.configHome}/ansible/ansible.cfg";
   };
 
-  imports = [
-    # ./programs/alacritty
-    # ./programs/direnv — migrated to flake-parts
-    # ./programs/ghostty — migrated to flake-parts
-    # ./programs/gnupg — migrated to flake-parts
-    # ./programs/k9s — migrated to flake-parts
-    # ./programs/neovim — migrated to flake-parts
-    # ./programs/pi — migrated to flake-parts
-    # ./programs/nix-search
-    # ./programs/pass
-    # ./programs/starship — migrated to flake-parts
-    # ./programs/taskwarrior — migrated to flake-parts
-    # ./programs/tmux — migrated to flake-parts
-  ];
+  imports = [ ];
 
   # SMB mount for k3s network storage (SMB NodePort 30445 → pod port 445)
   # First time: mount manually with password to save to keychain:

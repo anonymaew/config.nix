@@ -47,7 +47,7 @@
   };
 
   outputs =
-    inputs@{ flake-parts, ... }:
+    inputs@{ flake-parts, home-manager, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "aarch64-darwin"
@@ -55,12 +55,12 @@
       ];
 
       imports = [
+        # Home Manager flake-parts module (declares flake.homeModules)
+        home-manager.flakeModules.home-manager
         # Existing output logic (darwin, nixos, deploy configs)
         ./output.nix
-        # Program modules (auto-discovered; populated in Phase 2)
+        # Program modules (each program is its own flake-parts module)
         ./programs
-        # Setup compositions (populated in Phase 3)
-        ./setups
       ];
     };
 }
