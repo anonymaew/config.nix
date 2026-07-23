@@ -26,8 +26,7 @@ in
     darwinConfigurations.macair = inputs.nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
-        ./default.nix
-        ./system.nix
+        ./hosts/macair
         inputs.brew-nix.darwinModules.default
         inputs.home-manager.darwinModules.home-manager
         inputs.mac-app-util.darwinModules.default
@@ -87,7 +86,7 @@ in
     nixosConfigurations.homelab = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ./homelab/configuration.nix
+        ./hosts/homelab
         inputs.sops-nix.nixosModules.sops
       ];
       specialArgs = {
@@ -99,7 +98,7 @@ in
     nixosConfigurations.hetzner-sg = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ./hetzner/configuration.nix
+        ./hosts/hetzner
         inputs.sops-nix.nixosModules.sops
       ];
       specialArgs = {

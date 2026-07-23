@@ -1,6 +1,7 @@
 # neovim — text editor
 { ... }: {
-  flake.homeModules.neovim = { pkgs, ... }:
+  flake.homeModules.neovim =
+    { pkgs, ... }:
     let
       sharedInit = ./init.lua;
     in

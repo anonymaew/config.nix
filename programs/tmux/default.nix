@@ -1,6 +1,7 @@
 # tmux — terminal multiplexer
 { ... }: {
-  flake.homeModules.tmux = { pkgs, ... }:
+  flake.homeModules.tmux =
+    { pkgs, ... }:
     let
       sharedConfig = ./tmux.conf;
     in

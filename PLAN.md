@@ -30,13 +30,15 @@
 │   ├── sketchybar/        # Deactivated (commented out in index)
 │   ├── skills/            # Own flake.nix — consumed as agent-skills input
 │   └── … (13 active program dirs, each exporting flake.homeModules.<name>)
-├── hosts/                 # Placeholders for host configs (Phase 4)
-│   ├── macair/
-│   ├── homelab/
-│   └── hetzner/
+├── hosts/                 # Host configurations
+│   ├── macair/default.nix               # Darwin config (users, nix, macOS defaults)
+│   ├── homelab/default.nix              # NixOS config (k3s, podman, wireguard)
+│   ├── homelab/hardware-configuration.nix
+│   ├── hetzner/default.nix              # NixOS config (k3s server, wireguard)
+│   └── hetzner/hardware-configuration.nix
 ├── users/napatsc/         # User-specific Home Manager config
-├── homelab/               # NixOS config (active)
-├── hetzner/               # NixOS config (active)
+├── homelab/               # (migrated to hosts/homelab/)
+├── hetzner/               # (migrated to hosts/hetzner/)
 ├── modules/               # Shared NixOS/darwin modules
 ├── overlays/              # Nixpkgs overlays
 └── secrets/               # SOPS-nix secrets
@@ -49,11 +51,26 @@
 | Phase 1 | ✅ | flake-parts foundation, `output.nix` conversion |
 | Phase 2 | ✅ | All 14 programs export via `flake.homeModules.*` |
 | Phase 3 | ✅ | Desktop programs converted to HM modules, `setups/` removed, dendritic refactor |
-| Phase 4 | ⏳ | Host configs (macair, homelab, hetzner) |
+| Phase 4 | ✅ | Host configs (macair, homelab, hetzner) |
 | Phase 5 | ⏳ | Migrate user config to `users/napatsc/` |
 | Phase 6 | ⏳ | Cleanup old files, README, testing |
 
 ---
+
+## What Changed in Phase 4
+
+| File/Dir | Change |
+|---|---|
+| `hosts/macair/default.nix` | Created — merged `default.nix` + `system.nix` into a single darwin host module |
+| `default.nix` | Removed — content moved to `hosts/macair/default.nix` |
+| `system.nix` | Removed — content moved to `hosts/macair/default.nix` |
+| `hosts/homelab/default.nix` | Replaced placeholder — moved from `homelab/configuration.nix` |
+| `hosts/homelab/hardware-configuration.nix` | Moved from `homelab/` |
+| `hosts/hetzner/default.nix` | Replaced placeholder — moved from `hetzner/configuration.nix` |
+| `hosts/hetzner/hardware-configuration.nix` | Moved from `hetzner/` |
+| `homelab/` | Removed — content migrated to `hosts/homelab/` |
+| `hetzner/` | Removed — content migrated to `hosts/hetzner/` |
+| `output.nix` | Updated module paths to `./hosts/<name>` instead of root files |
 
 ## What Changed in Phase 3
 
@@ -151,26 +168,15 @@ Unlike the old `self.homeManagerModules.*` approach, `self.homeModules.*` is saf
 
 ## Remaining Work
 
-### Phase 4: Create Host Configurations
+### Phase 4: Create Host Configurations ✅
 
-```
-hosts/macair/default.nix   — Darwin config, system-level
-hosts/homelab/default.nix  — NixOS config
-hosts/hetzner/default.nix  — NixOS config
-```
+All host configs consolidated:
 
-The `hosts/` directories exist as placeholders. Currently the darwin config lives in:
-
-- `output.nix` — darwinConfigurations.macair definition
-- `default.nix` — base system config (users, nix settings, brew-nix)
-- `system.nix` — macOS defaults (dock, keyboard, etc.)
-
-These should be consolidated into `hosts/macair/default.nix`.
-
-For NixOS hosts:
-
-- `homelab/` and `hetzner/` directories are active NixOS configs
-- They could be moved to `hosts/homelab/` and `hosts/hetzner/`
+- `hosts/macair/default.nix` — Darwin config (merged from `default.nix` + `system.nix`)
+- `hosts/homelab/default.nix` — NixOS config (moved from `homelab/configuration.nix`)
+- `hosts/hetzner/default.nix` — NixOS config (moved from `hetzner/configuration.nix`)
+- `output.nix` — Updated to reference `./hosts/<name>` paths
+- `default.nix`, `system.nix`, `homelab/`, `hetzner/` — Removed
 
 ### Phase 5: Migrate User Configuration (Optional)
 
@@ -184,7 +190,7 @@ Currently `home.nix` at the root contains shell aliases, env vars, and XDG confi
 
 ### Phase 6: Cleanup
 
-- Remove `output.nix`, `default.nix`, `system.nix`, `home.nix` once their content is migrated
+- Remove `output.nix`, `home.nix` once their content is migrated
 - Update `README.md`
 - Full testing on macair
 
@@ -226,8 +232,9 @@ Always `git add` new or modified files before running `darwin-rebuild`. The flak
 
 ### Testing Checklist
 
-- [x] `nix flake check` passes
+- [x] `nix flake check` passes (all configs validated)
 - [x] `darwin-rebuild switch --flake .` works on macair
+- [x] Host configs consolidated to `hosts/<name>/`
 - [ ] `nix run github:serokell/deploy-rs -- .#homelab` works
 - [ ] `nix run github:serokell/deploy-rs -- .#hetzner-sg` works
 - [ ] All programs are available in Home Manager
