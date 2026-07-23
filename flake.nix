@@ -4,7 +4,7 @@
   inputs = {
     # Nix Packages
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    # MacOS Spacific Packages
+    # MacOS Specific Packages
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,7 +33,6 @@
     };
     # for MacOS apps fix
     mac-app-util.url = "github:hraban/mac-app-util";
-
     deploy-rs.url = "github:serokell/deploy-rs";
     nix-rosetta-builder = {
       url = "github:cpick/nix-rosetta-builder";
@@ -43,7 +42,21 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Modular flake framework (officially recommended over flake-utils)
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = args: import ./output.nix args;
+  outputs = inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "aarch64-darwin" "x86_64-linux" ];
+
+      imports = [
+        # Existing output logic (darwin, nixos, deploy configs)
+        ./output.nix
+        # Program modules (auto-discovered; populated in Phase 2)
+        ./programs
+        # Setup compositions (populated in Phase 3)
+        ./setups
+      ];
+    };
 }
