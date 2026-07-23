@@ -45,6 +45,7 @@ in
             useGlobalPkgs = true;
             useUserPackages = true;
             extraSpecialArgs = {
+              inherit vars;
               secrets-dir = self + "/secrets";
               inherit (inputs) agent-skills;
             };
@@ -56,6 +57,17 @@ in
                 inputs.mac-app-util.homeManagerModules.default
                 inputs.agent-skills.homeManagerModules.default
                 ./programs/skills
+
+                # Migrated programs (Phase 2) — registered via programs/ -> flake-parts
+                self.homeManagerModules.tmux
+                self.homeManagerModules.ghostty
+                self.homeManagerModules.starship
+                self.homeManagerModules.direnv
+                self.homeManagerModules.neovim
+                self.homeManagerModules.k9s
+                self.homeManagerModules.pi
+                self.homeManagerModules.taskwarrior
+                self.homeManagerModules.gnupg
               ];
             };
           };

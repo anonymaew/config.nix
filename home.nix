@@ -110,17 +110,17 @@
 
   imports = [
     # ./programs/alacritty
-    ./programs/direnv
-    ./programs/ghostty
-    ./programs/gnupg
-    ./programs/k9s
-    ./programs/neovim
-    ./programs/pi
+    # ./programs/direnv — migrated to flake-parts
+    # ./programs/ghostty — migrated to flake-parts
+    # ./programs/gnupg — migrated to flake-parts
+    # ./programs/k9s — migrated to flake-parts
+    # ./programs/neovim — migrated to flake-parts
+    # ./programs/pi — migrated to flake-parts
     # ./programs/nix-search
     # ./programs/pass
-    ./programs/starship
-    ./programs/taskwarrior
-    ./programs/tmux
+    # ./programs/starship — migrated to flake-parts
+    # ./programs/taskwarrior — migrated to flake-parts
+    # ./programs/tmux — migrated to flake-parts
   ];
 
   # SMB mount for k3s network storage (SMB NodePort 30445 → pod port 445)

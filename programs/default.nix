@@ -1,31 +1,38 @@
-# Auto-discovery of program modules.
+# Auto-discovery of program modules for flake-parts.
 #
-# Each program is a flake-parts module that exports:
-#   - flake.homeManagerModules.<name>  — Home Manager module
-#   - flake.nixosModules.<name>        — NixOS/darwin module
+# This file defines flake.homeManagerModules — a set of Home Manager modules
+# for each program. Adding a converted program here makes it available via
+# `self.homeManagerModules.<name>` in other parts of the config.
 #
-# As each program is migrated to the flake-parts module format (Phase 2),
-# add its directory to the imports list below to auto-register it.
+# Each program directory contains a plain Home Manager module (not a flake-parts
+# module) in its default.nix. We aggregate them here into a single flake output.
 #
 # The skills directory is excluded because it has its own flake.nix and is
 # consumed as a separate flake input (agent-skills).
-{ ... }: {
-  imports = [
-    # Phase 2: Add converted programs here, e.g.:
-    # ./tmux
-    # ./ghostty
-    # ./starship
-    # ./direnv
-    # ./neovim
-    # ./k9s
-    # ./pi
-    # ./taskwarrior
-    # ./gnupg
-    # ./aerospace
-    # ./alacritty
-    # ./sketchybar
-    # ./skhd
-    # ./yabai
-    # ./pass
-  ];
+#
+# Phase 2 migration: as each program is converted, it's added here and
+# removed from home.nix's direct imports.
+{ inputs, ... }: {
+  flake.homeManagerModules = {
+    # ── Terminal programs ──
+    tmux    = import ./tmux;
+    ghostty = import ./ghostty;
+    starship = import ./starship;
+
+    # ── Dev tools ──
+    direnv    = import ./direnv;
+    neovim    = import ./neovim;
+    k9s        = import ./k9s;
+    pi         = import ./pi;
+    taskwarrior = import ./taskwarrior;
+    gnupg      = import ./gnupg;
+
+    # ── Desktop programs ──
+    aerospace  = import ./aerospace;
+    alacritty  = import ./alacritty;
+    sketchybar = import ./sketchybar;
+    skhd       = import ./skhd;
+    yabai      = import ./yabai;
+    pass       = import ./pass;
+  };
 }

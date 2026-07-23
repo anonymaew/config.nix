@@ -62,8 +62,8 @@
 
 ### Key Issues (Still Open)
 
-1. **Manual wiring** still in `output.nix` — will be dissolved into programs/setups/hosts in Phases 2-4
-2. **Programs still old-format** — imported directly by home.nix, not exposing `flake.homeManagerModules.*`
+1. **Manual wiring** still in `output.nix` — will be dissolved into programs/setups/hosts in Phases 3-4
+2. ~~**Programs still old-format** — imported directly by home.nix, not exposing `flake.homeManagerModules.*`~~ ✅ **Phase 2 complete** — all 15 programs export via `flake.homeManagerModules.*`, home.nix imports are empty
 3. **No top-level options yet** — no `myconfig` namespace defined
 4. **No setups populated** — all placeholders until Phase 3
 5. **Host dirs are empty** — all placeholders until Phase 4
@@ -221,26 +221,42 @@ A Nixpkgs module system usage pattern where:
 - flake-parts is used as `outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } { ... }`
 - `systems = [ "aarch64-darwin" "x86_64-linux" ]` covers both Mac and NixOS
 - The `output.nix` wraps existing outputs: `perSystem.formatter` + `flake.{darwinConfigurations,nixosConfigurations,deploy}`
-- `programs/default.nix` intentionally empty — programs will be migrated one at a time in Phase 2
+- `programs/default.nix` started empty in Phase 1 — now populated with all 15 Home Manager modules (Phase 2)
 - `setups/` and `hosts/` are placeholders — actual content comes in Phase 3 and Phase 4
 - `programs/skills/` is excluded from discovery because it has its own `flake.nix` and is consumed as a separate flake input (`agent-skills`)
 
-### Phase 2: Migrate Programs (One at a Time)
+### Phase 2: Migrate Programs ✅ (Completed 2026-07-23)
 
-For each program:
+**What was done:**
 
-1. Convert to flake-parts module format
-2. Add `flake.homeManagerModules.<name>` export
-3. Add `flake.nixosModules.<name>` if applicable
-4. Update `programs/default.nix` to include
-5. Test with `nix flake check`
+1. Converted all 15 programs to export via `flake.homeManagerModules.<name>`
+2. Programs remain as plain Home Manager modules in their own `default.nix` — aggregated by `programs/default.nix`
+3. Removed all direct program imports from `home.nix` (now empty `imports = [];`)
+4. All migrated programs referenced via `self.homeManagerModules.<name>` in `output.nix` home-manager imports
+5. Added `vars` to HM `extraSpecialArgs` for programs that need it (aerospace, sketchybar)
+6. Verified `nix flake check` passes ✅
 
-**Recommended order:**
+**Migrated programs (15 total):**
 
-1. tmux, ghostty, starship (terminal programs)
-2. neovim, direnv (dev tools)
-3. aerospace, k9s, pi
-4. Remaining programs
+| Batch | Programs |
+|-------|----------|
+| 1 (Terminal) | tmux, ghostty, starship |
+| 2 (Dev tools) | direnv, neovim |
+| 3 (Dev tools) | k9s, pi, taskwarrior, gnupg |
+| 4 (Desktop) | aerospace, alacritty, sketchybar, skhd, yabai, pass |
+
+**Key decisions made:**
+
+- Programs remain as **plain Home Manager modules** (not flake-parts modules) — simplifies the migration and keeps each program file focused
+- `programs/default.nix` is now the **aggregation point** — it defines the single `flake.homeManagerModules` attrset by importing each program's default.nix
+- `home.nix` no longer imports any program modules — all 9 active programs are imported via `self.homeManagerModules.*` in `output.nix`
+- The 6 desktop programs (aerospace, alacritty, sketchybar, skhd, yabai, pass) are registered but not yet imported into any active config — they'll be wired into setups in Phase 3
+- `nixosModules` exports are deferred to Phase 3 (setups) where server-specific NixOS modules will be added
+
+**Deviations from original plan:**
+
+- The plan suggested converting each program to a **flake-parts module** that exports `flake.homeManagerModules.<name>`. In practice, flake-parts cannot auto-merge `homeManagerModules` sub-attrsets across multiple modules. Instead, programs stay as plain HM modules and are aggregated in `programs/default.nix`.
+- `programs/default.nix` imports are NOT used for sub-module imports — the file defines `flake.homeManagerModules` directly.
 
 ### Phase 3: Create Setups
 
@@ -582,6 +598,9 @@ The next agent should invoke these skills:
 
 - [x] `nix flake check` passes (Phase 1 ✅)
 - [x] `nix flake show` shows all outputs correctly (Phase 1 ✅)
+- [x] `nix flake check` passes (Phase 2 ✅)
+- [x] All 15 programs exported via `flake.homeManagerModules.*` (Phase 2 ✅)
+- [x] All 9 active programs removed from home.nix and wired via `self.homeManagerModules.*` (Phase 2 ✅)
 - [ ] `darwin-rebuild switch --flake .` works on macair
 - [ ] `nix run github:serokell/deploy-rs -- .#homelab` works
 - [ ] `nix run github:serokell/deploy-rs -- .#hetzner-sg` works
@@ -594,8 +613,8 @@ The next agent should invoke these skills:
 ## Timeline (Estimated)
 
 - **Week 1 (Done ✅):** Foundation setup completed 2026-07-23
-- **Week 1-2:** Migrate 5-6 programs (Phase 2)
-- **Week 3:** Migrate remaining programs + create setups (Phase 2-3)
+- **Week 1-2 (Done ✅):** Migrate all 15 programs (Phase 2 completed 2026-07-23)
+- **Week 3:** Create setups (Phase 3)
 - **Week 4:** Create host configurations + migrate user config (Phase 4-5)
 - **Week 5:** Cleanup + testing + documentation (Phase 6)
 
