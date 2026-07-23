@@ -50,7 +50,10 @@
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "builder:qPTpfl43MdQlIoXVLCvA0/II/esC9F2qhau7skLyV5Y="
   ];
-  nix.settings.trusted-users = [ "root" "napatsc" ];
+  nix.settings.trusted-users = [
+    "root"
+    "napatsc"
+  ];
   # Disable substituting during cross-build from darwin (cache resolution can fail)
   nix.settings.builders-use-substitutes = lib.mkForce false;
 
@@ -71,7 +74,6 @@
     "net.ipv4.ip_unprivileged_port_start" = 443;
   };
   networking.enableIPv6 = true;
-
 
   networking.wireguard.interfaces = {
     "wg-client" = {
@@ -260,7 +262,7 @@
   ];
   networking.firewall.allowedUDPPorts = [
     51820 # wireguard
-    8472  # k3s, flannel
+    8472 # k3s, flannel
   ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

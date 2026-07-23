@@ -85,7 +85,10 @@ in
         ./homelab/configuration.nix
         inputs.sops-nix.nixosModules.sops
       ];
-      specialArgs = { inherit vars; secrets-dir = self + "/secrets"; };
+      specialArgs = {
+        inherit vars;
+        secrets-dir = self + "/secrets";
+      };
     };
 
     nixosConfigurations.hetzner-sg = inputs.nixpkgs.lib.nixosSystem {
@@ -94,7 +97,10 @@ in
         ./hetzner/configuration.nix
         inputs.sops-nix.nixosModules.sops
       ];
-      specialArgs = { inherit vars; secrets-dir = self + "/secrets"; };
+      specialArgs = {
+        inherit vars;
+        secrets-dir = self + "/secrets";
+      };
     };
 
     deploy.nodes.homelab = {

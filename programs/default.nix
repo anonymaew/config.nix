@@ -15,24 +15,24 @@
 { inputs, ... }: {
   flake.homeManagerModules = {
     # ── Terminal programs ──
-    tmux    = import ./tmux;
+    tmux = import ./tmux;
     ghostty = import ./ghostty;
     starship = import ./starship;
 
     # ── Dev tools ──
-    direnv    = import ./direnv;
-    neovim    = import ./neovim;
-    k9s        = import ./k9s;
-    pi         = import ./pi;
+    direnv = import ./direnv;
+    neovim = import ./neovim;
+    k9s = import ./k9s;
+    pi = import ./pi;
     taskwarrior = import ./taskwarrior;
-    gnupg      = import ./gnupg;
+    gnupg = import ./gnupg;
 
     # ── Desktop programs ──
-    aerospace  = import ./aerospace;
-    alacritty  = import ./alacritty;
+    aerospace = import ./aerospace;
+    alacritty = import ./alacritty;
     sketchybar = import ./sketchybar;
-    skhd       = import ./skhd;
-    yabai      = import ./yabai;
-    pass       = import ./pass;
+    skhd = import ./skhd;
+    yabai = import ./yabai;
+    pass = import ./pass;
   };
 }
