@@ -5,26 +5,25 @@
   config,
   lib,
   pkgs,
-  vars,
-  secrets-dir,
   ...
 }:
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/identity.nix
   ];
 
   sops = {
-    defaultSopsFile = secrets-dir + "/homelab.yaml";
+    defaultSopsFile = ../../secrets + "/homelab.yaml";
     defaultSopsFormat = "yaml";
     secrets.k3s-token.path = "/home/napatsc/token.txt";
-    secrets.k3s-token.owner = vars.name;
+    secrets.k3s-token.owner = config.user.username;
     secrets.wireguard-client-private-key = {
-      owner = vars.name;
+      owner = config.user.username;
     };
     secrets.wireguard-client-endpoint = {
-      owner = vars.name;
+      owner = config.user.username;
     };
     # Machine-side decryption: convert SSH host key to age key
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
@@ -160,7 +159,7 @@
 
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.users = {
-    "${vars.name}" = {
+    "${config.user.username}" = {
       isNormalUser = true;
       extraGroups = [
         "wheel"

@@ -16,5 +16,8 @@
     ./skhd
     ./yabai
     ./pass
+    ./git
+    ./shell
+    ./skills
   ];
 }

@@ -1,11 +1,14 @@
 # pi — AI coding agent for the terminal
-{ ... }: {
+{ ... }:
+let
+  secrets-dir = ../../secrets;
+in
+{
   flake.homeModules.pi =
     {
       pkgs,
       config,
       lib,
-      secrets-dir,
       ...
     }:
     {

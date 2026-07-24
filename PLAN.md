@@ -20,26 +20,26 @@
 
 ```
 .
-├── flake.nix              # flake-parts entry point + HM flake-parts module
-├── output.nix             # flake-parts module — darwin/nixos/deploy configs
-├── default.nix            # Darwin base config (users, brew-nix, nix settings)
-├── system.nix             # macOS system defaults
-├── home.nix               # Home Manager — packages, shell, env vars, SMB mount
-├── programs/
-│   ├── default.nix        # Imports index — each program is its own flake-parts module
-│   ├── sketchybar/        # Deactivated (commented out in index)
-│   ├── skills/            # Own flake.nix — consumed as agent-skills input
-│   └── … (13 active program dirs, each exporting flake.homeModules.<name>)
+├── flake.nix              # flake-parts entry point (imports modules, programs)
+├── output.nix             # deploy-rs config only
+├── modules/               # Feature modules (flake-parts)
+│   ├── identity.nix       # User identity options + deferredModule for HM/nixos
+│   ├── darwin.nix         # nix-darwin config (reads from flake-parts options)
+│   ├── nixos.nix          # NixOS configs (reads from flake-parts options)
+│   └── default.nix        # Imports all modules
+├── programs/              # Program modules (each exports flake.homeModules.<name>)
+│   ├── default.nix        # Imports index
+│   ├── git/               # Git tool config (delta, pager, merge style, lfs)
+│   ├── shell/             # Zsh + conditional aliases/session vars
+│   ├── skills/            # Agent skills (own flake.nix, consumed as input)
+│   └── … (16 active program dirs)
 ├── hosts/                 # Host configurations
-│   ├── macair/default.nix               # Darwin config (users, nix, macOS defaults)
+│   ├── macair/default.nix               # Darwin config (brew-nix, nix, macOS defaults)
 │   ├── homelab/default.nix              # NixOS config (k3s, podman, wireguard)
 │   ├── homelab/hardware-configuration.nix
 │   ├── hetzner/default.nix              # NixOS config (k3s server, wireguard)
 │   └── hetzner/hardware-configuration.nix
-├── users/napatsc/         # User-specific Home Manager config
-├── homelab/               # (migrated to hosts/homelab/)
-├── hetzner/               # (migrated to hosts/hetzner/)
-├── modules/               # Shared NixOS/darwin modules
+├── users/napatsc/         # HM core (packages, SMB mount, sops)
 ├── overlays/              # Nixpkgs overlays
 └── secrets/               # SOPS-nix secrets
 ```
@@ -52,7 +52,7 @@
 | Phase 2 | ✅ | All 14 programs export via `flake.homeModules.*` |
 | Phase 3 | ✅ | Desktop programs converted to HM modules, `setups/` removed, dendritic refactor |
 | Phase 4 | ✅ | Host configs (macair, homelab, hetzner) |
-| Phase 5 | ⏳ | Migrate user config to `users/napatsc/` |
+| Phase 5 | ✅ | Migrate user config + dendritic refactor (no specialArgs) |
 | Phase 6 | ⏳ | Cleanup old files, README, testing |
 
 ---
@@ -89,14 +89,14 @@
 | `home.nix` | kubectl, kubernetes-helm added back |
 | `default.nix` | Removed `./programs/darwin-default.nix` import |
 
-### Active Programs on macair (14 total)
+### Active Programs on macair (17 total)
 
 | Group | Programs |
 |-------|----------|
 | Desktop | yabai, skhd, ghostty, aerospace, pass |
-| Dev | neovim, tmux, direnv, starship, taskwarrior, gnupg, pi |
+| Dev | neovim, tmux, direnv, starship, taskwarrior, gnupg, pi, git, shell |
 | K8s | k9s |
-| Terminal | (shared under dev/desktop) |
+| Agent | skills |
 
 ### Deactivated Programs
 
@@ -164,6 +164,36 @@ This is the proper dendritic pattern: every file is a flake-parts module.
 
 Unlike the old `self.homeManagerModules.*` approach, `self.homeModules.*` is safe to use because the option is declared and mergeable. Each program module defines `flake.homeModules.<name>`, and the host references `self.homeModules.<name>` in the imports list. There's no self-reference because no module reads `self.homeModules` while defining it.
 
+### 6. Dendritic Pattern: No specialArgs/extraSpecialArgs
+
+The dendritic pattern ([mightyiam/dendritic](https://github.com/mightyiam/dendritic)) explicitly states:
+
+> "Values share through let bindings and flake-parts options, never through specialArgs or extraSpecialArgs."
+
+**Implementation:**
+
+- User identity defined as flake-parts options in `modules/identity.nix`
+- Lower-level modules (nix-darwin, HM) use `deferredModule` type
+- Configurations read from `config.*` — no argument passing
+- `output.nix` simplified to just deploy-rs
+
+**Before:**
+
+```nix
+# SpecialArgs passes values implicitly
+specialArgs = { inherit vars; };
+extraSpecialArgs = { user = { ... }; };
+```
+
+**After:**
+
+```nix
+# Values flow through config.*
+config.darwin.modules.identity  # nix-darwin reads from flake-parts
+config.nixos.modules.identity   # NixOS reads from flake-parts
+config.home.modules.git         # HM reads from flake-parts
+```
+
 ---
 
 ## Remaining Work
@@ -178,31 +208,61 @@ All host configs consolidated:
 - `output.nix` — Updated to reference `./hosts/<name>` paths
 - `default.nix`, `system.nix`, `homelab/`, `hetzner/` — Removed
 
-### Phase 5: Migrate User Configuration (Optional)
+### Phase 5: Migrate User Configuration ✅
 
-```
-users/napatsc/default.nix   — Home Manager config
-users/napatsc/git.nix       — Git-specific config
-users/napatsc/shell.nix     — Shell aliases, env vars
-```
+User config migrated to dendritic pattern — no specialArgs, all values flow through `config.*`:
 
-Currently `home.nix` at the root contains shell aliases, env vars, and XDG config. This could be migrated to `users/napatsc/`. The `users/napatsc/` directory already exists and is imported in `output.nix`.
+| File | Content |
+|------|---------|
+| `modules/identity.nix` | User identity options (name, email, pgpKey) + deferredModule for HM/nixos |
+| `modules/darwin.nix` | nix-darwin config (reads from flake-parts options) |
+| `modules/nixos.nix` | NixOS configs (reads from flake-parts options) |
+| `modules/default.nix` | Imports all feature modules |
+| `programs/git/default.nix` | Git tool config (delta, pager, merge style, lfs) |
+| `programs/shell/default.nix` | Zsh + conditional aliases/session vars |
+| `users/napatsc/default.nix` | HM core (packages, SMB mount, sops) |
+
+**Changes:**
+
+- `home.nix` deleted from root
+- `modules/identity.nix` created — user identity as flake-parts options with `deferredModule`
+- `modules/darwin.nix` created — nix-darwin config reads from `config.darwin.modules.*`
+- `modules/nixos.nix` created — NixOS configs read from `config.nixos.modules.*`
+- `modules/default.nix` updated — imports identity, darwin, nixos modules
+- `programs/git/default.nix` simplified — identity moved to modules/identity.nix
+- `programs/shell/default.nix` created — zsh, aliases, session vars (conditional on package presence)
+- `output.nix` simplified — just deploy-rs (nix-darwin/NixOS configs moved to modules)
+- `hosts/macair/default.nix` updated — uses `config.user.username`
+- `hosts/homelab/default.nix` updated — uses `config.user.username`, hardcoded secrets path
+- `hosts/hetzner/default.nix` updated — uses `config.user.username`, hardcoded secrets path
+
+**Key design decisions:**
+
+1. **No specialArgs/extraSpecialArgs** — Values flow through `config.*` (dendritic pattern)
+2. **User identity as flake-parts options** — `modules/identity.nix` defines `options.user.*`
+3. **Lower-level modules via `deferredModule`** — nix-darwin/HM configs are option values, not imports
+4. **Shell aliases conditional** — `lib.mkIf (hasPackage "...")` so aliases only appear when tools are installed
+5. **Secrets path hardcoded** — `../../secrets` in each host (removed `secrets-dir` from specialArgs)
 
 ### Phase 6: Cleanup
 
-- Remove `output.nix`, `home.nix` once their content is migrated
-- Update `README.md`
-- Full testing on macair
+- [x] `home.nix` removed
+- [x] `README.md` updated
+- [ ] Remove unused `modules/skhd.nix`
+- [ ] Full testing on macair (`darwin-rebuild switch --flake .`)
+- [ ] Test deploy-rs on homelab/hetzner
 
 ### Other Open Items
 
 | Issue | Status | Notes |
 |-------|--------|-------|
-| Top-level options (`myconfig`) | Not started | Could replace `extraSpecialArgs` pattern |
-| Auto-discovery for programs | Not started | Manual list works fine for 14 programs |
+| Top-level options (`myconfig`) | Done | Replaced with `options.user.*` in `modules/identity.nix` |
+| `extraSpecialArgs` removal | Done | All values flow through `config.*` (dendritic pattern) |
+| `specialArgs` removal | Done | All values flow through `config.*` |
+| Auto-discovery for programs | Not started | Manual list works fine for 17 programs |
 | `programs/skills/` integration | Done | Consumed as both flake input + HM import |
 | Overlays migration | Not started | Currently in `overlays/default.nix` |
-| brew-nix in flake-parts | Works | Imported via `inputs.brew-nix.darwinModules.default` |
+| brew-nix in flake-parts | Done | Imported via `inputs.brew-nix.darwinModules.default` |
 
 ---
 
@@ -224,7 +284,7 @@ Currently `home.nix` at the root contains shell aliases, env vars, and XDG confi
 | `The option ... was accessed but has no value defined` | Module accesses `config` before it's set | Check option dependencies, provide a default |
 | `option defined multiple times while it's expected to be unique` | Two modules define the same undeclared flake output | Use a declared option (like `flake.homeModules` from HM flake-parts module) |
 | `attribute 'pkgs' missing` | `pkgs` used outside `perSystem` context | Keep `pkgs`-dependent logic inside HM module args |
-| `attribute 'secrets-dir' missing` | `secrets-dir` not in `extraSpecialArgs` or module args | Ensure `secrets-dir` is in both `extraSpecialArgs` and the module function signature |
+| `module does not look like a module` | Importing a list instead of a module | Ensure imports return attribute sets, not lists |
 
 ### Git Hygiene
 

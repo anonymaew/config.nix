@@ -5,21 +5,20 @@
   config,
   lib,
   pkgs,
-  vars,
-  secrets-dir,
   ...
 }:
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/identity.nix
   ];
 
   sops = {
-    defaultSopsFile = secrets-dir + "/hetzner.yaml";
+    defaultSopsFile = ../../secrets + "/hetzner.yaml";
     defaultSopsFormat = "yaml";
     secrets.wireguard-server-private-key = {
-      owner = vars.name;
+      owner = config.user.username;
       path = "/etc/wireguard/server.key";
     };
     # Build-time decryption key (local age key)
@@ -114,7 +113,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users = {
-    "${vars.name}" = {
+    "${config.user.username}" = {
       isNormalUser = true;
       linger = true;
       extraGroups = [ "wheel" ];

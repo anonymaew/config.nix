@@ -57,6 +57,8 @@
       imports = [
         # Home Manager flake-parts module (declares flake.homeModules)
         home-manager.flakeModules.home-manager
+        # Feature modules (each is a flake-parts module)
+        ./modules
         # Existing output logic (darwin, nixos, deploy configs)
         ./output.nix
         # Program modules (each program is its own flake-parts module)

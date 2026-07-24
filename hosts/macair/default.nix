@@ -1,18 +1,10 @@
 {
+  config,
   pkgs,
-  vars,
   lib,
-  brew-nix,
   ...
 }:
 {
-  # ── Users ──────────────────────────────────────────────────────────
-  users.users.${vars.name} = {
-    name = "${vars.name}";
-    home = "/Users/${vars.name}";
-    shell = pkgs.zsh;
-  };
-
   # ── Brew-Nix ──────────────────────────────────────────────────────
   brew-nix.enable = true;
 
@@ -39,7 +31,6 @@
   # ── macOS system defaults ─────────────────────────────────────────
   system = {
     stateVersion = 7;
-    primaryUser = vars.name;
 
     defaults = {
       dock = {
