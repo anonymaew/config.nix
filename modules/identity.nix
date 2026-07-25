@@ -21,7 +21,7 @@ let
       };
       pgpKey = lib.mkOption {
         type = lib.types.singleLineStr;
-        default = "74C4 EA31 DDE9 7553 0A15  B036 A46D 60E5 7550 D198";
+        default = "6092 759D C395 82FC 366A  83A8 92DD 8B79 5345 9405";
         description = "User's PGP key fingerprint";
       };
     };
@@ -66,6 +66,9 @@ in
       name = user.fullName;
       inherit (user) email;
     };
-    programs.git.signing.key = user.pgpKey;
+    programs.git.signing = {
+      key = user.pgpKey;
+      signByDefault = true;
+    };
   };
 }

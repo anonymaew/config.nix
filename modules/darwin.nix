@@ -44,10 +44,6 @@ in
       {
         nix-rosetta-builder.onDemand = true;
       }
-      # Apply overlays (ld64 hardening fix, etc.)
-      {
-        nixpkgs.overlays = import (rootPath + "/overlays/default.nix");
-      }
       # User identity (from flake-parts options via deferredModule)
       config.darwin.modules.identity
       (
@@ -89,7 +85,6 @@ in
                 self.homeModules.k9s
                 self.homeModules.git
                 self.homeModules.shell
-                self.homeModules.skills
               ];
             };
           };

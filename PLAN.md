@@ -53,7 +53,30 @@
 | Phase 3 | ✅ | Desktop programs converted to HM modules, `setups/` removed, dendritic refactor |
 | Phase 4 | ✅ | Host configs (macair, homelab, hetzner) |
 | Phase 5 | ✅ | Migrate user config + dendritic refactor (no specialArgs) |
-| Phase 6 | ⏳ | Cleanup old files, README, testing |
+| Phase 6 | ✅ | Cleanup old files, README, testing |
+
+---
+
+## What Changed (Post-Phase 6)
+
+| File/Dir | Change |
+|---|---|
+| `overlays/` | Removed — no overlays in use |
+| `programs/default.nix` | Converted to auto-discovery (uses `builtins.readDir`) |
+| `AGENTS.md` | Created — guide for AI agents |
+
+---
+
+## What Changed in Phase 6
+
+| File/Dir | Change |
+|---|---|
+| `modules/skhd.nix` | Removed — skhd config lives in `programs/skhd/default.nix` |
+| `programs/darwin-default.nix` | Removed — unused legacy file |
+| `programs/bat/` | Removed — empty placeholder directory |
+| `programs/nix-search/` | Removed — empty placeholder directory |
+| `programs/tailscale/` | Removed — empty placeholder directory |
+| `programs/fastfetch/` | Removed — config file unused (fastfetch installed as package only) |
 
 ---
 
@@ -244,13 +267,16 @@ User config migrated to dendritic pattern — no specialArgs, all values flow th
 4. **Shell aliases conditional** — `lib.mkIf (hasPackage "...")` so aliases only appear when tools are installed
 5. **Secrets path hardcoded** — `../../secrets` in each host (removed `secrets-dir` from specialArgs)
 
-### Phase 6: Cleanup
+### Phase 6: Cleanup ✅
 
 - [x] `home.nix` removed
 - [x] `README.md` updated
-- [ ] Remove unused `modules/skhd.nix`
-- [ ] Full testing on macair (`darwin-rebuild switch --flake .`)
-- [ ] Test deploy-rs on homelab/hetzner
+- [x] Remove unused `modules/skhd.nix`
+- [x] Remove unused `programs/darwin-default.nix`
+- [x] Remove empty placeholder directories (`bat`, `nix-search`, `tailscale`, `fastfetch`)
+- [x] `nix flake check` passes
+- [x] Full testing on macair (`sudo darwin-rebuild switch --flake .`)
+- [x] Test deploy-rs on homelab/hetzner
 
 ### Other Open Items
 
@@ -259,10 +285,11 @@ User config migrated to dendritic pattern — no specialArgs, all values flow th
 | Top-level options (`myconfig`) | Done | Replaced with `options.user.*` in `modules/identity.nix` |
 | `extraSpecialArgs` removal | Done | All values flow through `config.*` (dendritic pattern) |
 | `specialArgs` removal | Done | All values flow through `config.*` |
-| Auto-discovery for programs | Not started | Manual list works fine for 17 programs |
+| Auto-discovery for programs | Done | `programs/default.nix` auto-discovers directories |
 | `programs/skills/` integration | Done | Consumed as both flake input + HM import |
-| Overlays migration | Not started | Currently in `overlays/default.nix` |
+| Overlays removal | Done | Removed — no overlays in use |
 | brew-nix in flake-parts | Done | Imported via `inputs.brew-nix.darwinModules.default` |
+| AGENTS.md | Done | Guide for AI agents working on this repo |
 
 ---
 
@@ -295,10 +322,10 @@ Always `git add` new or modified files before running `darwin-rebuild`. The flak
 - [x] `nix flake check` passes (all configs validated)
 - [x] `darwin-rebuild switch --flake .` works on macair
 - [x] Host configs consolidated to `hosts/<name>/`
-- [ ] `nix run github:serokell/deploy-rs -- .#homelab` works
-- [ ] `nix run github:serokell/deploy-rs -- .#hetzner-sg` works
-- [ ] All programs are available in Home Manager
-- [ ] Host-specific overrides work as expected
+- [x] `nix run github:serokell/deploy-rs -- .#homelab` works
+- [x] `nix run github:serokell/deploy-rs -- .#hetzner-sg` works
+- [x] All programs are available in Home Manager
+- [x] Host-specific overrides work as expected
 
 ---
 
