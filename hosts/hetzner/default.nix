@@ -78,6 +78,8 @@
       6443 # k3s API
       2379 # k3s, etcd clients
       2380 # k3s, etcd peers
+      9100 # node-exporter (node metrics)
+      10250 # kubelet (metrics, kubectl logs/exec)
     ];
     allowedUDPPorts = [
       443
@@ -140,7 +142,6 @@
   virtualisation = {
     containers = {
       # enable = true;
-      registries.search = [ "docker.io" ];
     };
     oci-containers.backend = "podman";
     podman = {

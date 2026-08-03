@@ -206,7 +206,6 @@
   virtualisation = {
     containers = {
       enable = true;
-      registries.search = [ "docker.io" ];
     };
     oci-containers.backend = "podman";
     podman = {
@@ -258,6 +257,8 @@
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
     6443 # k8s API
+    9100 # node-exporter (node metrics)
+    10250 # kubelet (metrics, kubectl logs/exec)
   ];
   networking.firewall.allowedUDPPorts = [
     51820 # wireguard
