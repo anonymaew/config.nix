@@ -48,9 +48,33 @@
       vercel-skills,
       ...
     }:
+    let
+      skillSources = {
+        codebase-design.source = mattpocock-skills;
+        domain-modeling.source = mattpocock-skills;
+        grill-me.source = mattpocock-skills;
+        grill-with-docs.source = mattpocock-skills;
+        handoff.source = mattpocock-skills;
+        improve-codebase-architecture.source = mattpocock-skills;
+        tdd.source = mattpocock-skills;
+        teach.source = mattpocock-skills;
+        writing-great-skills.source = mattpocock-skills;
+        agent-browser.source = agent-browser;
+        find-skills.source = vercel-skills;
+        camoufox-cli.source = camoufox-cli;
+        search-engine.source = ns-skills;
+      };
+    in
     {
-      # Re-export the home-manager module
-      homeManagerModules.default = agent-skills-nix.homeManagerModules.default;
+      # Merged home-manager module: imports the remote agent-skills-nix module
+      # (which defines options) then applies the local skill configuration.
+      homeManagerModules.default = { ... }: {
+        imports = [ agent-skills-nix.homeManagerModules.default ];
+        programs.agent-skills = {
+          enable = true;
+          skills = skillSources;
+        };
+      };
 
       # Expose skill sources for use in the main flake
       inherit

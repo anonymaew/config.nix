@@ -3,11 +3,11 @@
     "agent-browser": {
       "flake": false,
       "locked": {
-        "lastModified": 1783520190,
-        "narHash": "sha256-2x5/Nc5KCrgk9dYXur7y9Y9z4JzcJVW4WSYWarcL61k=",
+        "lastModified": 1785714801,
+        "narHash": "sha256-hQKr6s8gqaDm4AVbQomd1TMZcowOGCVNF5DnuIm/fCs=",
         "owner": "vercel-labs",
         "repo": "agent-browser",
-        "rev": "afae698a51242166170b6fe4809dd57fe9f75798",
+        "rev": "01c1147da66940c034a5ccea497447e52c2f6dfe",
         "type": "github"
       },
       "original": {
@@ -111,11 +111,11 @@
     "camoufox-cli": {
       "flake": false,
       "locked": {
-        "lastModified": 1781794163,
-        "narHash": "sha256-+kmsUEOfvwhm2Fi+bj7+YNYGL6NDDGCsNijKqt/vSXY=",
+        "lastModified": 1784536187,
+        "narHash": "sha256-e1nC3fUrjWcgWq6rv6/7gNEbV2Fl42nBe/haBKxyuH4=",
         "owner": "bin-huang",
         "repo": "camoufox-cli",
-        "rev": "27232524aaf417e429f21dac8caa7d4df03197fd",
+        "rev": "6d80537669f12cd7f71f31c70a0c83287566ad8d",
         "type": "github"
       },
       "original": {
@@ -300,11 +300,11 @@
     "mattpocock-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1783516840,
-        "narHash": "sha256-XqF709Y9GMKINzZITlbCTyatG9AxRZh0qn2vcv1Z8yo=",
+        "lastModified": 1785230297,
+        "narHash": "sha256-dQtG6usJWlg/FqTajrjcs8GSdymH92WsgLiUaCfvKPA=",
         "owner": "mattpocock",
         "repo": "skills",
-        "rev": "d574778f94cf620fcc8ce741584093bc650a61d3",
+        "rev": "2ab958093e83e0ec752e6c1c5932da465bf23e0c",
         "type": "github"
       },
       "original": {
@@ -482,11 +482,11 @@
     "ns-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1784021240,
-        "narHash": "sha256-1afTlgY5f2eMOVyQHdRJBCdukIoFIZl+q7pug8YjB2I=",
+        "lastModified": 1785730699,
+        "narHash": "sha256-ujD180gHvwlD5zn1OjkfsgtrRUGA5zBlbi/U+jP6Y4U=",
         "ref": "refs/heads/master",
-        "rev": "9cc8c1f42333a697cc9d2c27d9d94c09d56e2278",
-        "revCount": 9,
+        "rev": "06794f47f23bf0ed771eddfd0235ebaf213800d2",
+        "revCount": 11,
         "type": "git",
         "url": "https://git.napatsc.com/ns/skills"
       },
@@ -632,11 +632,11 @@
     "vercel-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1783395170,
-        "narHash": "sha256-dMz4M7WAtjlKVrEePsPbS6v4EV6VpG5wBKUrysAIhYw=",
+        "lastModified": 1785480236,
+        "narHash": "sha256-rj+GpxLDl1S3RoilqC7zlPpnGdMGDmIVVbq25U2pbuE=",
         "owner": "vercel-labs",
         "repo": "skills",
-        "rev": "4ce6d48ac44c8b637db87b2102fea3baca719df1",
+        "rev": "1164afa5f0e21ebd01e6fc11249759353f494ad1",
         "type": "github"
       },
       "original": {
