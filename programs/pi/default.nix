@@ -22,7 +22,7 @@ in
 
         settings = {
           defaultProvider = "opencode-go";
-          defaultModel = "mimo-v2.5";
+          defaultModel = "deepseek-v4-flash";
           defaultThinkingLevel = "high";
           theme = "dark";
           shellCommandPrefix = "export SEARXNG_URL='https://search.napatsc.net'";
