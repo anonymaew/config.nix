@@ -17,7 +17,7 @@
           ltex-ls
           lua-language-server
           nil
-          oxlint
+          # oxlint
           ruff
           rust-analyzer
           svelte-language-server

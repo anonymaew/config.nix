@@ -1,0 +1,21 @@
+# ghostty — GPU-accelerated terminal emulator
+# See https://ghostty.org/docs/config/reference
+
+# Theme (dark/light variants)
+theme = dark:Catppuccin Mocha,light:Catppuccin Latte
+
+# Font
+font-family = JetBrains Mono, Anuphan
+font-feature = -calt, -liga, -dlig
+
+# Window
+macos-titlebar-style = hidden
+window-padding-x = 6
+window-padding-y = 6
+
+# Background
+background-blur = true
+background-opacity = 0.8
+
+# no bar cursor on shell
+shell-integration-features = no-cursor

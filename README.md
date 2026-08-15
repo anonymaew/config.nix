@@ -36,3 +36,16 @@ nix run github:serokell/deploy-rs -- .#hetzner-sg
 4. disable nix-rosetta, and do darwin-switch as from nix run ...
 5. TODO: steps on bootstrap nix-rosetta within determinate-nix
 6. uninstall xcode
+
+## Migration checklist
+
+- **Important**: secret keys
+    - [ ] sops keys in `~/.config/sops`
+    - [ ] GPG keys (export as ascii and reimport)
+    - [ ] SSH key `~/.ssh/`
+    - [ ] kube config `~/.kube`
+- **Data**
+    - [ ] Zen history/sessions/cookies
+    - [ ] pi-coding-agent sessions at `~/.pi/agent/sessions`
+    - [ ] tmux (resurrect) sessions at `~/.local/share/tmux/resurrect/last`
+

@@ -1,0 +1,102 @@
+# k9s — Catppuccin Mocha skin
+# See https://k9scli.io/topics/skins/
+k9s:
+  body:
+    bgColor: default
+    fgColor: "#cdd6f4"
+    logoColor: "#cba6f7"
+  frame:
+    border:
+      fgColor: "#cba6f7"
+      focusColor: "#b4befe"
+    crumbs:
+      activeColor: "#f2cdcd"
+      bgColor: default
+      fgColor: "#1e1e2e"
+    menu:
+      fgColor: "#cdd6f4"
+      keyColor: "#89b4fa"
+      numKeyColor: "#eba0ac"
+    status:
+      addColor: "#a6e3a1"
+      completedColor: "#6c7086"
+      errorColor: "#f38ba8"
+      highlightColor: "#89dceb"
+      killColor: "#cba6f7"
+      modifyColor: "#b4befe"
+      newColor: "#89b4fa"
+      pendingColor: "#fab387"
+    title:
+      bgColor: default
+      counterColor: "#f9e2af"
+      fgColor: "#94e2d5"
+      filterColor: "#a6e3a1"
+      highlightColor: "#f5c2e7"
+  help:
+    bgColor: default
+    fgColor: "#cdd6f4"
+    keyColor: "#89b4fa"
+    numKeyColor: "#eba0ac"
+    sectionColor: "#a6e3a1"
+  info:
+    fgColor: "#fab387"
+    sectionColor: "#cdd6f4"
+  prompt:
+    bgColor: default
+    fgColor: "#cdd6f4"
+    suggestColor: "#89b4fa"
+  views:
+    charts:
+      bgColor: default
+      chartBgColor: default
+      defaultChartColors:
+        - "#a6e3a1"
+        - "#f38ba8"
+      defaultDialColors:
+        - "#a6e3a1"
+        - "#f38ba8"
+      dialBgColor: default
+      resourceColors:
+        cpu:
+          - "#cba6f7"
+          - "#89b4fa"
+        mem:
+          - "#f9e2af"
+          - "#fab387"
+    dialog:
+      bgColor: default
+      buttonBgColor: default
+      buttonFgColor: "#1e1e2e"
+      buttonFocusBgColor: "#f5c2e7"
+      buttonFocusFgColor: "#1e1e2e"
+      fgColor: "#f9e2af"
+      fieldFgColor: "#cdd6f4"
+      labelFgColor: "#f5e0dc"
+    logs:
+      bgColor: default
+      fgColor: "#cdd6f4"
+      indicator:
+        bgColor: default
+        fgColor: "#b4befe"
+        toggleOffColor: "#a6adc8"
+        toggleOnColor: "#a6e3a1"
+    table:
+      bgColor: default
+      cursorBgColor: "#45475a"
+      cursorFgColor: "#313244"
+      fgColor: "#cdd6f4"
+      header:
+        bgColor: default
+        fgColor: "#f9e2af"
+        sorterColor: "#89dceb"
+      markColor: "#f5e0dc"
+    xray:
+      bgColor: default
+      cursorColor: "#45475a"
+      cursorTextColor: "#1e1e2e"
+      fgColor: "#cdd6f4"
+      graphicColor: "#f5c2e7"
+    yaml:
+      colonColor: "#a6adc8"
+      keyColor: "#89b4fa"
+      valueColor: "#cdd6f4"

@@ -1,0 +1,222 @@
+# starship — shell prompt
+# See https://starship.rs/config/
+
+continuation_prompt = "[>   ](grey)"
+format = "$shlvl$shell$env_var$username[@](green)$hostname:$directory$git_branch$git_status$fill$all$status$cmd_duration$line_break$character"
+
+# ---- character --------------------------------------------------------------
+
+[character]
+error_symbol = '[\$](bold red)'
+format = "$symbol "
+success_symbol = '[\$](bold green)'
+
+# ---- env_var ----------------------------------------------------------------
+
+[env_var.VIMSHELL]
+format = "[$env_value]($style)"
+style = "green italic"
+
+# ---- user & host ------------------------------------------------------------
+
+[username]
+disabled = false
+format = "[$user]($style)"
+show_always = true
+style_root = "bold yellow"
+style_user = "bold green"
+
+[hostname]
+disabled = false
+format = "[$hostname]($style)"
+ssh_only = false
+style = "bold green"
+
+# ---- directory --------------------------------------------------------------
+
+[directory]
+disabled = false
+format = "[$path]($style)[$read_only]($read_only_style)"
+style = "blue"
+truncate_to_repo = false
+truncation_length = 0
+
+# ---- git --------------------------------------------------------------------
+
+[git_branch]
+format = " [$symbol $branch]($style)"
+style = "bold yellow"
+symbol = ""
+
+[git_status]
+format = "([$all_status$ahead_behind]($style))"
+style = "yellow"
+
+# ---- shell status -----------------------------------------------------------
+
+[fill]
+disabled = false
+style = "white"
+
+[cmd_duration]
+format = "[$duration](yellow) "
+
+[status]
+disabled = false
+format = "[$status]($style) "
+
+# ---- environments -----------------------------------------------------------
+
+[direnv]
+allowed_msg = ""
+disabled = false
+format = "[$symbol($loaded$allowed )]($style)"
+loaded_msg = ""
+not_allowed_msg = "!"
+symbol = "󱁿 "
+unloaded_msg = "?"
+
+[nix_shell]
+format = "[$symbol]($style)"
+symbol = " "
+
+[python]
+format = "[$symbol(($virtualenv) )]($style)"
+symbol = "🐍"
+
+[gcloud]
+disabled = true
+
+# ---- language modules (icon-only) -------------------------------------------
+
+[buf]
+format = "[$symbol]($style)"
+
+[bun]
+format = "[$symbol]($style)"
+
+[cmake]
+format = "[$symbol]($style)"
+
+[cobol]
+format = "[$symbol]($style)"
+
+[crystal]
+format = "[$symbol]($style)"
+
+[daml]
+format = "[$symbol]($style)"
+
+[dart]
+format = "[$symbol]($style)"
+
+[deno]
+format = "[$symbol]($style)"
+
+[dotnet]
+format = "symbol(🎯 $tfm )]($style)"
+
+[elixir]
+format = "[$symbol]($style)"
+
+[elm]
+format = "[$symbol]($style)"
+
+[erlang]
+format = "[$symbol]($style)"
+
+[fennel]
+format = "[$symbol]($style)"
+
+[gleam]
+format = "[$symbol]($style)"
+
+[golang]
+format = "[$symbol]($style)"
+
+[gradle]
+format = "[$symbol]($style)"
+
+[haxe]
+format = "[$symbol]($style)"
+
+[helm]
+format = "[$symbol]($style)"
+
+[java]
+format = "[$symbol]($style)"
+
+[julia]
+format = "[$symbol]($style)"
+
+[kotlin]
+format = "[$symbol]($style)"
+
+[lua]
+format = "[$symbol]($style)"
+
+[meson]
+format = "[$symbol]($style)"
+
+[nim]
+format = "[$symbol]($style)"
+
+[nodejs]
+format = "[$symbol]($style)"
+
+[ocaml]
+format = "[$symbol(($switch_indicator$switch_name) )]($style)"
+
+[opa]
+format = "[$symbol]($style)"
+
+[perl]
+format = "[$symbol]($style)"
+
+[php]
+format = "[$symbol]($style)"
+
+[pixi]
+format = "[$symbol($environment )]($style)"
+
+[pulumi]
+format = "[$symbol$stack]($style)"
+
+[purescript]
+format = "[$symbol]($style)"
+
+[quarto]
+format = "[$symbol]($style)"
+
+[raku]
+format = "[$symbol]($style)"
+
+[red]
+format = "[$symbol]($style)"
+
+[rlang]
+format = "[$symbol]($style)"
+
+[ruby]
+format = "[$symbol]($style)"
+
+[rust]
+format = "[$symbol]($style)"
+
+[solidity]
+format = "[$symbol]($style)"
+
+[swift]
+format = "[$symbol]($style)"
+
+[typst]
+format = "[$symbol]($style)"
+
+[vagrant]
+format = "[$symbol]($style)"
+
+[vlang]
+format = "[$symbol]($style)"
+
+[zig]
+format = "[$symbol]($style)"
