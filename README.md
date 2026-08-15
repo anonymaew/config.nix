@@ -27,3 +27,12 @@ nix run github:serokell/deploy-rs -- .#homelab
 # for hetzner-sg
 nix run github:serokell/deploy-rs -- .#hetzner-sg
 ```
+
+## Install on darwin from scratch
+
+1. install determinate-nix
+2. change hostname
+3. install xcode (getting git)
+4. disable nix-rosetta, and do darwin-switch as from nix run ...
+5. TODO: steps on bootstrap nix-rosetta within determinate-nix
+6. uninstall xcode
