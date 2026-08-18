@@ -36,14 +36,15 @@ in
     };
     modules = [
       (rootPath + "/hosts/macair")
+      inputs.determinate.darwinModules.default
       inputs.brew-nix.darwinModules.default
       inputs.home-manager.darwinModules.home-manager
       inputs.mac-app-util.darwinModules.default
-      inputs.nix-rosetta-builder.darwinModules.default
       inputs.sops-nix.darwinModules.sops
-      {
-        nix-rosetta-builder.onDemand = true;
-      }
+      # inputs.nix-rosetta-builder.darwinModules.default
+      # {
+      #   nix-rosetta-builder.onDemand = true;
+      # }
       # User identity (from flake-parts options via deferredModule)
       config.darwin.modules.identity
       (

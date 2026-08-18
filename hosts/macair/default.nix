@@ -11,21 +11,20 @@
   # ── Nix settings ──────────────────────────────────────────────────
   nixpkgs.config.allowUnfree = true;
 
-  nix = {
-    settings = {
-      extra-experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      use-xdg-base-directories = true;
-      secret-key-files = [ "/etc/nix/nix-secret-key" ];
+  # disable vanilla nix; use determinate-nix
+  nix.enable = false;
+  determinateNix = {
+    enable = true;
+    determinateNixd.garbageCollector.strategy = "disabled";
+    customSettings.auto-optimise-store = true;
+  };
+
+  launchd.daemons.nix-gc = {
+    command = "/nix/var/nix/profiles/default/bin/nix-collect-garbage --delete-generations +4 7d";
+    serviceConfig.StartCalendarInterval = {
+      Hour = 3;
+      Minute = 15;
     };
-    gc = {
-      automatic = true;
-      options = "--delete-generations +8";
-    };
-    optimise.automatic = true;
-    settings.auto-optimise-store = true;
   };
 
   # ── macOS system defaults ─────────────────────────────────────────
