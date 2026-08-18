@@ -25,7 +25,6 @@ in
           defaultModel = "deepseek-v4-flash";
           defaultThinkingLevel = "high";
           theme = "dark";
-          shellCommandPrefix = "export SEARXNG_URL='https://search.napatsc.net'";
           packages = [
             "https://github.com/donrami/pi-go-bars"
             "https://github.com/apmantza/pi-lens"
