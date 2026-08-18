@@ -16,6 +16,7 @@
     # CLI tools
     ansible
     bun
+    go
     nodejs_latest
     pandoc
     php
@@ -66,6 +67,7 @@
     brewCasks.markdown-preview
     mpv-unwrapped
     brewCasks.obs
+    brewCasks.stats
     steam-unwrapped
     # brewCasks.tailscale-app
 
