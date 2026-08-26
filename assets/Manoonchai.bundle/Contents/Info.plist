@@ -5,15 +5,15 @@
 	<key>CFBundleIdentifier</key>
 	<string>org.sil.ukelele.keyboardlayout.com.manoonchai.colemakdhm</string>
 	<key>CFBundleName</key>
-	<string>Manoonchai</string>
+	<string>Thai – Manoonchai</string>
 	<key>CFBundleVersion</key>
 	<string></string>
-	<key>KLInfo_Manoonchai</key>
+	<key>KLInfo_Thai – Manoonchai</key>
 	<dict>
 		<key>TICapsLockLanguageSwitchCapable</key>
 		<true/>
 		<key>TISIconIsTemplate</key>
-		<false/>
+		<true/>
 		<key>TISInputSourceID</key>
 		<string>org.sil.ukelele.keyboardlayout.com.manoonchai.colemakdhm.manoonchai</string>
 		<key>TISIntendedLanguage</key>
