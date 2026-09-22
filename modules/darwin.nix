@@ -41,7 +41,6 @@ in
       inputs.home-manager.darwinModules.home-manager
       inputs.mac-app-util.darwinModules.default
       inputs.sops-nix.darwinModules.sops
-      inputs.nix-rosetta-builder.darwinModules.default
       # User identity (from flake-parts options via deferredModule)
       config.darwin.modules.identity
       (

@@ -33,101 +33,49 @@ nix run github:serokell/deploy-rs -- .#hetzner-sg
 1. install determinate-nix
 2. change hostname
 3. install xcode (getting git)
-4. disable nix-rosetta, and do darwin-switch as from nix run ...
-5. bootstrap nix-rosetta within determinate-nix
+4. first `darwin-rebuild switch`
 
    <details>
-   <summary>Bootstrap sequence (5.1–5.6): nix-rosetta-builder alongside Determinate Nix</summary>
+   <summary>Linux builder: upstream `linux-builder-vz` (no bootstrap builder needed)</summary>
 
-   [nix-rosetta-builder](https://github.com/cpick/nix-rosetta-builder) runs a
-   Lima VM that builds `aarch64-linux` natively and `x86_64-linux` via Rosetta 2.
-   Its VM image is in **no binary cache**, so it must be built by an existing
-   Linux builder first.
+   [`darwin.linux-builder-vz`](https://github.com/NixOS/nixpkgs/blob/master/doc/packages/darwin-builder.section.md) (nixpkgs [PR #544193](https://github.com/NixOS/nixpkgs/pull/544193), Hydra-cached)
+   runs the NixOS builder guest on Apple's Virtualization.framework via
+   [pkgs.vzvm](https://github.com/applicative-systems/vzvm): `aarch64-linux` natively,
+   `x86_64-linux` via Rosetta (with a working `/dev/kvm` via nested virtualization, so
+   `nixos-test` still works). Since it's cached, a fresh install needs no intermediate
+   builder — the old cpick/nix-rosetta-builder bootstrap dance is gone.
 
-   **Prereq**: Rosetta 2 — check with `/usr/bin/arch -x86_64 /usr/bin/true`
-   or install with `softwareupdate --install-rosetta`.
+   **Prereq**: Rosetta 2 — check with `/usr/bin/arch -x86_64 /usr/bin/true` or install
+   with `softwareupdate --install-rosetta`. (macOS 27 includes Linux-VM Intel translation
+   natively, so on 27 the check always passes.)
 
-   5.1. **Phase A — temporary bootstrap builder**
-
-   The hydra-cached nixpkgs `darwin.linux-builder` (QEMU-based) needs no Linux
-   builder of its own to install. Import the module in `modules/darwin.nix`:
-
-   ```nix
-   inputs.nix-rosetta-builder.darwinModules.default
-   { nix-rosetta-builder.onDemand = true; }
-   ```
-
-   and in `hosts/macair/default.nix`:
+   Enablement in `hosts/macair/default.nix` — Determinate's module wires up the launchd
+   daemon, the `ssh_config.d` alias and the `/etc/nix/machines` entry itself (nix-darwin's
+   own `nix.linux-builder` would require `nix.enable = true`):
 
    ```nix
    determinateNix = {
      enable = true;
-     distributedBuilds = true;                 # use /etc/nix/machines
-     nixosVmBasedLinuxBuilder.enable = true;   # TEMPORARY
+     distributedBuilds = true;
+     nixosVmBasedLinuxBuilder = {
+       enable = true;
+       hostName = "linux-builder";           # ssh alias + machines hostname
+       package = pkgs.darwin.linux-builder-vz;
+       systems = [ "aarch64-linux" "x86_64-linux" ];
+       maxJobs = 8;
+       speedFactor = 1;
+       supportedFeatures = [ "benchmark" "big-parallel" "kvm" "nixos-test" ];
+     };
    };
-   # rosetta VM not yet usable: its image isn't built
-   nix-rosetta-builder.enable = false;
-
-   # M5/macOS 26 ONLY: the linux-builder image hard-codes `-machine
-   # virt,gic-version=2,accel=hvf`, but Hypervisor.framework rejects GICv2.
-   # run-nixos-vm forwards $QEMU_OPTS last, so gic-version=3 overrides it:
-   launchd.daemons.nixos-vm-based-linux-builder.environment.QEMU_OPTS =
-     "-machine virt,gic-version=3";
    ```
 
    Then `git add` everything and switch:
 
    ```sh
-   sudo darwin-rebuild switch --flake .   # downloads ~400 MiB
-   ```
-
-   5.2. **Verify the bootstrap builder** — a derivation that *must* build
-   (nothing like it exists in any cache):
-
-   ```sh
-   nix build --impure --expr 'with builtins.getFlake "nixpkgs";
-     legacyPackages.aarch64-linux.runCommand "probe" { }
-       "uname -a > \"$out\""' && cat result
-   # expect: Linux ... aarch64 GNU/Linux
-   ```
-
-   5.3. **Phase B — enable the rosetta builder**
-
-   Flip `nix-rosetta-builder.enable = true` and register the VM as a build
-   machine in `hosts/macair/default.nix`. It must go in
-   `determinateNix.buildMachines` — the module's own `nix.buildMachines` is only
-   rendered when `nix.enable = true`, and Determinate manages Nix here, so that
-   setting is inert:
-
-   ```nix
-   nix-rosetta-builder = { enable = true; onDemand = true; };
-
-   determinateNix.buildMachines = [
-     {
-       hostName = "rosetta-builder";
-       sshUser = "builder";
-       sshKey = "/var/lib/rosetta-builder/ssh_user_ed25519_key";
-       protocol = "ssh-ng";
-       systems = [ "aarch64-linux" "x86_64-linux" ];
-       maxJobs = 8;
-       speedFactor = 1;
-       supportedFeatures = [ "benchmark" "big-parallel" "kvm" "nixos-test" ];
-       mandatoryFeatures = [ ];
-     }
-   ];
-   ```
-
-   Keep the bootstrap builder enabled. Switch again — the rosetta VM image
-   (NixOS + kernel) builds on the bootstrap VM and the lima fork from source;
-   this switch takes a while (up to ~1 h on M5):
-
-   ```sh
    sudo darwin-rebuild switch --flake .
    ```
 
-   5.4. **Verify the rosetta builder** — both platforms must route to
-   `ssh-ng://builder@rosetta-builder` (the on-demand VM boots on first
-   connection):
+   Verify both platforms route to `ssh-ng://builder@linux-builder`:
 
    ```sh
    nix build --impure --expr 'with builtins.getFlake "nixpkgs";
@@ -135,23 +83,23 @@ nix run github:serokell/deploy-rs -- .#hetzner-sg
    # expect: x86_64   (also verify `aarch64-linux` -> aarch64)
    ```
 
-   With `onDemand = true` the VM powers itself off after 180 min idle; a Linux
-   build boots it in a few seconds (first build is slower).
+   **VMs are on-demand** in the sense that the daemon keeps the VM running
+   (`KeepAlive`); unlike the old rosetta-builder there is no idle power-off, so the
+   builder holds RAM while the Mac is on.
 
-   5.5. **Phase C — drop the bootstrap builder**
-
-   Remove `nixosVmBasedLinuxBuilder.enable` (and the QEMU_OPTS workaround) from
-   `hosts/macair/default.nix`, then switch. `/etc/nix/machines` now lists only
-   `rosetta-builder`.
-
-   5.6. **Cleanup** — the bootstrap VM leaves a ~10 GB disk behind:
+   **Migrating from cpick/nix-rosetta-builder**: remove the flake input, the module
+   import in `modules/darwin.nix` and the old `nix-rosetta-builder` block, then switch
+   (the old launchd daemon plist is removed by the switch). Leftover state to clean up:
 
    ```sh
-   sudo rm -rf /var/lib/nixos-vm-based-linux-builder
+   sudo rm -rf /var/lib/rosetta-builder
+   # service account created by the old module:
+   sudo dscl . -delete /Users/_nixrosettabuilder   # if present
+   sudo dscl . -delete /Groups/nixrosettabuilder   # if present
    ```
 
    </details>
-6. uninstall xcode
+5. uninstall xcode
 
 ## Migration checklist
 

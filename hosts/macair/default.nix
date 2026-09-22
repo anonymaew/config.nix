@@ -18,42 +18,36 @@
     determinateNixd.garbageCollector.strategy = "disabled";
     customSettings.auto-optimise-store = true;
 
-    # Use the build machines below (Determinate renders /etc/nix/machines
-    # itself — nix-darwin's nix.* options are inert when nix.enable = false).
+    # Distributed builds via Determinate (it renders /etc/nix/machines itself —
+    # nix-darwin's nix.* options are inert when nix.enable = false).
     distributedBuilds = true;
 
-    # nix-rosetta-builder's Lima VM: builds aarch64-linux natively and
-    # x86_64-linux via Rosetta 2. The module's own nix.buildMachines option is
-    # only rendered when nix.enable = true, so register it here instead.
-    buildMachines = [
-      {
-        hostName = "rosetta-builder";
-        sshUser = "builder";
-        sshKey = "/var/lib/rosetta-builder/ssh_user_ed25519_key";
-        protocol = "ssh-ng";
-        systems = [
-          "aarch64-linux"
-          "x86_64-linux"
-        ];
-        maxJobs = 8;
-        speedFactor = 1;
-        supportedFeatures = [
-          "benchmark"
-          "big-parallel"
-          "kvm"
-          "nixos-test"
-        ];
-        mandatoryFeatures = [ ];
-      }
-    ];
-  };
-
-  # nix-rosetta-builder module (imported in modules/darwin.nix).
-  # onDemand = the VM powers itself off after inactivity (saves ~6GiB RAM on
-  # a laptop); the first Linux build boots it in a few seconds.
-  nix-rosetta-builder = {
-    enable = true;
-    onDemand = true;
+    # Use the upstream nixpkgs Rosetta builder (`darwin.linux-builder-vz`) in
+    # place of the previous cpick/nix-rosetta-builder Lima VM. It runs the NixOS
+    # builder guest on Apple's Virtualization.framework via pkgs.vzvm:
+    # aarch64-linux natively, x86_64-linux via Rosetta (included on macOS 27),
+    # plus /dev/kvm via nested virtualization (so nixos-test still works).
+    # No QEMU, so the M5 gic-version workaround is not needed.
+    # The Determinate module wires up the launchd daemon, the ssh_config.d
+    # alias and the /etc/nix/machines entry itself (nix-darwin's own
+    # nix.linux-builder would require nix.enable = true).
+    nixosVmBasedLinuxBuilder = {
+      enable = true;
+      hostName = "linux-builder";
+      package = pkgs.darwin.linux-builder-vz;
+      systems = [
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+      maxJobs = 8;
+      speedFactor = 1;
+      supportedFeatures = [
+        "benchmark"
+        "big-parallel"
+        "kvm"
+        "nixos-test"
+      ];
+    };
   };
 
   launchd.daemons.nix-gc = {

@@ -37,12 +37,11 @@
       inputs.home-manager.follows = "home-manager";
     };
     # for MacOS apps fix
-    mac-app-util.url = "github:hraban/mac-app-util";
-    deploy-rs.url = "github:serokell/deploy-rs";
-    nix-rosetta-builder = {
-      url = "github:cpick/nix-rosetta-builder";
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deploy-rs.url = "github:serokell/deploy-rs";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
