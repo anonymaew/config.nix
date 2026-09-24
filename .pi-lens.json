@@ -1,0 +1,3 @@
+{
+  "ignore": ["secrets/**", "pre-migration-state.yaml"]
+}

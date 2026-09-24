@@ -8,7 +8,8 @@ My computer/server configuration on Nix language.
 ├───deploy: unknown
 └───nixosConfigurations
     ├───hetzner-sg: NixOS configuration
-    └───homelab: NixOS configuration
+    ├───homelab: NixOS configuration
+    └───linode-us: NixOS configuration
 ```
 
 ## Deployment
@@ -26,6 +27,8 @@ For deploying flakes to remote machine:
 nix run github:serokell/deploy-rs -- .#homelab
 # for hetzner-sg
 nix run github:serokell/deploy-rs -- .#hetzner-sg
+# for linode-us (Linode VPS)
+nix run github:serokell/deploy-rs -- .#linode-us
 ```
 
 ## Install on darwin from scratch

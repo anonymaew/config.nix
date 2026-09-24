@@ -1,0 +1,3513 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-06-15T03:57:34Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-059577dd-8b82-4197-b8d8-90fb58bb5d86
+    resourceVersion: "34440140"
+    uid: d73088d5-06a9-42ad-a52c-baf0de5b64df
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 50Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: registry-registry-data
+      namespace: homelab
+      resourceVersion: "34440112"
+      uid: 059577dd-8b82-4197-b8d8-90fb58bb5d86
+    hostPath:
+      path: /mnt/fast/pvc-059577dd-8b82-4197-b8d8-90fb58bb5d86_homelab_registry-registry-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-06-15T03:57:34Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-04T05:00:52Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-0f9239f4-07a4-4784-b1fc-878696331d96
+    resourceVersion: "47658267"
+    uid: 0e8b618a-5974-4860-a663-0d086d0f3f19
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 100Mi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: paperless-consume
+      namespace: homelab
+      resourceVersion: "47658150"
+      uid: 0f9239f4-07a4-4784-b1fc-878696331d96
+    hostPath:
+      path: /mnt/fast/pvc-0f9239f4-07a4-4784-b1fc-878696331d96_homelab_paperless-consume
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-04T05:00:52Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: local-path-large
+    creationTimestamp: "2026-05-16T16:25:04Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-29c4d1bb-d271-45d2-a9c7-fa6b989a61d0
+    resourceVersion: "26725948"
+    uid: 34064bef-31a8-464b-b0b7-b29fe9818fef
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Ti
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: immich-upload
+      namespace: homelab
+      resourceVersion: "26725923"
+      uid: 29c4d1bb-d271-45d2-a9c7-fa6b989a61d0
+    hostPath:
+      path: /mnt/hdd/k3s-storage/pvc-29c4d1bb-d271-45d2-a9c7-fa6b989a61d0_homelab_immich-upload
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-large
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-16T16:25:04Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-04T05:00:56Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-2f1f6676-025b-4623-9f5d-decbf7aa873c
+    resourceVersion: "47658303"
+    uid: d7c990cb-c391-410b-b857-2b7ec7c0f651
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 20Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: paperless-media
+      namespace: homelab
+      resourceVersion: "47658160"
+      uid: 2f1f6676-025b-4623-9f5d-decbf7aa873c
+    hostPath:
+      path: /mnt/fast/pvc-2f1f6676-025b-4623-9f5d-decbf7aa873c_homelab_paperless-media
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-04T05:00:56Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: local-path-large
+    creationTimestamp: "2026-08-04T06:50:16Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-358f4b77-b050-44b8-a4d4-8d12bb4dcec1
+    resourceVersion: "47679764"
+    uid: afd85cd2-2a7a-4aa0-bba8-7e6af937dfb6
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Ti
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: stash-media
+      namespace: homelab
+      resourceVersion: "47679707"
+      uid: 358f4b77-b050-44b8-a4d4-8d12bb4dcec1
+    hostPath:
+      path: /mnt/hdd/k3s-storage/pvc-358f4b77-b050-44b8-a4d4-8d12bb4dcec1_homelab_stash-media
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-large
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-04T06:50:16Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-06-22T14:54:51Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-3658f297-6449-4865-92fb-d33dc69e2d27
+    resourceVersion: "36412256"
+    uid: f1eb2e12-ab92-4d04-87c4-1898a1a00b48
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: audiobookshelf-metadata
+      namespace: homelab
+      resourceVersion: "36412182"
+      uid: 3658f297-6449-4865-92fb-d33dc69e2d27
+    hostPath:
+      path: /mnt/fast/pvc-3658f297-6449-4865-92fb-d33dc69e2d27_homelab_audiobookshelf-metadata
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-06-22T14:54:51Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-05-16T15:30:46Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-3887accf-c4bf-4633-afd8-a249a5449b3e
+    resourceVersion: "26715576"
+    uid: 8077c9a6-4f0a-4365-9e9e-f7aa43cf5810
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 500Mi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: forgejo-db
+      namespace: homelab
+      resourceVersion: "26715524"
+      uid: 3887accf-c4bf-4633-afd8-a249a5449b3e
+    hostPath:
+      path: /mnt/fast/pvc-3887accf-c4bf-4633-afd8-a249a5449b3e_homelab_forgejo-db
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-16T15:30:46Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: local-path-large
+    creationTimestamp: "2026-06-22T14:54:51Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-3dab9cdd-288d-4065-adca-0dd69e1a64fd
+    resourceVersion: "36412265"
+    uid: 51628238-a3f9-4cce-a0ad-6da604bde348
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 50Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: audiobookshelf-audiobooks
+      namespace: homelab
+      resourceVersion: "36412186"
+      uid: 3dab9cdd-288d-4065-adca-0dd69e1a64fd
+    hostPath:
+      path: /mnt/hdd/k3s-storage/pvc-3dab9cdd-288d-4065-adca-0dd69e1a64fd_homelab_audiobookshelf-audiobooks
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-large
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-06-22T14:54:51Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-05-16T16:53:10Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-41d9fee1-e28d-4743-80f5-6c2d4d53125b
+    resourceVersion: "26731739"
+    uid: 20bbe0fd-8a9c-4fe0-840d-2b3a3df41413
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 50Mi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: pocketid-data
+      namespace: homelab
+      resourceVersion: "26731710"
+      uid: 41d9fee1-e28d-4743-80f5-6c2d4d53125b
+    hostPath:
+      path: /mnt/fast/pvc-41d9fee1-e28d-4743-80f5-6c2d4d53125b_homelab_pocketid-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-16T16:53:10Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: local-path-large
+    creationTimestamp: "2026-06-22T14:54:51Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-4629f078-5774-4049-b599-992c28c327c4
+    resourceVersion: "36412269"
+    uid: a7d1ba90-fd76-404d-9e10-2d0b3cce1177
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 30Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: audiobookshelf-podcasts
+      namespace: homelab
+      resourceVersion: "36412183"
+      uid: 4629f078-5774-4049-b599-992c28c327c4
+    hostPath:
+      path: /mnt/hdd/k3s-storage/pvc-4629f078-5774-4049-b599-992c28c327c4_homelab_audiobookshelf-podcasts
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-large
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-06-22T14:54:51Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-05-16T16:31:40Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-46d5f196-3993-4984-a921-4c08d71244e2
+    resourceVersion: "26727419"
+    uid: 1f33c1ef-979f-4f42-a35f-0a5df0ae0320
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: immich-database
+      namespace: homelab
+      resourceVersion: "26727398"
+      uid: 46d5f196-3993-4984-a921-4c08d71244e2
+    hostPath:
+      path: /mnt/fast/pvc-46d5f196-3993-4984-a921-4c08d71244e2_homelab_immich-database
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-16T16:31:40Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-06-03T04:58:50Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-49103700-0b71-42f5-acbc-1ae7d1f560b3
+    resourceVersion: "31320392"
+    uid: b53daf92-4bb3-4aa6-818b-377364f325e0
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Mi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: libravatar-data
+      namespace: homelab
+      resourceVersion: "31320348"
+      uid: 49103700-0b71-42f5-acbc-1ae7d1f560b3
+    hostPath:
+      path: /mnt/fast/pvc-49103700-0b71-42f5-acbc-1ae7d1f560b3_homelab_libravatar-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-06-03T04:58:50Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-26T08:39:10Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-587eefc5-a868-497c-84c0-e13b8769b0f7
+    resourceVersion: "54433574"
+    uid: 875c043f-2128-4c8f-a62b-0c5f6072f3a3
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 20Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: martin-data
+      namespace: homelab
+      resourceVersion: "54433537"
+      uid: 587eefc5-a868-497c-84c0-e13b8769b0f7
+    hostPath:
+      path: /mnt/fast/pvc-587eefc5-a868-497c-84c0-e13b8769b0f7_homelab_martin-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-26T08:39:10Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-25T08:17:15Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-58fae264-be38-4a4e-974c-3b2325c2c9e3
+    resourceVersion: "54109429"
+    uid: 6ceac157-1169-4bb2-b961-5169446617ed
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: materialious-data
+      namespace: homelab
+      resourceVersion: "54109367"
+      uid: 58fae264-be38-4a4e-974c-3b2325c2c9e3
+    hostPath:
+      path: /mnt/fast/pvc-58fae264-be38-4a4e-974c-3b2325c2c9e3_homelab_materialious-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-25T08:17:15Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-05-19T16:10:15Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-67e387d4-6747-4fc7-aeae-0d37e5ad139c
+    resourceVersion: "27510546"
+    uid: 8eb14d77-9809-4d30-99a0-5c0b655f5fcf
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 8Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: prometheus-server
+      namespace: default
+      resourceVersion: "27510476"
+      uid: 67e387d4-6747-4fc7-aeae-0d37e5ad139c
+    hostPath:
+      path: /mnt/fast/pvc-67e387d4-6747-4fc7-aeae-0d37e5ad139c_default_prometheus-server
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-19T16:10:15Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-06-15T04:32:17Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-6ae361a9-9bee-4632-be4b-00d257ee4c1b
+    resourceVersion: "34447153"
+    uid: a8756fd4-eb9b-4154-9dc7-84b0451945e8
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: cpkku-next-mariadb-data
+      namespace: cpkku
+      resourceVersion: "34447045"
+      uid: 6ae361a9-9bee-4632-be4b-00d257ee4c1b
+    hostPath:
+      path: /mnt/fast/pvc-6ae361a9-9bee-4632-be4b-00d257ee4c1b_cpkku_cpkku-next-mariadb-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-06-15T04:32:17Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-04T06:50:16Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-6d389215-855b-4e61-8ce4-7a31f574f921
+    resourceVersion: "47679757"
+    uid: 6a738d13-e188-4f8d-b67b-162a95b048be
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 20Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: stash-config
+      namespace: homelab
+      resourceVersion: "47679705"
+      uid: 6d389215-855b-4e61-8ce4-7a31f574f921
+    hostPath:
+      path: /mnt/fast/pvc-6d389215-855b-4e61-8ce4-7a31f574f921_homelab_stash-config
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-04T06:50:16Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-07-28T09:40:14Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-7646f8f2-798b-4a33-b413-d16325858c67
+    resourceVersion: "45819558"
+    uid: 44e4507b-1217-4b9d-aeaa-4a2d9c13b2fc
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 20Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: nextcloud-nextcloud
+      namespace: homelab
+      resourceVersion: "45819527"
+      uid: 7646f8f2-798b-4a33-b413-d16325858c67
+    hostPath:
+      path: /mnt/fast/pvc-7646f8f2-798b-4a33-b413-d16325858c67_homelab_nextcloud-nextcloud
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-07-28T09:40:14Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-04T05:00:53Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-97f323db-f241-4704-98d8-792fe03bb25c
+    resourceVersion: "47658272"
+    uid: 6b42c801-708b-40c0-b945-7c13a1ce345c
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: paperless-data
+      namespace: homelab
+      resourceVersion: "47658156"
+      uid: 97f323db-f241-4704-98d8-792fe03bb25c
+    hostPath:
+      path: /mnt/fast/pvc-97f323db-f241-4704-98d8-792fe03bb25c_homelab_paperless-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-04T05:00:53Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-03T07:08:27Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-9dc972a8-07b0-4251-a662-5e4e719ec2c5
+    resourceVersion: "47411056"
+    uid: b852f1a0-c804-4daf-8a1f-4f09ee82eaa0
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: grafana
+      namespace: default
+      resourceVersion: "47411026"
+      uid: 9dc972a8-07b0-4251-a662-5e4e719ec2c5
+    hostPath:
+      path: /mnt/fast/pvc-9dc972a8-07b0-4251-a662-5e4e719ec2c5_default_grafana
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-03T07:08:27Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-26T01:58:42Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-a488f3a9-a0c1-46b4-875e-c6da78208f7d
+    resourceVersion: "54344939"
+    uid: f68c3885-8c70-44f6-b723-a2dad321f454
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: dawarich-db-data
+      namespace: homelab
+      resourceVersion: "54344785"
+      uid: a488f3a9-a0c1-46b4-875e-c6da78208f7d
+    hostPath:
+      path: /mnt/fast/pvc-a488f3a9-a0c1-46b4-875e-c6da78208f7d_homelab_dawarich-db-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-26T01:58:42Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-02T08:55:20Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-a5f744c3-1bed-48b3-a8b6-19e30a5d2a38
+    resourceVersion: "47160466"
+    uid: f3278a0c-478b-459e-a05d-7e7b93beeec6
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: degoog-browser-config
+      namespace: homelab
+      resourceVersion: "47160441"
+      uid: a5f744c3-1bed-48b3-a8b6-19e30a5d2a38
+    hostPath:
+      path: /mnt/fast/pvc-a5f744c3-1bed-48b3-a8b6-19e30a5d2a38_homelab_degoog-browser-config
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-02T08:55:20Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-26T03:17:03Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-a6c8398a-8638-4915-ad2e-84e16a9bf7b6
+    resourceVersion: "54362694"
+    uid: cc69896d-99d1-422c-8fa3-3a6f7f3ea454
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: dawarich-storage
+      namespace: homelab
+      resourceVersion: "54362656"
+      uid: a6c8398a-8638-4915-ad2e-84e16a9bf7b6
+    hostPath:
+      path: /mnt/fast/pvc-a6c8398a-8638-4915-ad2e-84e16a9bf7b6_homelab_dawarich-storage
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-26T03:17:03Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: local-path-large
+    creationTimestamp: "2026-08-08T07:08:27Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-aceefcfa-db57-409c-8eb5-66e16cf9c92f
+    resourceVersion: "48938884"
+    uid: 69cd3c89-3746-4f6b-937a-b8af9758cb4b
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 150Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: musicbrainz-data
+      namespace: homelab
+      resourceVersion: "48938841"
+      uid: aceefcfa-db57-409c-8eb5-66e16cf9c92f
+    hostPath:
+      path: /mnt/hdd/k3s-storage/pvc-aceefcfa-db57-409c-8eb5-66e16cf9c92f_homelab_musicbrainz-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-large
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-08T07:08:27Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-05-16T14:53:24Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-b22b7573-376d-4fb9-be9d-0f2693a73af7
+    resourceVersion: "26708259"
+    uid: 06599615-0f01-4a50-8431-48154b23cc95
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Mi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: vaultwarden-data
+      namespace: homelab
+      resourceVersion: "26706252"
+      uid: b22b7573-376d-4fb9-be9d-0f2693a73af7
+    hostPath:
+      path: /mnt/fast/pvc-b22b7573-376d-4fb9-be9d-0f2693a73af7_homelab_vaultwarden-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-16T14:53:24Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-02T07:22:00Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-b35b1d8a-c675-4f2d-93d8-f08155777fde
+    resourceVersion: "47142535"
+    uid: 5976f473-36a8-482e-bf74-42100fd4e802
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 2Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: degoog-data
+      namespace: homelab
+      resourceVersion: "47142482"
+      uid: b35b1d8a-c675-4f2d-93d8-f08155777fde
+    hostPath:
+      path: /mnt/fast/pvc-b35b1d8a-c675-4f2d-93d8-f08155777fde_homelab_degoog-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-02T07:22:00Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-26T01:58:44Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-b3ab0f94-f143-4df8-ac25-850522792172
+    resourceVersion: "54344963"
+    uid: 2684aa68-345f-4aae-aed6-92d4ad107920
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: dawarich-shared
+      namespace: homelab
+      resourceVersion: "54344811"
+      uid: b3ab0f94-f143-4df8-ac25-850522792172
+    hostPath:
+      path: /mnt/fast/pvc-b3ab0f94-f143-4df8-ac25-850522792172_homelab_dawarich-shared
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-26T01:58:44Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-07-06T07:40:14Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-bab20f2f-fffe-4cf0-af70-44a17f666fb0
+    resourceVersion: "40015181"
+    uid: a0eb01ea-e6d7-477d-801b-9072a4509858
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Mi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: qr-html
+      namespace: homelab
+      resourceVersion: "40015139"
+      uid: bab20f2f-fffe-4cf0-af70-44a17f666fb0
+    hostPath:
+      path: /mnt/fast/pvc-bab20f2f-fffe-4cf0-af70-44a17f666fb0_homelab_qr-html
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-07-06T07:40:14Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-07-28T09:31:43Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-bbd9b3f8-5e0a-41e6-b84d-ecb0615ebc2f
+    resourceVersion: "45817652"
+    uid: 58f97bee-8618-462a-becf-fb784ae9f6b6
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: nextcloud-redis
+      namespace: homelab
+      resourceVersion: "45817599"
+      uid: bbd9b3f8-5e0a-41e6-b84d-ecb0615ebc2f
+    hostPath:
+      path: /mnt/fast/pvc-bbd9b3f8-5e0a-41e6-b84d-ecb0615ebc2f_homelab_nextcloud-redis
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-07-28T09:31:43Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-26T01:58:43Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-bd99734a-9bbd-4425-9c60-71c15b367b2a
+    resourceVersion: "54344950"
+    uid: af3acc4f-4b5e-4e90-afd0-a624eab07393
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 100Mi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: dawarich-watched
+      namespace: homelab
+      resourceVersion: "54344799"
+      uid: bd99734a-9bbd-4425-9c60-71c15b367b2a
+    hostPath:
+      path: /mnt/fast/pvc-bd99734a-9bbd-4425-9c60-71c15b367b2a_homelab_dawarich-watched
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-26T01:58:43Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: hetzner-sg
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-05-16T11:26:13Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-be248987-60ca-49ae-8a38-df54137088a4
+    resourceVersion: "26668562"
+    uid: 0d59b05e-fdd8-4f19-b4df-ae3a791bebcf
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 2Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: storage-prometheus-alertmanager-0
+      namespace: default
+      resourceVersion: "26667551"
+      uid: be248987-60ca-49ae-8a38-df54137088a4
+    local:
+      path: /mnt/fast/pvc-be248987-60ca-49ae-8a38-df54137088a4_default_storage-prometheus-alertmanager-0
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - hetzner-sg
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-16T11:26:15Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-26T01:58:44Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-be9064f6-9e59-4c88-9de4-e0f083186181
+    resourceVersion: "54344967"
+    uid: 84933ae5-8186-4818-90d7-adeeb17c4c18
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: dawarich-public
+      namespace: homelab
+      resourceVersion: "54344808"
+      uid: be9064f6-9e59-4c88-9de4-e0f083186181
+    hostPath:
+      path: /mnt/fast/pvc-be9064f6-9e59-4c88-9de4-e0f083186181_homelab_dawarich-public
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-26T01:58:44Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: hetzner-sg
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-05-16T11:26:11Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-bf9c6742-1a54-4b8c-b05b-4e05295b4786
+    resourceVersion: "26668554"
+    uid: 95b64075-38b9-4ae9-8c27-3443706b300b
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: cms-cp-db-cms-cp-mariadb-0
+      namespace: cpkku
+      resourceVersion: "26667600"
+      uid: bf9c6742-1a54-4b8c-b05b-4e05295b4786
+    local:
+      path: /mnt/fast/pvc-bf9c6742-1a54-4b8c-b05b-4e05295b4786_cpkku_cms-cp-db-cms-cp-mariadb-0
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - hetzner-sg
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-16T11:26:15Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-04T05:00:50Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-c2377254-be0a-48de-9c47-26eb27bd0395
+    resourceVersion: "47658233"
+    uid: 9e9c9a04-f91b-4ab6-8906-3bc2fd806cbd
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: paperless-db-data
+      namespace: homelab
+      resourceVersion: "47658134"
+      uid: c2377254-be0a-48de-9c47-26eb27bd0395
+    hostPath:
+      path: /mnt/fast/pvc-c2377254-be0a-48de-9c47-26eb27bd0395_homelab_paperless-db-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-04T05:00:50Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: local-path-large
+    creationTimestamp: "2026-07-20T02:59:37Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-c2481bab-e16f-4b03-96ea-8cd97c0ee464
+    resourceVersion: "43645370"
+    uid: b0361295-6f3b-4219-a302-d5d9a4c7dbfe
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 100Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: smb-data
+      namespace: homelab
+      resourceVersion: "43645344"
+      uid: c2481bab-e16f-4b03-96ea-8cd97c0ee464
+    hostPath:
+      path: /mnt/hdd/k3s-storage/pvc-c2481bab-e16f-4b03-96ea-8cd97c0ee464_homelab_smb-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-large
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-07-20T02:59:37Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-08-04T05:00:55Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-d50eea4c-2834-42fb-a5e3-af5618bab16e
+    resourceVersion: "47658290"
+    uid: 73d90751-9223-442a-a670-ee59a0adcc37
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: paperless-export
+      namespace: homelab
+      resourceVersion: "47658155"
+      uid: d50eea4c-2834-42fb-a5e3-af5618bab16e
+    hostPath:
+      path: /mnt/fast/pvc-d50eea4c-2834-42fb-a5e3-af5618bab16e_homelab_paperless-export
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-08-04T05:00:55Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-07-28T09:31:43Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-de4f6340-0edb-4906-9a9e-3f1081700b91
+    resourceVersion: "45817657"
+    uid: fd4397e8-96ba-4569-bcf6-4a93b836e34c
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 8Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: nextcloud-postgres
+      namespace: homelab
+      resourceVersion: "45817601"
+      uid: de4f6340-0edb-4906-9a9e-3f1081700b91
+    hostPath:
+      path: /mnt/fast/pvc-de4f6340-0edb-4906-9a9e-3f1081700b91_homelab_nextcloud-postgres
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-07-28T09:31:43Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-06-22T14:54:51Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-ea203870-1193-48b0-ae27-76260a78ce51
+    resourceVersion: "36412260"
+    uid: 2182bc7a-c011-409c-9c1b-940663de0436
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: audiobookshelf-config
+      namespace: homelab
+      resourceVersion: "36412179"
+      uid: ea203870-1193-48b0-ae27-76260a78ce51
+    hostPath:
+      path: /mnt/fast/pvc-ea203870-1193-48b0-ae27-76260a78ce51_homelab_audiobookshelf-config
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-06-22T14:54:51Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-06-23T06:57:29Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-ece59c92-b4ef-41bc-ab34-02f7d72ac0d5
+    resourceVersion: "36588560"
+    uid: ff56e8da-963e-436f-856d-913cd713bb97
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: cpkku-next-meilisearch-data
+      namespace: cpkku
+      resourceVersion: "36588533"
+      uid: ece59c92-b4ef-41bc-ab34-02f7d72ac0d5
+    hostPath:
+      path: /mnt/fast/pvc-ece59c92-b4ef-41bc-ab34-02f7d72ac0d5_cpkku_cpkku-next-meilisearch-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-06-23T06:57:29Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-05-16T15:30:46Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-f32654d4-cea4-48e1-9d52-bec997603e33
+    resourceVersion: "26715583"
+    uid: 5a97789c-ec60-4522-96d4-9f785a34a9b4
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: forgejo-data
+      namespace: homelab
+      resourceVersion: "26715542"
+      uid: f32654d4-cea4-48e1-9d52-bec997603e33
+    hostPath:
+      path: /mnt/fast/pvc-f32654d4-cea4-48e1-9d52-bec997603e33_homelab_forgejo-data
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-16T15:30:46Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-05-16T17:09:46Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-f3e1baad-2aba-49e1-a46c-d09f9159c589
+    resourceVersion: "26734946"
+    uid: f5ba7013-da0a-4143-9d94-4c29fd69c2ec
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: kaen-coon-doc
+      namespace: cpkku
+      resourceVersion: "26734919"
+      uid: f3e1baad-2aba-49e1-a46c-d09f9159c589
+    hostPath:
+      path: /mnt/fast/pvc-f3e1baad-2aba-49e1-a46c-d09f9159c589_cpkku_kaen-coon-doc
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-16T17:09:46Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-06-15T04:32:16Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-f8bc61c2-091b-4480-8ad8-01949623cab5
+    resourceVersion: "34447140"
+    uid: e62844a8-58d9-4ee6-b58a-f272465ee99a
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: cpkku-next-wordpress-uploads
+      namespace: cpkku
+      resourceVersion: "34447078"
+      uid: f8bc61c2-091b-4480-8ad8-01949623cab5
+    hostPath:
+      path: /mnt/fast/pvc-f8bc61c2-091b-4480-8ad8-01949623cab5_cpkku_cpkku-next-wordpress-uploads
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-06-15T04:32:16Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    annotations:
+      local.path.provisioner/selected-node: homelab
+      pv.kubernetes.io/provisioned-by: rancher.io/local-path
+    creationTimestamp: "2026-05-16T16:19:48Z"
+    finalizers:
+    - kubernetes.io/pv-protection
+    name: pvc-f98b5030-43b7-470d-8a81-cb24101fc195
+    resourceVersion: "26724788"
+    uid: fdad1c55-891a-404d-b798-cf6af88971c2
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    claimRef:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: immich-model-cache
+      namespace: homelab
+      resourceVersion: "26724728"
+      uid: f98b5030-43b7-470d-8a81-cb24101fc195
+    hostPath:
+      path: /mnt/fast/pvc-f98b5030-43b7-470d-8a81-cb24101fc195_homelab_immich-model-cache
+      type: DirectoryOrCreate
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - homelab
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    lastPhaseTransitionTime: "2026-05-16T16:19:48Z"
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: hetzner-sg
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-05-16T11:22:47Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/name: mariadb
+      app.kubernetes.io/part-of: cms-cp
+    name: cms-cp-db-cms-cp-mariadb-0
+    namespace: cpkku
+    resourceVersion: "26668561"
+    uid: bf9c6742-1a54-4b8c-b05b-4e05295b4786
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-bf9c6742-1a54-4b8c-b05b-4e05295b4786
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"mariadb","app.kubernetes.io/name":"cpkku-next","app.kubernetes.io/part-of":"cpkku-next"},"name":"cpkku-next-mariadb-data","namespace":"cpkku"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"10Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-06-15T04:32:11Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: mariadb
+      app.kubernetes.io/name: cpkku-next
+      app.kubernetes.io/part-of: cpkku-next
+    name: cpkku-next-mariadb-data
+    namespace: cpkku
+    resourceVersion: "34447155"
+    uid: 6ae361a9-9bee-4632-be4b-00d257ee4c1b
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-6ae361a9-9bee-4632-be4b-00d257ee4c1b
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"meilisearch","app.kubernetes.io/name":"cpkku-next","app.kubernetes.io/part-of":"cpkku-next"},"name":"cpkku-next-meilisearch-data","namespace":"cpkku"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-06-23T06:57:25Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: meilisearch
+      app.kubernetes.io/name: cpkku-next
+      app.kubernetes.io/part-of: cpkku-next
+    name: cpkku-next-meilisearch-data
+    namespace: cpkku
+    resourceVersion: "36588562"
+    uid: ece59c92-b4ef-41bc-ab34-02f7d72ac0d5
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-ece59c92-b4ef-41bc-ab34-02f7d72ac0d5
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"wordpress","app.kubernetes.io/name":"cpkku-next","app.kubernetes.io/part-of":"cpkku-next"},"name":"cpkku-next-wordpress-uploads","namespace":"cpkku"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"10Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-06-15T04:32:11Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: wordpress
+      app.kubernetes.io/name: cpkku-next
+      app.kubernetes.io/part-of: cpkku-next
+    name: cpkku-next-wordpress-uploads
+    namespace: cpkku
+    resourceVersion: "34447142"
+    uid: f8bc61c2-091b-4480-8ad8-01949623cab5
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-f8bc61c2-091b-4480-8ad8-01949623cab5
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"kaen-coon-doc","namespace":"cpkku"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-05-16T17:09:42Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    name: kaen-coon-doc
+    namespace: cpkku
+    resourceVersion: "26734948"
+    uid: f3e1baad-2aba-49e1-a46c-d09f9159c589
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-f3e1baad-2aba-49e1-a46c-d09f9159c589
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: grafana
+      meta.helm.sh/release-namespace: default
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-03T07:08:22Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/instance: grafana
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/version: 13.1.1
+      helm.sh/chart: grafana-12.10.1
+    name: grafana
+    namespace: default
+    resourceVersion: "47448851"
+    uid: 9dc972a8-07b0-4251-a662-5e4e719ec2c5
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-9dc972a8-07b0-4251-a662-5e4e719ec2c5
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: prometheus
+      meta.helm.sh/release-namespace: default
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-05-19T16:10:09Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: prometheus
+      app.kubernetes.io/version: v3.11.3
+      helm.sh/chart: prometheus-29.7.0
+    name: prometheus-server
+    namespace: default
+    resourceVersion: "27510548"
+    uid: 67e387d4-6747-4fc7-aeae-0d37e5ad139c
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 8Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-67e387d4-6747-4fc7-aeae-0d37e5ad139c
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 8Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: hetzner-sg
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-05-16T11:22:46Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/name: alertmanager
+    name: storage-prometheus-alertmanager-0
+    namespace: default
+    resourceVersion: "26668564"
+    uid: be248987-60ca-49ae-8a38-df54137088a4
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 2Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-be248987-60ca-49ae-8a38-df54137088a4
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 2Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"audiobooks","app.kubernetes.io/name":"audiobookshelf","app.kubernetes.io/part-of":"audiobookshelf"},"name":"audiobookshelf-audiobooks","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"50Gi"}},"storageClassName":"local-large"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: local-path-large
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: local-path-large
+    creationTimestamp: "2026-06-22T14:54:47Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: audiobooks
+      app.kubernetes.io/name: audiobookshelf
+      app.kubernetes.io/part-of: audiobookshelf
+    name: audiobookshelf-audiobooks
+    namespace: homelab
+    resourceVersion: "36412268"
+    uid: 3dab9cdd-288d-4065-adca-0dd69e1a64fd
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 50Gi
+    storageClassName: local-large
+    volumeMode: Filesystem
+    volumeName: pvc-3dab9cdd-288d-4065-adca-0dd69e1a64fd
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 50Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"config","app.kubernetes.io/name":"audiobookshelf","app.kubernetes.io/part-of":"audiobookshelf"},"name":"audiobookshelf-config","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-06-22T14:54:47Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: config
+      app.kubernetes.io/name: audiobookshelf
+      app.kubernetes.io/part-of: audiobookshelf
+    name: audiobookshelf-config
+    namespace: homelab
+    resourceVersion: "36412263"
+    uid: ea203870-1193-48b0-ae27-76260a78ce51
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-ea203870-1193-48b0-ae27-76260a78ce51
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"metadata","app.kubernetes.io/name":"audiobookshelf","app.kubernetes.io/part-of":"audiobookshelf"},"name":"audiobookshelf-metadata","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-06-22T14:54:47Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: metadata
+      app.kubernetes.io/name: audiobookshelf
+      app.kubernetes.io/part-of: audiobookshelf
+    name: audiobookshelf-metadata
+    namespace: homelab
+    resourceVersion: "36412259"
+    uid: 3658f297-6449-4865-92fb-d33dc69e2d27
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-3658f297-6449-4865-92fb-d33dc69e2d27
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"podcasts","app.kubernetes.io/name":"audiobookshelf","app.kubernetes.io/part-of":"audiobookshelf"},"name":"audiobookshelf-podcasts","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"30Gi"}},"storageClassName":"local-large"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: local-path-large
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: local-path-large
+    creationTimestamp: "2026-06-22T14:54:47Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: podcasts
+      app.kubernetes.io/name: audiobookshelf
+      app.kubernetes.io/part-of: audiobookshelf
+    name: audiobookshelf-podcasts
+    namespace: homelab
+    resourceVersion: "36412271"
+    uid: 4629f078-5774-4049-b599-992c28c327c4
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 30Gi
+    storageClassName: local-large
+    volumeMode: Filesystem
+    volumeName: pvc-4629f078-5774-4049-b599-992c28c327c4
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 30Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"consume"},"name":"consume","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}}}}
+    creationTimestamp: "2026-08-04T05:59:51Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: consume
+    name: consume
+    namespace: homelab
+    resourceVersion: "47669908"
+    uid: c7c3447b-e46e-4a70-b293-966c604464ee
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Mi
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"data"},"name":"data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}}}}
+    creationTimestamp: "2026-08-04T05:59:51Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: data
+    name: data
+    namespace: homelab
+    resourceVersion: "47669901"
+    uid: fed230d9-6e95-44be-9ffa-e5a397987e03
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"db-data","app.kubernetes.io/name":"dawarich","app.kubernetes.io/part-of":"dawarich"},"name":"dawarich-db-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}},"storageClassName":"local-path"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-26T01:58:37Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: db-data
+      app.kubernetes.io/name: dawarich
+      app.kubernetes.io/part-of: dawarich
+    name: dawarich-db-data
+    namespace: homelab
+    resourceVersion: "54344941"
+    uid: a488f3a9-a0c1-46b4-875e-c6da78208f7d
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-a488f3a9-a0c1-46b4-875e-c6da78208f7d
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"public","app.kubernetes.io/name":"dawarich","app.kubernetes.io/part-of":"dawarich"},"name":"dawarich-public","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}},"storageClassName":"local-path"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-26T01:58:37Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: public
+      app.kubernetes.io/name: dawarich
+      app.kubernetes.io/part-of: dawarich
+    name: dawarich-public
+    namespace: homelab
+    resourceVersion: "54344969"
+    uid: be9064f6-9e59-4c88-9de4-e0f083186181
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-be9064f6-9e59-4c88-9de4-e0f083186181
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"shared","app.kubernetes.io/name":"dawarich","app.kubernetes.io/part-of":"dawarich"},"name":"dawarich-shared","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Gi"}},"storageClassName":"local-path"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-26T01:58:37Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: shared
+      app.kubernetes.io/name: dawarich
+      app.kubernetes.io/part-of: dawarich
+    name: dawarich-shared
+    namespace: homelab
+    resourceVersion: "54344965"
+    uid: b3ab0f94-f143-4df8-ac25-850522792172
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-b3ab0f94-f143-4df8-ac25-850522792172
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"storage","app.kubernetes.io/name":"dawarich","app.kubernetes.io/part-of":"dawarich"},"name":"dawarich-storage","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}},"storageClassName":"local-path"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-26T03:16:28Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: storage
+      app.kubernetes.io/name: dawarich
+      app.kubernetes.io/part-of: dawarich
+    name: dawarich-storage
+    namespace: homelab
+    resourceVersion: "54362696"
+    uid: a6c8398a-8638-4915-ad2e-84e16a9bf7b6
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-a6c8398a-8638-4915-ad2e-84e16a9bf7b6
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"watched","app.kubernetes.io/name":"dawarich","app.kubernetes.io/part-of":"dawarich"},"name":"dawarich-watched","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}},"storageClassName":"local-path"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-26T01:58:37Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: watched
+      app.kubernetes.io/name: dawarich
+      app.kubernetes.io/part-of: dawarich
+    name: dawarich-watched
+    namespace: homelab
+    resourceVersion: "54344952"
+    uid: bd99734a-9bbd-4425-9c60-71c15b367b2a
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Mi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-bd99734a-9bbd-4425-9c60-71c15b367b2a
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 100Mi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"db-data"},"name":"db-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}}}}
+    creationTimestamp: "2026-08-04T05:59:52Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: db-data
+    name: db-data
+    namespace: homelab
+    resourceVersion: "47669910"
+    uid: 8e62c6ff-1d20-4397-bf77-7075ddcffe1d
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"browser","app.kubernetes.io/name":"degoog","app.kubernetes.io/part-of":"degoog"},"name":"degoog-browser-config","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Gi"}},"storageClassName":"local-path"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-02T08:55:16Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: browser
+      app.kubernetes.io/name: degoog
+      app.kubernetes.io/part-of: degoog
+    name: degoog-browser-config
+    namespace: homelab
+    resourceVersion: "47160468"
+    uid: a5f744c3-1bed-48b3-a8b6-19e30a5d2a38
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-a5f744c3-1bed-48b3-a8b6-19e30a5d2a38
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"data","app.kubernetes.io/name":"degoog","app.kubernetes.io/part-of":"degoog"},"name":"degoog-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"2Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-02T07:21:57Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: data
+      app.kubernetes.io/name: degoog
+      app.kubernetes.io/part-of: degoog
+    name: degoog-data
+    namespace: homelab
+    resourceVersion: "47142537"
+    uid: b35b1d8a-c675-4f2d-93d8-f08155777fde
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 2Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-b35b1d8a-c675-4f2d-93d8-f08155777fde
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 2Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"export"},"name":"export","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Gi"}}}}
+    creationTimestamp: "2026-08-04T05:59:51Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: export
+    name: export
+    namespace: homelab
+    resourceVersion: "47669906"
+    uid: 5b3c9636-1500-41da-8c32-bb9e42360eb8
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"data","app.kubernetes.io/name":"forgejo","app.kubernetes.io/part-of":"forgejo"},"name":"forgejo-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"10Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-05-16T15:30:42Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: data
+      app.kubernetes.io/name: forgejo
+      app.kubernetes.io/part-of: forgejo
+    name: forgejo-data
+    namespace: homelab
+    resourceVersion: "26715585"
+    uid: f32654d4-cea4-48e1-9d52-bec997603e33
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-f32654d4-cea4-48e1-9d52-bec997603e33
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"db","app.kubernetes.io/name":"forgejo","app.kubernetes.io/part-of":"forgejo"},"name":"forgejo-db","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"500Mi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-05-16T15:30:42Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: db
+      app.kubernetes.io/name: forgejo
+      app.kubernetes.io/part-of: forgejo
+    name: forgejo-db
+    namespace: homelab
+    resourceVersion: "26715578"
+    uid: 3887accf-c4bf-4633-afd8-a249a5449b3e
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 500Mi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-3887accf-c4bf-4633-afd8-a249a5449b3e
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 500Mi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"database","app.kubernetes.io/name":"immich","app.kubernetes.io/part-of":"immich"},"name":"immich-database","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"10Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-05-16T16:31:36Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: database
+      app.kubernetes.io/name: immich
+      app.kubernetes.io/part-of: immich
+    name: immich-database
+    namespace: homelab
+    resourceVersion: "26727422"
+    uid: 46d5f196-3993-4984-a921-4c08d71244e2
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-46d5f196-3993-4984-a921-4c08d71244e2
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"machine-learning","app.kubernetes.io/name":"immich","app.kubernetes.io/part-of":"immich"},"name":"immich-model-cache","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-05-16T16:19:45Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: machine-learning
+      app.kubernetes.io/name: immich
+      app.kubernetes.io/part-of: immich
+    name: immich-model-cache
+    namespace: homelab
+    resourceVersion: "26724790"
+    uid: f98b5030-43b7-470d-8a81-cb24101fc195
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-f98b5030-43b7-470d-8a81-cb24101fc195
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"server","app.kubernetes.io/name":"immich","app.kubernetes.io/part-of":"immich"},"name":"immich-upload","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Ti"}},"storageClassName":"local-large"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: local-path-large
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: local-path-large
+    creationTimestamp: "2026-05-16T16:25:00Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/name: immich
+      app.kubernetes.io/part-of: immich
+    name: immich-upload
+    namespace: homelab
+    resourceVersion: "26725950"
+    uid: 29c4d1bb-d271-45d2-a9c7-fa6b989a61d0
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Ti
+    storageClassName: local-large
+    volumeMode: Filesystem
+    volumeName: pvc-29c4d1bb-d271-45d2-a9c7-fa6b989a61d0
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Ti
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"data","app.kubernetes.io/name":"libravatar","app.kubernetes.io/part-of":"libravatar"},"name":"libravatar-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"10Mi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-06-03T04:58:41Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: data
+      app.kubernetes.io/name: libravatar
+      app.kubernetes.io/part-of: libravatar
+    name: libravatar-data
+    namespace: homelab
+    resourceVersion: "31320394"
+    uid: 49103700-0b71-42f5-acbc-1ae7d1f560b3
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Mi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-49103700-0b71-42f5-acbc-1ae7d1f560b3
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Mi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"data","app.kubernetes.io/name":"martin","app.kubernetes.io/part-of":"martin"},"name":"martin-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"20Gi"}},"storageClassName":"local-path"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-26T08:39:06Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: data
+      app.kubernetes.io/name: martin
+      app.kubernetes.io/part-of: martin
+    name: martin-data
+    namespace: homelab
+    resourceVersion: "54433576"
+    uid: 587eefc5-a868-497c-84c0-e13b8769b0f7
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-587eefc5-a868-497c-84c0-e13b8769b0f7
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 20Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"data","app.kubernetes.io/name":"materialious","app.kubernetes.io/part-of":"materialious"},"name":"materialious-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"10Gi"}},"storageClassName":"local-path"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-25T08:17:10Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: data
+      app.kubernetes.io/name: materialious
+      app.kubernetes.io/part-of: materialious
+    name: materialious-data
+    namespace: homelab
+    resourceVersion: "54109431"
+    uid: 58fae264-be38-4a4e-974c-3b2325c2c9e3
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-58fae264-be38-4a4e-974c-3b2325c2c9e3
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"media"},"name":"media","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"20Gi"}}}}
+    creationTimestamp: "2026-08-04T05:59:51Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: media
+    name: media
+    namespace: homelab
+    resourceVersion: "47669903"
+    uid: 011f9188-6fbd-4a4a-ae1d-301e39d26ac2
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+  status:
+    phase: Pending
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"postgres","app.kubernetes.io/name":"musicbrainz","app.kubernetes.io/part-of":"musicbrainz"},"name":"musicbrainz-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"150Gi"}},"storageClassName":"local-large"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: local-path-large
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: local-path-large
+    creationTimestamp: "2026-08-08T07:08:24Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: postgres
+      app.kubernetes.io/name: musicbrainz
+      app.kubernetes.io/part-of: musicbrainz
+    name: musicbrainz-data
+    namespace: homelab
+    resourceVersion: "48938886"
+    uid: aceefcfa-db57-409c-8eb5-66e16cf9c92f
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 150Gi
+    storageClassName: local-large
+    volumeMode: Filesystem
+    volumeName: pvc-aceefcfa-db57-409c-8eb5-66e16cf9c92f
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 150Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      helm.sh/resource-policy: keep
+      meta.helm.sh/release-name: nextcloud
+      meta.helm.sh/release-namespace: homelab
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-07-28T09:40:10Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: app
+      app.kubernetes.io/instance: nextcloud
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: nextcloud
+      app.kubernetes.io/version: 34.0.2
+      helm.sh/chart: nextcloud-9.2.5
+    name: nextcloud-nextcloud
+    namespace: homelab
+    resourceVersion: "45819560"
+    uid: 7646f8f2-798b-4a33-b413-d16325858c67
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-7646f8f2-798b-4a33-b413-d16325858c67
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 20Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"postgres","app.kubernetes.io/name":"nextcloud","app.kubernetes.io/part-of":"nextcloud"},"name":"nextcloud-postgres","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"8Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-07-28T09:31:39Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: postgres
+      app.kubernetes.io/name: nextcloud
+      app.kubernetes.io/part-of: nextcloud
+    name: nextcloud-postgres
+    namespace: homelab
+    resourceVersion: "45817659"
+    uid: de4f6340-0edb-4906-9a9e-3f1081700b91
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 8Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-de4f6340-0edb-4906-9a9e-3f1081700b91
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 8Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"redis","app.kubernetes.io/name":"nextcloud","app.kubernetes.io/part-of":"nextcloud"},"name":"nextcloud-redis","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-07-28T09:31:39Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: redis
+      app.kubernetes.io/name: nextcloud
+      app.kubernetes.io/part-of: nextcloud
+    name: nextcloud-redis
+    namespace: homelab
+    resourceVersion: "45817654"
+    uid: bbd9b3f8-5e0a-41e6-b84d-ecb0615ebc2f
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-bbd9b3f8-5e0a-41e6-b84d-ecb0615ebc2f
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"consume","app.kubernetes.io/name":"paperless","app.kubernetes.io/part-of":"paperless"},"name":"paperless-consume","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Mi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-04T05:00:44Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: consume
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/part-of: paperless
+    name: paperless-consume
+    namespace: homelab
+    resourceVersion: "47658269"
+    uid: 0f9239f4-07a4-4784-b1fc-878696331d96
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Mi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-0f9239f4-07a4-4784-b1fc-878696331d96
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 100Mi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"data","app.kubernetes.io/name":"paperless","app.kubernetes.io/part-of":"paperless"},"name":"paperless-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-04T05:00:44Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: data
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/part-of: paperless
+    name: paperless-data
+    namespace: homelab
+    resourceVersion: "47658274"
+    uid: 97f323db-f241-4704-98d8-792fe03bb25c
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-97f323db-f241-4704-98d8-792fe03bb25c
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"db-data","app.kubernetes.io/name":"paperless","app.kubernetes.io/part-of":"paperless"},"name":"paperless-db-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-04T05:00:44Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: db-data
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/part-of: paperless
+    name: paperless-db-data
+    namespace: homelab
+    resourceVersion: "47658235"
+    uid: c2377254-be0a-48de-9c47-26eb27bd0395
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-c2377254-be0a-48de-9c47-26eb27bd0395
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"export","app.kubernetes.io/name":"paperless","app.kubernetes.io/part-of":"paperless"},"name":"paperless-export","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-04T05:00:44Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: export
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/part-of: paperless
+    name: paperless-export
+    namespace: homelab
+    resourceVersion: "47658292"
+    uid: d50eea4c-2834-42fb-a5e3-af5618bab16e
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-d50eea4c-2834-42fb-a5e3-af5618bab16e
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"media","app.kubernetes.io/name":"paperless","app.kubernetes.io/part-of":"paperless"},"name":"paperless-media","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"20Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-04T05:00:44Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: media
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/part-of: paperless
+    name: paperless-media
+    namespace: homelab
+    resourceVersion: "47658305"
+    uid: 2f1f6676-025b-4623-9f5d-decbf7aa873c
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-2f1f6676-025b-4623-9f5d-decbf7aa873c
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 20Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"data","app.kubernetes.io/name":"pocketid","app.kubernetes.io/part-of":"pocketid"},"name":"pocketid-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"50Mi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-05-16T16:53:07Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: data
+      app.kubernetes.io/name: pocketid
+      app.kubernetes.io/part-of: pocketid
+    name: pocketid-data
+    namespace: homelab
+    resourceVersion: "26731741"
+    uid: 41d9fee1-e28d-4743-80f5-6c2d4d53125b
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 50Mi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-41d9fee1-e28d-4743-80f5-6c2d4d53125b
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 50Mi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"html","app.kubernetes.io/name":"qr-generator","app.kubernetes.io/part-of":"qr-generator"},"name":"qr-html","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"10Mi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-07-06T07:40:07Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: html
+      app.kubernetes.io/name: qr-generator
+      app.kubernetes.io/part-of: qr-generator
+    name: qr-html
+    namespace: homelab
+    resourceVersion: "40015183"
+    uid: bab20f2f-fffe-4cf0-af70-44a17f666fb0
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Mi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-bab20f2f-fffe-4cf0-af70-44a17f666fb0
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Mi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"data","app.kubernetes.io/name":"registry","app.kubernetes.io/part-of":"registry"},"name":"registry-registry-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"50Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-06-15T03:57:30Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: data
+      app.kubernetes.io/name: registry
+      app.kubernetes.io/part-of: registry
+    name: registry-registry-data
+    namespace: homelab
+    resourceVersion: "34440142"
+    uid: 059577dd-8b82-4197-b8d8-90fb58bb5d86
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 50Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-059577dd-8b82-4197-b8d8-90fb58bb5d86
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 50Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"data","app.kubernetes.io/name":"smb-server","app.kubernetes.io/part-of":"smb-server"},"name":"smb-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"100Gi"}},"storageClassName":"local-large"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: local-path-large
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: local-path-large
+    creationTimestamp: "2026-07-20T02:59:33Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: data
+      app.kubernetes.io/name: smb-server
+      app.kubernetes.io/part-of: smb-server
+    name: smb-data
+    namespace: homelab
+    resourceVersion: "43645372"
+    uid: c2481bab-e16f-4b03-96ea-8cd97c0ee464
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Gi
+    storageClassName: local-large
+    volumeMode: Filesystem
+    volumeName: pvc-c2481bab-e16f-4b03-96ea-8cd97c0ee464
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 100Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"config","app.kubernetes.io/name":"stash","app.kubernetes.io/part-of":"stash"},"name":"stash-config","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"20Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-08-04T06:50:12Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: config
+      app.kubernetes.io/name: stash
+      app.kubernetes.io/part-of: stash
+    name: stash-config
+    namespace: homelab
+    resourceVersion: "47679759"
+    uid: 6d389215-855b-4e61-8ce4-7a31f574f921
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-6d389215-855b-4e61-8ce4-7a31f574f921
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 20Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"media","app.kubernetes.io/name":"stash","app.kubernetes.io/part-of":"stash"},"name":"stash-media","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Ti"}},"storageClassName":"local-large"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: local-path-large
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: local-path-large
+    creationTimestamp: "2026-08-04T06:50:12Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app.kubernetes.io/component: media
+      app.kubernetes.io/name: stash
+      app.kubernetes.io/part-of: stash
+    name: stash-media
+    namespace: homelab
+    resourceVersion: "47679767"
+    uid: 358f4b77-b050-44b8-a4d4-8d12bb4dcec1
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Ti
+    storageClassName: local-large
+    volumeMode: Filesystem
+    volumeName: pvc-358f4b77-b050-44b8-a4d4-8d12bb4dcec1
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Ti
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"vaultwarden-data","namespace":"homelab"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"10Mi"}},"storageClassName":"local-path"}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: homelab
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-05-16T14:44:43Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    name: vaultwarden-data
+    namespace: homelab
+    resourceVersion: "26708261"
+    uid: b22b7573-376d-4fb9-be9d-0f2693a73af7
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Mi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-b22b7573-376d-4fb9-be9d-0f2693a73af7
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 10Mi
+    phase: Bound
+- allowedTopologies:
+  - matchLabelExpressions:
+    - key: storage-tier
+      values:
+      - large
+  apiVersion: storage.k8s.io/v1
+  kind: StorageClass
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"allowedTopologies":[{"matchLabelExpressions":[{"key":"storage-tier","values":["large"]}]}],"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"local-large"},"provisioner":"local-path-large","reclaimPolicy":"Delete","volumeBindingMode":"WaitForFirstConsumer"}
+    creationTimestamp: "2026-05-15T16:04:16Z"
+    name: local-large
+    resourceVersion: "26446554"
+    uid: 343c25da-a3c0-449a-92ac-9b31d1cfe852
+  provisioner: local-path-large
+  reclaimPolicy: Delete
+  volumeBindingMode: WaitForFirstConsumer
+- allowVolumeExpansion: true
+  apiVersion: storage.k8s.io/v1
+  kind: StorageClass
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"allowVolumeExpansion":true,"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"},"labels":{"local-volume-type":"default"},"name":"local-path"},"provisioner":"rancher.io/local-path","reclaimPolicy":"Delete","volumeBindingMode":"WaitForFirstConsumer"}
+      storageclass.kubernetes.io/is-default-class: "true"
+    creationTimestamp: "2026-05-16T14:32:37Z"
+    labels:
+      local-volume-type: default
+    name: local-path
+    resourceVersion: "26704036"
+    uid: 72f6c4d3-ac3a-498c-8ad8-92833e370dc7
+  provisioner: rancher.io/local-path
+  reclaimPolicy: Delete
+  volumeBindingMode: WaitForFirstConsumer
+kind: List
+metadata:
+  resourceVersion: ""

@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "aerospace-swipe": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789592836,
+        "narHash": "sha256-97vCTspK+0JXfYUw7PiRK7ST9YhIV/Ra0VO/W7FeTUw=",
+        "owner": "acsandmann",
+        "repo": "aerospace-swipe",
+        "rev": "7e06fe41e0deff786a643bf4d56963104c459c12",
+        "type": "github"
+      },
+      "original": {
+        "owner": "acsandmann",
+        "repo": "aerospace-swipe",
+        "type": "github"
+      }
+    },
     "agent-browser": {
       "flake": false,
       "locked": {
@@ -648,6 +664,7 @@
     },
     "root": {
       "inputs": {
+        "aerospace-swipe": "aerospace-swipe",
         "agent-skills": "agent-skills",
         "brew-api": "brew-api",
         "brew-nix": "brew-nix",

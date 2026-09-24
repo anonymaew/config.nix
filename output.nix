@@ -28,13 +28,17 @@ in
       };
     };
 
-    deploy.nodes.hetzner-sg = {
-      hostname = "hetzner-sg";
+    deploy.nodes.linode-us = {
+      # No DNS name yet — deploy against the Linode's public IP.
+      hostname = "45.33.39.244";
       interactiveSudo = true;
       profiles.system = {
-        sshUser = "napatsc";
+        # Deploy as root (declared in hosts/linode-us/default.nix): napatsc
+        # has no password/sudo setup, so non-interactive deploy-rs can't su to
+        # root. Switch to "napatsc" only if sudo access is configured for it.
+        sshUser = "root";
         user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.hetzner-sg;
+        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.linode-us;
       };
     };
   };

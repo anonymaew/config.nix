@@ -90,10 +90,11 @@ Then `git add` and test with `nix flake check` + `darwin-rebuild switch --flake 
 ## Hosts
 
 | Host | Type | Description |
-|------|------|-------------|
+| ------ | ------ | ------------- |
 | macair | Darwin | macOS laptop — 17 programs (desktop + dev + k8s) |
 | homelab | NixOS | Home server — k3s, podman, wireguard |
 | hetzner-sg | NixOS | Cloud server — k3s, wireguard |
+| linode-us | NixOS | Linode VPS — minimal hardened server (install process: docs/install-nixos-on-linode.md) |
 
 ## Common Tasks
 
@@ -125,7 +126,7 @@ nix build .#darwinConfigurations.macair.system
 ## Common Errors
 
 | Error | Cause | Fix |
-|-------|-------|-----|
+| ------- | ------- | ----- |
 | `Path '...' does not exist in Git repository` | File not `git add`ed | `git add <path>` |
 | `option ... was accessed but has no value defined` | Module accesses unset config | Check option deps, provide default |
 | `option defined multiple times` | Same undeclared flake output | Use declared option (like `flake.homeModules`) |

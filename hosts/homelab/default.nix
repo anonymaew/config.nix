@@ -17,14 +17,8 @@
   sops = {
     defaultSopsFile = ../../secrets + "/homelab.yaml";
     defaultSopsFormat = "yaml";
-    secrets.k3s-token.path = "/home/napatsc/token.txt";
-    secrets.k3s-token.owner = config.user.username;
-    secrets.wireguard-client-private-key = {
-      owner = config.user.username;
-    };
-    secrets.wireguard-client-endpoint = {
-      owner = config.user.username;
-    };
+    # No per-box secrets anymore — k3s-token/wireguard were dropped when the
+    # cluster moved onto this box (smb-password is consumed on macair only).
     # Machine-side decryption: convert SSH host key to age key
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     age.generateKey = true;
@@ -74,20 +68,8 @@
   };
   networking.enableIPv6 = true;
 
-  networking.wireguard.interfaces = {
-    "wg-client" = {
-      ips = [ "10.0.0.2/24" ];
-      privateKeyFile = config.sops.secrets.wireguard-client-private-key.path;
-      peers = [
-        {
-          publicKey = "OftSct+II9iOIEWXr7qOjfGmyu3zQGMXRHijAltyul4=";
-          allowedIPs = [ "10.0.0.1/32" ];
-          endpoint = "5.223.55.249:51820";
-          persistentKeepalive = 25;
-        }
-      ];
-    };
-  };
+  # WireGuard removed — k3s is now a standalone server on this box; the only
+  # overlay left is Tailscale (linode proxies public ingress over it).
 
   # systemd.user.services = {
   #   "podman.socket".enable = true;
@@ -199,7 +181,6 @@
     tmux
     uutils-coreutils-noprefix
     wget
-    wireguard-tools
     # yt-dlp
   ];
 
@@ -217,16 +198,26 @@
     };
   };
 
-  # k3s
+  # k3s — standalone single-node server (hetzner decommissioned).
+  # Node IP moves 10.0.0.2 → 100.89.132.36 once: pod re-IPs + one flannel
+  # re-subnet expected; services/NodePorts (0.0.0.0-bind) unaffected. API
+  # reachable over the tailnet at https://homelab:6443 or https://100.89.132.36:6443.
   services.k3s = {
     enable = true;
-    role = "agent";
-    tokenFile = config.sops.secrets.k3s-token.path;
-    serverAddr = "https://10.0.0.1:6443";
+    role = "server";
+    clusterInit = true; # harmless on an already-initialized etcd
     extraFlags = [
-      "--node-ip=10.0.0.2"
-      "--flannel-iface=wg-client"
+      "--disable=traefik" # installed via helm (homelab-helm), not the bundled chart
+      "--disable=local-storage" # replaced by our standalone provisioner in homelab-helm
+      "--disable-network-policy" # k3s#12639: netpol init hits "failed to find interface with specified node ip"
+                              # (node IP pinned to P2P tailscale0), causing a shutdown/restart loop
+      "--node-external-ip=100.89.132.36" # advertise the (stable) tailnet IP
+      "--node-ip=100.89.132.36" # pin kubelet to the tailnet IP (wg-client is gone)
+      "--flannel-iface=tailscale0" # pod network rides the tailnet overlay
+      "--tls-san=homelab"
+      "--tls-san=100.89.132.36"
       "--node-label=storage-tier=large"
+      "--etcd-snapshot-schedule-cron='0 */6 * * *'" # hardening: this is now THE etcd
     ];
   };
 
@@ -261,8 +252,16 @@
     10250 # kubelet (metrics, kubectl logs/exec)
   ];
   networking.firewall.allowedUDPPorts = [
-    51820 # wireguard
     8472 # k3s, flannel
+  ];
+  # Ingress NodePorts reachable only from the tailnet (linode DNATs 80/443 to
+  # these; public can't reach homelab directly — it's NAT'd behind a home router).
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
+    31557 # traefik http NodePort
+    32724 # traefik https NodePort
+  ];
+  networking.firewall.interfaces.tailscale0.allowedUDPPorts = [
+    31999 # traefik udp/QUIC NodePort
   ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

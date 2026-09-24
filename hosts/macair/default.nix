@@ -35,6 +35,13 @@
       enable = true;
       hostName = "linux-builder";
       package = pkgs.darwin.linux-builder-vz;
+      # The guest's root filesystem is an implicit-size tmpfs: 50% of VM RAM.
+      # At the 3G default that's 1.5G, which podman's Go link step blows
+      # through ("No space left on device" during the ld.bfd final link).
+      # 8G RAM -> 4G tmpfs, with headroom for memory-hungry Go builds.
+      config = {
+        virtualisation.darwin-builder.memorySize = 8 * 1024;
+      };
       systems = [
         "aarch64-linux"
         "x86_64-linux"
