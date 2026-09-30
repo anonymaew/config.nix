@@ -11,7 +11,7 @@ let
   # still get re-applied (a merge keeps any extra keys pi wrote).
   piSettings = {
     defaultProvider = "opencode-go";
-    defaultModel = "deepseek-v4-flash";
+    defaultModel = "deepseek-v4.1-flash";
     defaultThinkingLevel = "high";
     theme = "dark";
     packages = [
