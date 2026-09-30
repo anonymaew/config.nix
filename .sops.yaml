@@ -2,17 +2,17 @@
 # age keys: admin (mac), homelab, hetzner
 
 keys:
-    - &admin_age age1ll734w28scas47nedsr0ct94z3add3gm4ylr27yc54hwalga3v4qnk34gf
-    - &homelab_age age1xc8pv9d0tw4l0zn2yytksnejluck8nvtv325q8vk4aurvuqswvjs5ft63k # yamllint disable-line line-length
+      - &admin_age age1ll734w28scas47nedsr0ct94z3add3gm4ylr27yc54hwalga3v4qnk34gf
+      - &homelab_age age1xc8pv9d0tw4l0zn2yytksnejluck8nvtv325q8vk4aurvuqswvjs5ft63k # yamllint disable-line line-length
 creation_rules:
-    # Personal secrets (darwin, auth, go-bars, models) — age only, no shamir
-    - path_regex: (darwin|auth|go-bars|models)\.(json|yaml)$
-      key_groups:
-          - age:
-                - *admin_age
-    # Machine secrets (homelab) — age with all machine keys
-    - path_regex: homelab\.yaml$
-      key_groups:
-          - age:
-                - *admin_age
-                - *homelab_age
+      # Personal secrets (darwin, auth, go-bars, models) — age only, no shamir
+      - path_regex: (darwin|auth|go-bars|models)\.(json|yaml)$
+        key_groups:
+              - age:
+                      - *admin_age
+      # Machine secrets (homelab) — age with all machine keys
+      - path_regex: homelab\.yaml$
+        key_groups:
+              - age:
+                      - *admin_age
+                      - *homelab_age
