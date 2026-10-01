@@ -65,6 +65,11 @@ in
                 inputs.mac-app-util.homeManagerModules.default
                 inputs.agent-skills.homeManagerModules.default
 
+                # macOS System Settings (user scope): declares
+                # programs.nix-plist-manager.options in hosts/macair/mac.nix
+                inputs.nix-plist-manager.homeManagerModules.default
+                (rootPath + "/hosts/macair/mac.nix")
+
                 # Programs — individual Home Manager modules
                 self.homeModules.yabai
                 self.homeModules.skhd

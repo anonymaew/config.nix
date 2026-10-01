@@ -190,44 +190,18 @@ in
     reattach = true;
   };
 
-  # ── macOS system defaults ─────────────────────────────────────────
+  # ── macOS System Settings ─────────────────────────────────────────
+  # Everything that used to be declared as `system.defaults` here (dock, dark
+  # mode, 24-hour time, key repeat, trackpad speed, menu bar, Fn key, metric
+  # units, battery percentage, hot corners) moved to hosts/macair/mac.nix,
+  # which declares it through nix-plist-manager (home-manager/user scope) so
+  # there is a single writer for those plists. The old-key -> new-option map is
+  # in that file's header.
   system = {
     stateVersion = 7;
 
-    defaults = {
-      dock = {
-        autohide = true;
-        show-recents = false;
-        persistent-apps = [ ];
-        tilesize = 48;
-        # lock when cursor is moved to bottom left
-        wvous-bl-corner = 13;
-      };
-      controlcenter.BatteryShowPercentage = true;
-      hitoolbox.AppleFnUsageType = "Show Emoji & Symbols";
-
-      # menu bar: [hide] In Full Screen Only
-      CustomUserPreferences = {
-        "NSGlobalDomain".AppleMenuBarVisibleInFullscreen = false;
-        "com.apple.controlcenter".AutoHideMenuBarOption = 2;
-      };
-
-      NSGlobalDomain = {
-        AppleInterfaceStyle = "Dark";
-
-        "com.apple.trackpad.scaling" = 3.0;
-        KeyRepeat = 2;
-        InitialKeyRepeat = 15;
-
-        AppleMetricUnits = 1;
-        AppleMeasurementUnits = "Centimeters";
-        AppleICUForce24HourTime = true;
-      };
-      menuExtraClock = {
-        Show24Hour = true;
-        ShowSeconds = true;
-      };
-    };
+    # Not covered by nix-plist-manager: caps lock -> escape and the keyboard
+    # mapping activation, so these stay in nix-darwin.
     keyboard = {
       enableKeyMapping = true;
       remapCapsLockToEscape = true;

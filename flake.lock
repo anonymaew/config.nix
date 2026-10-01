@@ -490,6 +490,27 @@
         "type": "github"
       }
     },
+    "nix-plist-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790283696,
+        "narHash": "sha256-c8J9LK40Mn+6UaS7sJZKSW28L2XkSivSF9dYl6bOeEc=",
+        "owner": "SushyDev",
+        "repo": "nix-plist-manager",
+        "rev": "f3ac4aaa9504e2f27da6314a47acea69a2e778e4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SushyDev",
+        "ref": "v3.0.0",
+        "repo": "nix-plist-manager",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1743014863,
@@ -674,6 +695,7 @@
         "home-manager": "home-manager",
         "mac-app-util": "mac-app-util",
         "nix-darwin": "nix-darwin",
+        "nix-plist-manager": "nix-plist-manager",
         "nixpkgs": "nixpkgs_6",
         "sops-nix": "sops-nix"
       }

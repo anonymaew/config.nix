@@ -46,6 +46,11 @@
       url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # macOS System Settings as declared options (user scope -> home-manager)
+    nix-plist-manager = {
+      url = "github:SushyDev/nix-plist-manager/v3.0.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     deploy-rs.url = "github:serokell/deploy-rs";
     sops-nix = {
       url = "github:Mic92/sops-nix";

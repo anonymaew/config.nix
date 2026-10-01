@@ -38,7 +38,9 @@ nix run github:serokell/deploy-rs -- .#hetzner-sg
 │   ├── skills/            # Agent skills (has own flake.nix, consumed as input)
 │   └── … (17 active program dirs)
 ├── hosts/                 # Host configurations
-│   ├── macair/default.nix               # Darwin config
+│   ├── macair/default.nix               # Darwin config (nix, launchd, PAM, hostname)
+│   ├── macair/mac.nix                   # macOS System Settings via nix-plist-manager (user scope, HM)
+│   ├── macair/snapshots/                # dock contents, menu bar layout, wallpaper plists
 │   ├── homelab/default.nix              # NixOS config (k3s, podman, wireguard)
 │   └── hetzner/default.nix              # NixOS config (k3s server, wireguard)
 ├── users/napatsc/         # HM core (packages, SMB mount, sops)
@@ -109,6 +111,24 @@ Edit `programs/<name>/default.nix`. Run `darwin-rebuild switch --flake .` to app
 ### Add host-specific config
 
 Edit `hosts/<name>/default.nix`. Host configs read from `config.*` (dendritic pattern).
+
+### Change a macOS System Setting (macair)
+
+System Settings are declared in `hosts/macair/mac.nix` through `nix-plist-manager`
+(home-manager/user scope) — `system.defaults` was removed on purpose, so there is
+a single writer per plist. Options are named after the System Settings UI; see
+`docs/macos-plist.md` for the migration map, snapshot workflow and rollback.
+
+```sh
+# what differs from the file after a change in System Settings
+nix run github:sushydev/nix-plist-manager#current -- --scope user --against hosts/macair/mac.nix
+# re-capture an arranged snapshot (dock / menu bar / wallpaper)
+nix run github:sushydev/nix-plist-manager#capture -- applications.systemSettings.menuBar.layout hosts/macair/snapshots/layout
+```
+
+Key repeat, input sources and the menu bar layout only take effect in a new session.
+`system.keyboard.remapCapsLockToEscape` is *not* covered upstream and stays in
+`hosts/macair/default.nix`.
 
 ### Debug issues
 

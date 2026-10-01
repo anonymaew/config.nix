@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>TrailingItemPreferredPositions</key>
+	<dict>
+		<key>module:AudioVideoModule</key>
+		<real>555.5</real>
+		<key>module:Battery</key>
+		<real>163.5</real>
+		<key>module:BentoBox-0</key>
+		<real>137.5</real>
+		<key>module:Clock</key>
+		<real>0.0</real>
+		<key>module:WiFi</key>
+		<real>189.5</real>
+		<key>status:AeroSpace::Item-0</key>
+		<real>498.5</real>
+		<key>status:Bitwarden::Item-0</key>
+		<real>466.5</real>
+		<key>status:Stats::CombinedModules</key>
+		<real>255.5</real>
+		<key>status:com.apple.TextInputMenuAgent::Item-0</key>
+		<real>211.5</real>
+		<key>status:io.tailscale.ipn.macsys::Item-0</key>
+		<real>428.5</real>
+		<key>status:zoom.us::Item-0</key>
+		<real>523.5</real>
+	</dict>
+</dict>
+</plist>
