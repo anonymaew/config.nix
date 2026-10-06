@@ -66,7 +66,7 @@ end
 -- NOTE: "ty" is not a valid lspconfig/Mason server name so it was removed.
 --       If you need a spell-checker LSP try "typos_lsp" instead.
 local lsp_servers = {
-	'eslint', 'html', 'ltex_plus', 'lua_ls', 'nil_ls', 'ruff', 'rust_analyzer',
+	'eslint', 'harper_ls', 'html', 'lua_ls', 'nil_ls', 'ruff', 'rust_analyzer',
 	'svelte', 'tinymist', 'ts_ls'
 };
 

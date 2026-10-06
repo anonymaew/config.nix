@@ -14,7 +14,7 @@
           cargo
           nodejs_24
           alejandra
-          ltex-ls
+          harper
           lua-language-server
           nil
           # oxlint
