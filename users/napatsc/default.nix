@@ -74,7 +74,7 @@
     brewCasks.slack
     brewCasks.zen
     zoom-us
-    zotero
+    # zotero
   ];
 
   # SMB mount for k3s network storage (SMB NodePort 30445 → pod port 445).
