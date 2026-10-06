@@ -111,9 +111,6 @@
       PermitRootLogin = "prohibit-password";
     };
   };
-  # Don't restart sshd on switch: deploy-rs's own control connection dies
-  # when sshd restarts mid-activation, which reports a bogus deploy failure.
-  systemd.services.sshd.restartIfChanged = false;
 
   # Tailscale — join the existing tailnet (homelab is already on it; hetzner
   # has it commented out). First login is interactive: run `tailscale up` on
