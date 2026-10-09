@@ -36,11 +36,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-    # Trackpad swipe gestures for AeroSpace (companion to aerospace)
-    aerospace-swipe = {
-      url = "github:acsandmann/aerospace-swipe";
-      flake = false;
-    };
     # for MacOS apps fix
     mac-app-util = {
       url = "github:hraban/mac-app-util";

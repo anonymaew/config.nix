@@ -72,10 +72,10 @@ in
 
                 # Programs — individual Home Manager modules
                 self.homeModules.yabai
-                self.homeModules.skhd
+                # self.homeModules.skhd # deactivated
                 # self.homeModules.sketchybar # deactivated
                 self.homeModules.ghostty
-                self.homeModules.aerospace
+                # self.homeModules.aerospace # deactivated
                 self.homeModules.pass
                 self.homeModules.neovim
                 self.homeModules.tmux

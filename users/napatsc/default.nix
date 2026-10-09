@@ -57,7 +57,6 @@
     noto-fonts
 
     # GUI apps via brew-nix
-    aerospace
     brewCasks.audacity
     brewCasks.bitwarden
     brewCasks.gimp
