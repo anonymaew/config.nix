@@ -2,16 +2,15 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 {
-  config,
   lib,
   pkgs,
+  user,
   ...
 }:
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../modules/identity.nix
   ];
 
   sops = {
@@ -31,29 +30,8 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-  nix.settings.auto-optimise-store = true;
-  nix.gc.automatic = true;
-  nix.gc.options = "--delete-generations +8";
-  nix.optimise.automatic = true;
-  # Pull prebuilt paths from the community cache as well as cache.nixos.org
-  # (nix-community projects aren't always on the main cache).
-  nix.settings.substituters = [
-    "https://cache.nixos.org"
-    "https://nix-community.cachix.org"
-  ];
-  nix.settings.trusted-public-keys = [
-    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    "builder:qPTpfl43MdQlIoXVLCvA0/II/esC9F2qhau7skLyV5Y="
-  ];
-  nix.settings.trusted-users = [
-    "root"
-    "napatsc"
-  ];
+  # Nix settings, GC, locale, timezone and the baseline package set come from
+  # `config.nixos.modules.base` (modules/nixos-base.nix).
   # Disable substituting during cross-build from darwin (cache resolution can fail)
   nix.settings.builders-use-substitutes = lib.mkForce false;
 
@@ -93,23 +71,7 @@
   # Enable networking
   # networking.networkmanager.enable = true;
 
-  # Set your time zone.
-  time.timeZone = "America/Los_Angeles";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
-  };
+  # Time zone / locale are provided by `config.nixos.modules.base`.
 
   # # Enable the X11 windowing system.
   # services.xserver = {
@@ -147,26 +109,13 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with 'passwd'.
-  users.users = {
-    "${config.user.username}" = {
-      isNormalUser = true;
-      extraGroups = [
-        "wheel"
-        "podman"
-      ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDe/pgCTH3B4AzKAVMcA2l42jJq2K4tiObkLNsvbrJZG napatsc@macair"
-      ];
-    };
-  };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  # `isNormalUser`, the wheel group and the authorized key come from
+  # `config.nixos.modules.identity`; this host only adds the podman group.
+  users.users.${user.username}.extraGroups = [ "podman" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    btop
     direnv
     eza
     fastfetch
@@ -176,18 +125,14 @@
     git
     gnused
     imagemagick
-    inetutils
     just
     less
     ncurses
-    neovim
     pandoc
     parallel
     ripgrep
     rsync
     tmux
-    uutils-coreutils-noprefix
-    wget
     # yt-dlp
   ];
 

@@ -59,7 +59,6 @@ in
             };
             users."${user.username}" = {
               imports = [
-                homeModules.git
                 inputs.sops-nix.homeManagerModules.sops
                 (rootPath + "/users/${user.username}")
                 inputs.mac-app-util.homeManagerModules.default
@@ -69,25 +68,11 @@ in
                 # programs.nix-plist-manager.options in hosts/macair/mac.nix
                 inputs.nix-plist-manager.homeManagerModules.default
                 (rootPath + "/hosts/macair/mac.nix")
-
-                # Programs — individual Home Manager modules
-                self.homeModules.yabai
-                # self.homeModules.skhd # deactivated
-                # self.homeModules.sketchybar # deactivated
-                self.homeModules.ghostty
-                # self.homeModules.aerospace # deactivated
-                self.homeModules.pass
-                self.homeModules.neovim
-                self.homeModules.tmux
-                self.homeModules.direnv
-                self.homeModules.starship
-                self.homeModules.taskwarrior
-                self.homeModules.gnupg
-                self.homeModules.pi
-                self.homeModules.k9s
-                self.homeModules.git
-                self.homeModules.shell
-              ];
+              ]
+              # Auto-discovered programs (flake.homeModules) and the identity
+              # git fragment (config.home.modules) — no per-program listing.
+              ++ lib.attrValues homeModules
+              ++ lib.attrValues self.homeModules;
             };
           };
         }
