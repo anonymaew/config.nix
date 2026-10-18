@@ -18,6 +18,9 @@ let
       "https://github.com/donrami/pi-go-bars"
       "https://github.com/apmantza/pi-lens"
       "npm:@duarteocarmo/pi-jumper"
+      # Restores the exact pi session per tmux pane via tmux-resurrect.
+      # tmux.conf has the matching @resurrect-hook-post-save-layout.
+      "https://github.com/fabiangigler/pi-tmux-session-tracker"
     ];
   };
 
