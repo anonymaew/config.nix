@@ -24,6 +24,11 @@ let
         default = "6092 759D C395 82FC 366A  83A8 92DD 8B79 5345 9405";
         description = "User's PGP key fingerprint";
       };
+      sshKey = lib.mkOption {
+        type = lib.types.singleLineStr;
+        default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDe/pgCTH3B4AzKAVMcA2l42jJq2K4tiObkLNsvbrJZG napatsc@macair";
+        description = "User's SSH public key (authorized on every host)";
+      };
     };
   };
 in
@@ -54,9 +59,7 @@ in
     users.users.${user.username} = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDe/pgCTH3B4AzKAVMcA2l42jJq2K4tiObkLNsvbrJZG napatsc@macair"
-      ];
+      openssh.authorizedKeys.keys = [ user.sshKey ];
     };
   };
 

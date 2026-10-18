@@ -2,6 +2,7 @@
 { ... }: {
   imports = [
     ./identity.nix
+    ./nixos-base.nix
     ./darwin.nix
     ./nixos.nix
   ];
