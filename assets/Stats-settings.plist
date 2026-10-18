@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Battery_position</key>
+	<integer>6</integer>
+	<key>Battery_state</key>
+	<false/>
+	<key>Battery_widget</key>
+	<string>battery</string>
+	<key>Bluetooth_position</key>
+	<integer>7</integer>
+	<key>Bluetooth_state</key>
+	<false/>
+	<key>CPU_mini_alignment</key>
+	<string>center</string>
+	<key>CPU_position</key>
+	<integer>1</integer>
+	<key>CPU_state</key>
+	<true/>
+	<key>CPU_widget</key>
+	<string>mini</string>
+	<key>Clock_position</key>
+	<integer>8</integer>
+	<key>Clock_state</key>
+	<false/>
+	<key>CombinedModules</key>
+	<true/>
+	<key>CombinedModules_popup</key>
+	<false/>
+	<key>CombinedModules_separator</key>
+	<false/>
+	<key>CombinedModules_spacing</key>
+	<string>none</string>
+	<key>Disk_position</key>
+	<integer>4</integer>
+	<key>Disk_state</key>
+	<false/>
+	<key>Disk_widget</key>
+	<string>bar_chart</string>
+	<key>GPU_position</key>
+	<integer>2</integer>
+	<key>GPU_state</key>
+	<false/>
+	<key>GPU_widget</key>
+	<string>mini</string>
+	<key>LaunchAtLoginNext</key>
+	<true/>
+	<key>NSOSPLastRootDirectory</key>
+	<data>
+	Ym9va6wCAAAAAAUQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	AAAAAAAAAAAAAAAAAIwBAAAEAAAAAwMAAAAAACAFAAAAAQEAAFVzZXJzAAAABwAAAAEB
+	AABuYXBhdHNjAAkAAAABAQAARG9jdW1lbnRzAAAADAAAAAEGAAAQAAAAIAAAADAAAAAI
+	AAAABAMAAD9IAAAAAAAACAAAAAQDAACIAAEAAAAAAAgAAAAEAwAAvwABAAAAAAAMAAAA
+	AQYAAFgAAABoAAAAeAAAAAgAAAAABAAAQcffgC8AAAAYAAAAAQIAAAIAAAAAAAAADwAA
+	AAAAAAAAAAAAAAAAAAAAAAABBQAACAAAAAQDAAABAAAAAAAAAAQAAAADAwAA9QEAAAgA
+	AAABCQAAZmlsZTovLy8MAAAAAQEAAE1hY2ludG9zaCBIRAgAAAAEAwAAAFCBGHMAAAAI
+	AAAAAAQAAEHID1rJgAAAJAAAAAEBAABEQzAzRTBFQy0xM0M5LTQyNTctQjJGQS1EQURD
+	RkI3QTlFNjcYAAAAAQIAAIEAAAABAAAA7xMAAAEAAAAAAAAAAAAAAAEAAAABAQAALwAA
+	ANgAAAD+////AQAAAAAAAAARAAAABBAAAEQAAAAAAAAABRAAAIgAAAAAAAAAEBAAAKwA
+	AAAAAAAAQBAAAJwAAAAAAAAAAiAAAIABAAAAAAAABSAAAPAAAAAAAAAAECAAAAABAAAA
+	AAAAESAAADQBAAAAAAAAEiAAABQBAAAAAAAAEyAAACQBAAAAAAAAICAAAGABAAAAAAAA
+	MCAAAMwAAAAAAAAAAcAAANQAAAAAAAAAEcAAACAAAAAAAAAAEsAAAOQAAAAAAAAAAdAA
+	AMwAAAAAAAAAENAAAAQAAAAAAAAA
+	</data>
+	<key>NSStatusItem Preferred Position CombinedModules</key>
+	<real>354</real>
+	<key>NSToolbar Configuration eu.exelban.Stats.Settings.Toolbar</key>
+	<dict>
+		<key>TB Display Mode</key>
+		<integer>1</integer>
+		<key>TB Icon Size Mode</key>
+		<integer>1</integer>
+		<key>TB Is Shown</key>
+		<true/>
+		<key>TB Size Mode</key>
+		<integer>1</integer>
+	</dict>
+	<key>NSWindow Frame eu.exelban.Stats.Settings.WindowFrame</key>
+	<string>495 361 728 480 0 0 1710 1073 </string>
+	<key>Network_position</key>
+	<integer>0</integer>
+	<key>Network_speed_icon</key>
+	<string>none</string>
+	<key>Network_speed_mode</key>
+	<string>twoRows</string>
+	<key>Network_state</key>
+	<true/>
+	<key>Network_widget</key>
+	<string>speed</string>
+	<key>RAM_barChart_position</key>
+	<integer>3</integer>
+	<key>RAM_label_position</key>
+	<integer>1</integer>
+	<key>RAM_lineChart_position</key>
+	<integer>2</integer>
+	<key>RAM_memory_position</key>
+	<integer>5</integer>
+	<key>RAM_mini_alignment</key>
+	<string>center</string>
+	<key>RAM_mini_position</key>
+	<integer>0</integer>
+	<key>RAM_oneView</key>
+	<false/>
+	<key>RAM_pieChart_position</key>
+	<integer>4</integer>
+	<key>RAM_position</key>
+	<integer>3</integer>
+	<key>RAM_state</key>
+	<true/>
+	<key>RAM_state_position</key>
+	<integer>8</integer>
+	<key>RAM_tachometer_position</key>
+	<integer>6</integer>
+	<key>RAM_text_position</key>
+	<integer>7</integer>
+	<key>RAM_widget</key>
+	<string>mini</string>
+	<key>Remote_position</key>
+	<integer>9</integer>
+	<key>Sensors_position</key>
+	<integer>5</integer>
+	<key>Sensors_state</key>
+	<false/>
+	<key>Sensors_widget</key>
+	<string>label</string>
+	<key>dockIcon</key>
+	<false/>
+	<key>remote_tokens_migrated_to_keychain</key>
+	<true/>
+	<key>runAtLoginInitialized</key>
+	<true/>
+	<key>setupProcess</key>
+	<true/>
+	<key>support_ts</key>
+	<integer>1786866153</integer>
+	<key>update-interval</key>
+	<string>Never</string>
+	<key>updater_check_ts</key>
+	<integer>1786866153</integer>
+	<key>version</key>
+	<string>3.0.11</string>
+</dict>
+</plist>

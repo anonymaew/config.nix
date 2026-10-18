@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>persistent-others</key>
+	<array>
+		<dict>
+			<key>GUID</key>
+			<integer>3854795327</integer>
+			<key>tile-data</key>
+			<dict>
+				<key>arrangement</key>
+				<integer>2</integer>
+				<key>book</key>
+				<data>
+				Ym9va5ACAAAAAAUQQAAAAAAAAAAAAAAAAAAAAAAAAAAA
+				AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHwB
+				AAAEAAAAAwMAAAAAACAFAAAAAQEAAFVzZXJzAAAABwAA
+				AAEBAABuYXBhdHNjAAkAAAABAQAARG93bmxvYWRzAAAA
+				DAAAAAEGAAAQAAAAIAAAADAAAAAIAAAABAMAAD9IAAAA
+				AAAACAAAAAQDAACIAAEAAAAAAAgAAAAEAwAAwQABAAAA
+				AAAMAAAAAQYAAFgAAABoAAAAeAAAAAgAAAAABAAAQcff
+				gC8AAAAYAAAAAQIAAAIAAAAAAAAADwAAAAAAAAAAAAAA
+				AAAAAAgAAAAEAwAAAQAAAAAAAAAEAAAAAwMAAPUBAAAI
+				AAAAAQkAAGZpbGU6Ly8vDAAAAAEBAABNYWNpbnRvc2gg
+				SEQIAAAABAMAAABQgRhzAAAAJAAAAAEBAABEQzAzRTBF
+				Qy0xM0M5LTQyNTctQjJGQS1EQURDRkI3QTlFNjcYAAAA
+				AQIAAIEAAAABAAAA7xMAAAEAAAAAAAAAAAAAAAEAAAAB
+				AQAALwAAAAAAAAABBQAAzAAAAP7///8BAAAAAAAAABAA
+				AAAEEAAARAAAAAAAAAAFEAAAiAAAAAAAAAAQEAAArAAA
+				AAAAAABAEAAAnAAAAAAAAAACIAAAaAEAAAAAAAAFIAAA
+				6AAAAAAAAAAQIAAA+AAAAAAAAAARIAAAHAEAAAAAAAAS
+				IAAADAEAAAAAAAATIAAAnAAAAAAAAAAgIAAASAEAAAAA
+				AAAwIAAAdAEAAAAAAAABwAAAzAAAAAAAAAARwAAAIAAA
+				AAAAAAASwAAA3AAAAAAAAAAQ0AAABAAAAAAAAAA=
+				</data>
+				<key>displayas</key>
+				<integer>0</integer>
+				<key>file-data</key>
+				<dict>
+					<key>_CFURLString</key>
+					<string>file:///Users/napatsc/Downloads/</string>
+					<key>_CFURLStringType</key>
+					<integer>15</integer>
+				</dict>
+				<key>file-label</key>
+				<string>Downloads</string>
+				<key>file-mod-date</key>
+				<integer>50894937052145</integer>
+				<key>file-type</key>
+				<integer>2</integer>
+				<key>is-beta</key>
+				<false/>
+				<key>parent-mod-date</key>
+				<integer>225171825022039</integer>
+				<key>preferreditemsize</key>
+				<integer>-1</integer>
+				<key>showas</key>
+				<integer>1</integer>
+			</dict>
+			<key>tile-type</key>
+			<string>directory-tile</string>
+		</dict>
+	</array>
+</dict>
+</plist>

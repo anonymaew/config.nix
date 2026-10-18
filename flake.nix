@@ -4,7 +4,7 @@
   inputs = {
     # Nix Packages
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    # MacOS Spacific Packages
+    # MacOS Specific Packages
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,6 +12,11 @@
     # Home Manager for user-specific configs
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # determinate-nix
+    determinate = {
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # homebrew without homebrew
@@ -32,136 +37,41 @@
       inputs.home-manager.follows = "home-manager";
     };
     # for MacOS apps fix
-    mac-app-util.url = "github:hraban/mac-app-util";
-
-    deploy-rs.url = "github:serokell/deploy-rs";
-    nix-rosetta-builder = {
-      url = "github:cpick/nix-rosetta-builder";
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # macOS System Settings as declared options (user scope -> home-manager)
+    nix-plist-manager = {
+      url = "github:SushyDev/nix-plist-manager/v3.0.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    deploy-rs.url = "github:serokell/deploy-rs";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Modular flake framework (officially recommended over flake-utils)
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      nix-darwin,
-      home-manager,
-      brew-nix,
-      agent-skills,
-      mac-app-util,
-      deploy-rs,
-      nix-rosetta-builder,
-      sops-nix,
-      ...
-    }@inputs:
-    let
-      vars = {
-        name = "napatsc";
-      };
-      system = "x86_64-linux";
-      # Unmodified nixpkgs
-      pkgs = import nixpkgs { inherit system; };
-      # nixpkgs with deploy-rs overlay but force the nixpkgs package
-      deployPkgs = import nixpkgs {
-        inherit system;
-        overlays = [
-          deploy-rs.overlays.default
-          (self: super: {
-            deploy-rs = {
-              inherit (pkgs) deploy-rs;
-              lib = super.deploy-rs.lib;
-            };
-          })
-        ];
-      };
-    in
-    {
-      formatter = nixpkgs.lib.genAttrs [ "aarch64-darwin" "x86_64-linux" ] (
-        system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style
-      );
-      darwinConfigurations = {
-        macair = nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          modules = [
-            ./default.nix
-            ./system.nix
-            brew-nix.darwinModules.default
-            home-manager.darwinModules.home-manager
-            mac-app-util.darwinModules.default
-            nix-rosetta-builder.darwinModules.default
-            sops-nix.darwinModules.sops
-            {
-              nix-rosetta-builder.onDemand = true;
-            }
-            # Apply overlays (ld64 hardening fix, etc.)
-            {
-              nixpkgs.overlays = import ./overlays/default.nix;
-            }
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = {
-                  secrets-dir = self + "/secrets";
-                  inherit agent-skills;
-                };
-                users."${vars.name}" = {
-                  imports = [
-                    sops-nix.homeManagerModules.sops
-                    ./home.nix
-                    (./. + "/users/${vars.name}")
-                    mac-app-util.homeManagerModules.default
-                    agent-skills.homeManagerModules.default
-                    ./programs/skills
-                  ];
-                };
-              };
-            }
-          ];
-          specialArgs = {
-            inherit vars;
-            inherit brew-nix;
-          };
-        };
-      };
-      nixosConfigurations.homelab = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./homelab/configuration.nix
-          sops-nix.nixosModules.sops
-        ];
-        specialArgs = { inherit vars; secrets-dir = self + "/secrets"; };
-      };
-      deploy.nodes.homelab = {
-        hostname = "homelab";
-        interactiveSudo = true;
-        profiles.system = {
-          sshUser = "napatsc";
-          user = "root";
-          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.homelab;
-        };
-      };
-      nixosConfigurations.hetzner-sg = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hetzner/configuration.nix
-          sops-nix.nixosModules.sops
-        ];
-        specialArgs = { inherit vars; secrets-dir = self + "/secrets"; };
-      };
-      deploy.nodes.hetzner-sg = {
-        hostname = "hetzner-sg";
-        interactiveSudo = true;
-        profiles.system = {
-          sshUser = "napatsc";
-          user = "root";
-          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.hetzner-sg;
-        };
-      };
+    inputs@{ flake-parts, home-manager, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "aarch64-darwin"
+        "x86_64-linux"
+      ];
+
+      imports = [
+        # Home Manager flake-parts module (declares flake.homeModules)
+        home-manager.flakeModules.home-manager
+        # Feature modules (each is a flake-parts module)
+        ./modules
+        # Existing output logic (darwin, nixos, deploy configs)
+        ./output.nix
+        # Program modules (each program is its own flake-parts module)
+        ./programs
+      ];
     };
 }
