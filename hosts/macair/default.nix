@@ -34,7 +34,24 @@ in
   determinateNix = {
     enable = true;
     determinateNixd.garbageCollector.strategy = "disabled";
-    customSettings.auto-optimise-store = true;
+    customSettings = {
+      auto-optimise-store = true;
+      # napatsc is not in trusted-users here (accept-flake-config = false), so
+      # the flake's own nixConfig is ignored — set the community cache at the
+      # system level instead.
+      #
+      # Use `substituters`, not `extra-substituters`: the module's
+      # nixosVmBasedLinuxBuilder block emits `substituters = lib.mkAfter
+      # [ "https://cache.nixos.org/" ]`, and nix.custom.conf is written in key
+      # order, so an `extra-substituters` line lands *before* the plain
+      # `substituters` line — and a plain assignment resets the list rather than
+      # appending, silently dropping cachix. Defining it here merges with the
+      # module's entry, and /etc/nix/nix.conf appends install.determinate.systems.
+      substituters = [ "https://nix-community.cachix.org" ];
+      trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+    };
 
     # Distributed builds via Determinate (it renders /etc/nix/machines itself —
     # nix-darwin's nix.* options are inert when nix.enable = false).
@@ -109,8 +126,8 @@ in
       if /usr/sbin/lsof -nP -iTCP:${toString builderPort} -sTCP:ESTABLISHED >/dev/null 2>&1; then
         : > "$state" # a build is (or was very recently) connected: re-arm the clock
       elif [ -f "$state" ]; then
-        age=$(( $(/bin/date +%s) - $(/bin/stat -f %m "$state") ))
-        if [ "$age" -ge $((idleMinutes * 60)) ]; then
+        age=$(( $(/bin/date +%s) - $(/usr/bin/stat -f %m "$state") ))
+        if [ "$age" -ge ${toString (idleMinutes * 60)} ]; then
           /bin/launchctl bootout system/org.nixos.linux-builder 2>/dev/null || true
           /bin/rm -f "$state"
         fi

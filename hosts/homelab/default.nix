@@ -39,8 +39,15 @@
   nix.gc.automatic = true;
   nix.gc.options = "--delete-generations +8";
   nix.optimise.automatic = true;
+  # Pull prebuilt paths from the community cache as well as cache.nixos.org
+  # (nix-community projects aren't always on the main cache).
+  nix.settings.substituters = [
+    "https://cache.nixos.org"
+    "https://nix-community.cachix.org"
+  ];
   nix.settings.trusted-public-keys = [
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     "builder:qPTpfl43MdQlIoXVLCvA0/II/esC9F2qhau7skLyV5Y="
   ];
   nix.settings.trusted-users = [
