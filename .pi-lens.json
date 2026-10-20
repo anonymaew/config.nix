@@ -1,3 +1,13 @@
 {
-  "ignore": ["secrets/**", "pre-migration-state.yaml"]
+  "ignore": ["secrets/**", "pre-migration-state.yaml"],
+  "lsp": {
+    "serverOverrides": {
+      "nix": {
+        "initializationOptions": {
+          "nixpkgs": { "expr": "import <nixpkgs> { }" },
+          "formatting": { "command": ["nixfmt"] }
+        }
+      }
+    }
+  }
 }

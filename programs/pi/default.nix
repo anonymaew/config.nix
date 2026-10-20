@@ -18,6 +18,7 @@ let
       "https://github.com/donrami/pi-go-bars"
       "https://github.com/apmantza/pi-lens"
       "npm:@duarteocarmo/pi-jumper"
+      "npm:pi-subagents-lite"
       # Restores the exact pi session per tmux pane via tmux-resurrect.
       # tmux.conf has the matching @resurrect-hook-post-save-layout.
       "https://github.com/fabiangigler/pi-tmux-session-tracker"
@@ -41,6 +42,12 @@ in
         extraPackages = with pkgs; [
           agent-browser
           nodejs_latest
+          # Nix language server + formatter for pi-lens. pi-lens has exactly one
+          # nix runner (the `nixd` LSP, clients/lsp/server.ts) and never
+          # auto-installs it, so without this every .nix check silently reports
+          # "clean". nixfmt matches the flake formatter in output.nix.
+          nixd
+          nixfmt
         ];
 
         # Note: `settings` is intentionally NOT set here. The upstream module
