@@ -4,6 +4,10 @@
 keys:
       - &admin_age age1ll734w28scas47nedsr0ct94z3add3gm4ylr27yc54hwalga3v4qnk34gf
       - &homelab_age age1xc8pv9d0tw4l0zn2yytksnejluck8nvtv325q8vk4aurvuqswvjs5ft63k # yamllint disable-line line-length
+      # homelab-3070 — derived from its own /etc/ssh/ssh_host_ed25519_key
+      # (the installer's key, so it must be re-derived if the host key is
+      # ever regenerated: ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub)
+      - &homelab_3070_age age19naff7j89cny5dwufm4uppfkvac4p5vx3f8ejeyyeuf2nlcxdvaswz73s6 # yamllint disable-line line-length
 creation_rules:
       # Personal secrets (darwin, auth, go-bars, models) — age only, no shamir
       - path_regex: (darwin|auth|go-bars|models)\.(json|yaml)$
@@ -16,3 +20,10 @@ creation_rules:
               - age:
                       - *admin_age
                       - *homelab_age
+      # Second k3s node. Separate rule on purpose: the `homelab.yaml` regex
+      # above is anchored and does not match `homelab-3070.yaml`.
+      - path_regex: homelab-3070\.yaml$
+        key_groups:
+              - age:
+                      - *admin_age
+                      - *homelab_3070_age

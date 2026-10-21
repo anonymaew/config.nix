@@ -32,6 +32,22 @@ in
       };
     };
 
+    # Second k3s node. Installed by nixos-anywhere; the tailnet IP is stable
+    # per node key, so no MagicDNS dependency is needed to reach it.
+    deploy.nodes.homelab-3070 = {
+      hostname = "100.83.20.73";
+      sshOpts = [
+        "-o"
+        "StrictHostKeyChecking=accept-new"
+      ];
+      interactiveSudo = false;
+      profiles.system = {
+        sshUser = "root";
+        user = "root";
+        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.homelab-3070;
+      };
+    };
+
     deploy.nodes.linode-us = {
       # No DNS name yet — deploy against the Linode's public IP.
       hostname = "45.33.39.244";

@@ -36,4 +36,10 @@ in
   # PV nodeAffinity is immutable.
   config.flake.nixosConfigurations.homelab-n150 = mkHost { host = "homelab-n150"; };
   config.flake.nixosConfigurations.linode-us = mkHost { host = "linode-us"; };
+  # disko only partitions on the nixos-anywhere install; on a deployed system
+  # it is inert (the host's fileSystems come from hosts/homelab-3070/disk-config.nix).
+  config.flake.nixosConfigurations.homelab-3070 = mkHost {
+    host = "homelab-3070";
+    extraModules = [ inputs.disko.nixosModules.disko ];
+  };
 }
