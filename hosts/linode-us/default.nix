@@ -59,16 +59,17 @@
     };
   };
 
-  # Tailscale — join the existing tailnet (homelab is already on it; hetzner
-  # has it commented out). First login is interactive: run `tailscale up` on
-  # the box and approve the printed URL with your Tailscale account.
+  # Tailscale — join the existing tailnet (homelab-n150 is already on it).
+  # First login is interactive: run `tailscale up` on the box and approve the
+  # printed URL with your Tailscale account.
   services.tailscale.enable = true;
 
   # ── Public ingress proxy (kernel nftables DNAT, no userspace daemon) ──
-  # Internet → linode :80/:443 → tailnet → homelab traefik NodePorts.
+  # Internet → linode :80/:443 → tailnet → homelab-n150 traefik NodePorts.
   # TLS stays end-to-end (traefik + cert-manager terminate inside the cluster).
-  # Trade-off: homelab sees every client as linode's tailnet IP (100.84.229.73) —
-  # real client IPs would need a userspace PROXY-protocol proxy (nginx/haproxy).
+  # Trade-off: homelab-n150 sees every client as linode's tailnet IP
+  # (100.84.229.73) — real client IPs would need a userspace PROXY-protocol
+  # proxy (nginx/haproxy).
   networking.nftables.enable = true; # switches the firewall backend to nftables
   networking.nftables.tables.nat = {
     family = "ip";

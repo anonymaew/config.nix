@@ -8,8 +8,9 @@ Declarative Nix, nix-darwin and NixOS configuration for my machines — a
 | Host | System | Role |
 | --- | --- | --- |
 | `macair` | `aarch64-darwin` | macOS laptop — desktop + dev + k8s tooling |
-| `homelab` | `x86_64-linux` | home server — k3s single-node server, podman, tailscale |
-| `linode-us` | `x86_64-linux` | public VPS — nftables DNAT ingress proxy to homelab traefik over tailscale |
+| `homelab-n150` | `x86_64-linux` | home server — k3s single-node server (node name stays `homelab`), podman, tailscale |
+| `homelab-3070` | `x86_64-linux` | home server — k3s agent/worker on the NVMe box |
+| `linode-us` | `x86_64-linux` | public VPS — nftables DNAT ingress proxy to the homelab traefik over tailscale |
 
 ## Architecture
 
@@ -32,7 +33,7 @@ at the configuration boundary.
 │   ├── identity.nix       # single source of truth for config.user.*
 │   ├── nixos-base.nix     # shared NixOS settings → config.nixos.modules.base
 │   ├── darwin.nix         # builds flake.darwinConfigurations.macair
-│   └── nixos.nix          # builds flake.nixosConfigurations.{homelab,linode-us}
+│   └── nixos.nix          # builds flake.nixosConfigurations.{homelab-n150,homelab-3070,linode-us}
 ├── programs/              # Home Manager modules, auto-discovered
 │   ├── default.nix        # discovers programs/*/default.nix
 │   ├── git/default.nix    # each exports flake.homeModules.<name>
@@ -43,7 +44,8 @@ at the configuration boundary.
 │   │   ├── default.nix    # hostname, nix/determinate, launchd, PAM, keyboard
 │   │   ├── mac.nix        # macOS System Settings via nix-plist-manager (user scope)
 │   │   └── snapshots/     # dock / menu bar / wallpaper plists
-│   ├── homelab/           # NixOS — k3s single-node server, podman, tailscale
+│   ├── homelab-n150/      # NixOS — k3s single-node server, podman, tailscale
+│   ├── homelab-3070/      # NixOS — k3s agent, disko layout (installed by nixos-anywhere)
 │   └── linode-us/         # NixOS — nftables DNAT ingress proxy
 ├── users/                 # Home Manager core for the primary user
 │   └── napatsc/default.nix
@@ -73,8 +75,8 @@ at the configuration boundary.
 - **Shared NixOS boilerplate** lives in `modules/nixos-base.nix` and is exposed
   as the flake-parts option `config.nixos.modules.base` — nix settings,
   automatic garbage collection / store optimisation, locale, and the common
-  server packages. Both `homelab` and `linode-us` include it, so the two
-  servers stay consistent without copy-paste.
+  server packages. Every server host includes it, so they stay consistent
+  without copy-paste.
 
 - **macOS System Settings** are declared in `hosts/macair/mac.nix` through
   [nix-plist-manager](https://github.com/SushyDev/nix-plist-manager) at **user
@@ -84,8 +86,13 @@ at the configuration boundary.
 
 - **Hosts** are assembled in the `modules/` layer: `modules/darwin.nix` builds
   `flake.darwinConfigurations.macair`, and `modules/nixos.nix` builds
-  `flake.nixosConfigurations.homelab` and `.linode-us`. The `deploy.nodes` for
-  the remote hosts are declared in `output.nix`.
+  `flake.nixosConfigurations.homelab-n150`, `.homelab-3070` and `.linode-us`.
+  The `deploy.nodes` for the remote hosts are declared in `output.nix`.
+
+- **k3s node names are not the OS names.** `homelab-n150` runs kubelet with
+  `--node-name=homelab`: 49 local-path PVs carry
+  `nodeAffinity: kubernetes.io/hostname=homelab` and PV nodeAffinity is
+  immutable. `kubectl get nodes` therefore shows `homelab` and `homelab-3070`.
 
 ## Adding a program
 
@@ -142,7 +149,8 @@ sudo darwin-rebuild switch --flake .
 Deploy to the remote hosts with deploy-rs:
 
 ```sh
-nix run github:serokell/deploy-rs -- .#homelab
+nix run github:serokell/deploy-rs -- .#homelab-n150
+nix run github:serokell/deploy-rs -- .#homelab-3070
 nix run github:serokell/deploy-rs -- .#linode-us
 ```
 
@@ -244,4 +252,5 @@ nix flake check
 - [`AGENTS.md`](AGENTS.md) — working notes for AI agents on this repo
 - [`docs/macos-plist.md`](docs/macos-plist.md) — macOS System Settings → nix-plist-manager migration
 - [`docs/install-nixos-on-linode.md`](docs/install-nixos-on-linode.md) — in-place NixOS install on the Linode VPS
-- [`docs/control-plane-migration.md`](docs/control-plane-migration.md) — k3s control-plane move (hetzner → homelab)
+- [`docs/control-plane-migration.md`](docs/control-plane-migration.md) — k3s control-plane move (hetzner → homelab; the host is now `homelab-n150`)
+- [`docs/install-nixos-on-homelab-3070.md`](docs/install-nixos-on-homelab-3070.md) — disko + nixos-anywhere install of the second k3s node

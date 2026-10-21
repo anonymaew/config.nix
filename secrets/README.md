@@ -3,14 +3,16 @@
 ## Age-based Setup
 
 - **Admin age key** — for editing secrets on Mac
-- **Machine age keys** — derived from SSH host keys (homelab, hetzner)
+- **Machine age keys** — derived from SSH host keys (`homelab-n150`, `homelab-3070`)
 
 ## Directory Structure
 
 ```
 secrets/
-├── homelab.yaml     # k3s token, wireguard client config
-├── hetzner.yaml     # wireguard server private key
+├── homelab.yaml       # k3s-token, smb-password, legacy wireguard keys (name kept
+│                      #   from before the homelab → homelab-n150 host rename)
+├── homelab-3070.yaml  # k3s-token for the second node (encrypted to its own host key)
+├── hetzner.yaml       # wireguard server private key (host decommissioned, file kept)
 ├── darwin.json      # model provider API key
 ├── auth.json        # opencode API keys (whole-file)
 ├── go-bars.json     # pi workspace/cookie (whole-file)
@@ -20,8 +22,9 @@ secrets/
 ## Editing Secrets
 
 ```bash
-# YAML files (homelab, hetzner)
+# YAML files
 sops secrets/homelab.yaml
+sops secrets/homelab-3070.yaml
 
 # JSON files (darwin, auth, go-bars)
 sops secrets/darwin.json
@@ -31,11 +34,11 @@ sops secrets/go-bars.json
 
 ## How It Works
 
-### NixOS (homelab, hetzner)
+### NixOS (homelab-n150, homelab-3070, linode-us)
 
 - sops-nix decrypts secrets at boot using SSH host age keys
 - Secrets available at `config.sops.secrets.<name>.path`
-- Used for: k3s token, wireguard private keys
+- Used for: k3s token (agent join), legacy wireguard private keys
 
 ### macOS (macair)
 

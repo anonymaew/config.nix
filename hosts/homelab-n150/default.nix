@@ -16,8 +16,10 @@
   sops = {
     defaultSopsFile = ../../secrets + "/homelab.yaml";
     defaultSopsFormat = "yaml";
-    # No per-box secrets anymore — k3s-token/wireguard were dropped when the
-    # cluster moved onto this box (smb-password is consumed on macair only).
+    # The file keeps its historical name on purpose (the relative depth is
+    # unchanged by the host-directory rename). It still holds `k3s-token`,
+    # `smb-password` and the legacy wireguard keys; the k3s server on this
+    # box does not consume any of them.
     # Machine-side decryption: convert SSH host key to age key
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     age.generateKey = true;
@@ -39,7 +41,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "homelab"; # Define your hostname.
+  networking.hostName = "homelab-n150"; # Define your hostname.
+  # NOTE: the k8s node name stays `homelab` (see --node-name below); 49
+  # local-path PVs carry nodeAffinity kubernetes.io/hostname=homelab and PV
+  # nodeAffinity is immutable.
   # Enables wireless support via wpa_supplicant.
 
   # networking.wireless = {
@@ -157,7 +162,8 @@
   # k3s — standalone single-node server (hetzner decommissioned).
   # Node IP moves 10.0.0.2 → 100.89.132.36 once: pod re-IPs + one flannel
   # re-subnet expected; services/NodePorts (0.0.0.0-bind) unaffected. API
-  # reachable over the tailnet at https://homelab:6443 or https://100.89.132.36:6443.
+  # reachable over the tailnet at https://homelab-n150:6443 (or the stable
+  # https://100.89.132.36:6443).
   services.k3s = {
     enable = true;
     role = "server";
@@ -171,8 +177,9 @@
       "--node-ip=100.89.132.36" # pin kubelet to the tailnet IP (wg-client is gone)
       "--flannel-iface=tailscale0" # pod network rides the tailnet overlay
       "--node-name=homelab" # pin k8s/etcd identity: 49 PVs + embedded etcd depend on it
-      # (the OS hostname/Tailscale name become homelab-n150 in a later deploy)
-      "--tls-san=homelab"
+      # (the OS hostname and Tailscale name are homelab-n150 since SR-2)
+      "--tls-san=homelab" # keep: ip-pinned/old-name clients still validate
+      "--tls-san=homelab-n150" # new name
       "--tls-san=100.89.132.36"
       "--node-label=storage-tier=large"
       "--etcd-snapshot-schedule-cron='0 */6 * * *'" # hardening: this is now THE etcd

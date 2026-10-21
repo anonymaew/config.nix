@@ -13,9 +13,10 @@ nix flake check
 # Apply changes on macair
 sudo darwin-rebuild switch --flake .
 
-# Deploy to remote hosts
-nix run github:serokell/deploy-rs -- .#homelab
-nix run github:serokell/deploy-rs -- .#hetzner-sg
+# Deploy to remote hosts (root SSH, non-interactive)
+nix run github:serokell/deploy-rs -- .#homelab-n150
+nix run github:serokell/deploy-rs -- .#homelab-3070
+nix run github:serokell/deploy-rs -- .#linode-us
 ```
 
 **Important:** Always `git add` new/modified files before running `darwin-rebuild`. Nix flakes read from the Git index, not the working tree.
@@ -41,8 +42,10 @@ nix run github:serokell/deploy-rs -- .#hetzner-sg
 │   ├── macair/default.nix               # Darwin config (nix, launchd, PAM, hostname)
 │   ├── macair/mac.nix                   # macOS System Settings via nix-plist-manager (user scope, HM)
 │   ├── macair/snapshots/                # dock contents, menu bar layout, wallpaper plists
-│   ├── homelab/default.nix              # NixOS config (k3s, podman, wireguard)
-│   └── hetzner/default.nix              # NixOS config (k3s server, wireguard)
+│   ├── homelab-n150/default.nix         # NixOS config (k3s server, podman, tailscale)
+│   ├── homelab-3070/default.nix         # NixOS config (k3s agent, disko layout)
+│   ├── homelab-3070/disk-config.nix     # disko partitioning (destructive, nixos-anywhere only)
+│   └── linode-us/default.nix            # NixOS config (nftables ingress proxy)
 ├── users/napatsc/         # HM core (packages, SMB mount, sops)
 └── secrets/               # SOPS-nix secrets
 ```
@@ -94,9 +97,14 @@ Then `git add` and test with `nix flake check` + `darwin-rebuild switch --flake 
 | Host | Type | Description |
 | ------ | ------ | ------------- |
 | macair | Darwin | macOS laptop — 17 programs (desktop + dev + k8s) |
-| homelab | NixOS | Home server — k3s, podman, wireguard |
-| hetzner-sg | NixOS | Cloud server — k3s, wireguard |
+| homelab-n150 | NixOS | Home server — k3s server (k8s node name stays `homelab`), podman, tailscale |
+| homelab-3070 | NixOS | Home server — k3s agent/worker, NVMe box (install process: docs/install-nixos-on-homelab-3070.md) |
 | linode-us | NixOS | Linode VPS — minimal hardened server (install process: docs/install-nixos-on-linode.md) |
+
+**k3s node names ≠ OS hostnames.** `homelab-n150` runs kubelet with
+`--node-name=homelab` because 49 local-path PVs are pinned to
+`kubernetes.io/hostname=homelab` and PV nodeAffinity is immutable. `kubectl get
+nodes` shows `homelab` and `homelab-3070`; never "fix" that by renaming.
 
 ## Common Tasks
 

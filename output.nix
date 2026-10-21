@@ -18,15 +18,17 @@ in
   };
 
   flake = {
-    deploy.nodes.homelab = {
-      hostname = "homelab";
+    deploy.nodes.homelab-n150 = {
+      # Stable tailnet IP, not MagicDNS: `homelab`/`homelab-n150` name
+      # resolution must not be in the path when the box is redeployed.
+      hostname = "100.89.132.36";
       interactiveSudo = false;
       profiles.system = {
-        # Root key auth is declared in hosts/homelab/default.nix and already
+        # Root key auth is declared in hosts/homelab-n150/default.nix and is
         # installed on the live box; this removes the sudo prompt from deploys.
         sshUser = "root";
         user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.homelab;
+        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.homelab-n150;
       };
     };
 
