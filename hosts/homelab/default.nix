@@ -113,6 +113,10 @@
   # `config.nixos.modules.identity`; this host only adds the podman group.
   users.users.${user.username}.extraGroups = [ "podman" ];
 
+  # Root key auth for passwordless deploy-rs and rescue. Declared here so it
+  # survives rebuilds; the live system already has this key installed.
+  users.users.root.openssh.authorizedKeys.keys = [ user.sshKey ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -166,6 +170,8 @@
       "--node-external-ip=100.89.132.36" # advertise the (stable) tailnet IP
       "--node-ip=100.89.132.36" # pin kubelet to the tailnet IP (wg-client is gone)
       "--flannel-iface=tailscale0" # pod network rides the tailnet overlay
+      "--node-name=homelab" # pin k8s/etcd identity: 49 PVs + embedded etcd depend on it
+      # (the OS hostname/Tailscale name become homelab-n150 in a later deploy)
       "--tls-san=homelab"
       "--tls-san=100.89.132.36"
       "--node-label=storage-tier=large"
@@ -191,8 +197,11 @@
 
   # List services that you want to enable:
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  # Enable the OpenSSH daemon. Root login is key-only; deploy-rs uses it.
+  services.openssh = {
+    enable = true;
+    settings.PermitRootLogin = "prohibit-password";
+  };
   security.pam.sshAgentAuth.enable = true;
 
   services.tailscale.enable = true;

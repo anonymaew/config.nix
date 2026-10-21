@@ -115,14 +115,17 @@
               fi
             else
               pw="$(/bin/cat "$secret" 2>/dev/null | /usr/bin/tr -d "\n")"
-              if [ -n "$pw" ] && /sbin/mount_smbfs "//samba:''${pw}@homelab:30445/code-stash" "$mountpoint"; then
+              # Pinned to the stable tailnet IP, not the MagicDNS name: after the
+              # homelab -> homelab-n150 rename, a bare `homelab` could fall through
+              # to the old Alpine box (192.168.1.194).
+              if [ -n "$pw" ] && /sbin/mount_smbfs "//samba:''${pw}@100.89.132.36:30445/code-stash" "$mountpoint"; then
                 if [ "$last_state" != "up" ]; then
                   echo "$(date +%F_%T) mounted" >> "$log"
                   last_state=up
                 fi
               else
                 if [ "$last_state" != "down" ]; then
-                  echo "$(date +%F_%T) homelab unreachable, retrying..." >> "$log"
+                  echo "$(date +%F_%T) code-stash host unreachable, retrying..." >> "$log"
                   last_state=down
                 fi
               fi

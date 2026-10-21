@@ -20,9 +20,11 @@ in
   flake = {
     deploy.nodes.homelab = {
       hostname = "homelab";
-      interactiveSudo = true;
+      interactiveSudo = false;
       profiles.system = {
-        sshUser = "napatsc";
+        # Root key auth is declared in hosts/homelab/default.nix and already
+        # installed on the live box; this removes the sudo prompt from deploys.
+        sshUser = "root";
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.homelab;
       };
