@@ -1,5 +1,13 @@
 # Handoff — `homelab-n150` rename + `homelab-3070` install
 
+> **STATUS: EXECUTED 2026-10-20.** All eight phases are complete: the host is
+> `homelab-n150` (k8s node name still `homelab`), Determinate Nix is on every
+> NixOS host, and `homelab-3070` is a Ready k3s agent. Execution record and
+> deviations from this plan (blocked `kexec`, tmpfs installer store, stale
+> Proxmox LVM signature, DHCP address change) are in
+> [`docs/install-nixos-on-homelab-3070.md`](docs/install-nixos-on-homelab-3070.md).
+> The text below is left as the pre-execution handoff.
+
 **Status:** analysis complete, ready to execute
 **Date:** 2026-10-20
 **Scope:** rename current `homelab` → `homelab-n150`, install the old Alpine box as `homelab-3070`, join it to the existing k3s cluster as an agent, and roll Determinate Nix out to every NixOS host.

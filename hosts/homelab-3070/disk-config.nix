@@ -2,6 +2,14 @@
 #
 # disko emits plain `fileSystems`/`swapDevices` definitions, so
 # hardware-configuration.nix must NOT declare them (no --generate-hardware-config).
+#
+# NOTE: this disk used to be a Proxmox host. disko only runs `mkswap` on the swap
+# partition, so an old LVM2 PV label survived and LVM grabbed the partition (the
+# systemd swap unit failed and stale `pve/*` LVs still described extents over the
+# new root). If the same signature shows up again:
+#   swapoff -a; vgchange -an <vg>; wipefs -a /dev/disk/by-partlabel/disk-main-swap
+#   mkswap -L disk-main-swap /dev/disk/by-partlabel/disk-main-swap; swapon -a
+# See docs/install-nixos-on-homelab-3070.md §5.
 {
   disko.devices.disk.main = {
     type = "disk";
