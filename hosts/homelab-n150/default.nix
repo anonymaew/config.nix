@@ -42,9 +42,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "homelab-n150"; # Define your hostname.
-  # NOTE: the k8s node name stays `homelab` (see --node-name below); 49
-  # local-path PVs carry nodeAffinity kubernetes.io/hostname=homelab and PV
-  # nodeAffinity is immutable.
+  # The k8s node name matches the OS/Tailscale name (see --node-name below).
+  # (It used to be pinned to `homelab` because local-path PV nodeAffinity is
+  # immutable; the 48 PVs were recreated for homelab-n150 by
+  # homelab-helm/services/local-path-storage/migrate-pvs-node-name.sh.)
   # Enables wireless support via wpa_supplicant.
 
   # networking.wireless = {
@@ -172,25 +173,40 @@
       "--disable=traefik" # installed via helm (homelab-helm), not the bundled chart
       "--disable=local-storage" # replaced by our standalone provisioner in homelab-helm
       "--disable-network-policy" # k3s#12639: netpol init hits "failed to find interface with specified node ip"
-                              # (node IP pinned to P2P tailscale0), causing a shutdown/restart loop
+      # (node IP pinned to P2P tailscale0), causing a shutdown/restart loop
       "--node-external-ip=100.89.132.36" # advertise the (stable) tailnet IP
       "--node-ip=100.89.132.36" # pin kubelet to the tailnet IP (wg-client is gone)
       "--flannel-iface=tailscale0" # pod network rides the tailnet overlay
-      "--node-name=homelab" # pin k8s/etcd identity: 49 PVs + embedded etcd depend on it
-      # (the OS hostname and Tailscale name are homelab-n150 since SR-2)
-      "--tls-san=homelab" # keep: ip-pinned/old-name clients still validate
-      "--tls-san=homelab-n150" # new name
+      "--node-name=homelab-n150" # k8s node name = OS hostname
+      # The embedded etcd member name is NOT derived from --node-name on an
+      # existing cluster: k3s reuses /var/lib/rancher/k3s/server/db/etcd/name
+      # (homelab-36fb7d02), so the rename keeps the etcd identity.
+      "--tls-san=homelab-n150"
+      "--tls-san=homelab" # keep while any old-name client still validates
       "--tls-san=100.89.132.36"
       "--node-label=storage-tier=large"
       "--etcd-snapshot-schedule-cron='0 */6 * * *'" # hardening: this is now THE etcd
     ];
   };
 
-  # Ensure /mnt/fast exists for local-path-provisioner (fast/NVMe tier)
+  # Fast-tier local-path storage lives at the canonical k3s path on every
+  # node: /var/lib/rancher/k3s/storage. The N150 used to use /mnt/fast; that
+  # data was migrated in place (same btrfs filesystem) and /mnt/fast is now a
+  # compatibility symlink because the 41 pre-existing PVs carry immutable
+  # hostPath=/mnt/fast/... values. Do not remove the symlink while any of
+  # those PVs still exist. The HDD tier stays at /mnt/hdd/k3s-storage.
   systemd.services."k3s-storage-dirs" = {
-    description = "Ensure k3s local-path-provisioner mount points exist";
+    description = "Ensure k3s local-path storage dirs and /mnt/fast compatibility symlink";
     serviceConfig.Type = "oneshot";
-    script = "mkdir -p /mnt/fast /mnt/hdd/k3s-storage";
+    script = ''
+      mkdir -p /var/lib/rancher/k3s/storage /mnt/hdd/k3s-storage
+      if [ ! -L /mnt/fast ]; then
+        # Fails loudly (rather than clobbering data) if a real directory is
+        # still there for some reason.
+        rmdir /mnt/fast 2>/dev/null || true
+        ln -s /var/lib/rancher/k3s/storage /mnt/fast
+      fi
+    '';
     wantedBy = [ "multi-user.target" ];
   };
 

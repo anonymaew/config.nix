@@ -31,9 +31,10 @@ let
 in
 {
   # ── NixOS configurations ───────────────────────────────────────────
-  # NOTE: the k3s node name is deliberately `homelab` on homelab-n150
-  # (--node-name=homelab): 49 local-path PVs carry that nodeAffinity and
-  # PV nodeAffinity is immutable.
+  # NOTE: homelab-n150's k8s node name matches its OS name (--node-name).
+  # The local-path PVs were recreated with nodeAffinity=homelab-n150 when the
+  # node was renamed; see homelab-helm/services/local-path-storage/
+  # migrate-pvs-node-name.sh.
   config.flake.nixosConfigurations.homelab-n150 = mkHost { host = "homelab-n150"; };
   config.flake.nixosConfigurations.linode-us = mkHost { host = "linode-us"; };
   # disko only partitions on the nixos-anywhere install; on a deployed system
