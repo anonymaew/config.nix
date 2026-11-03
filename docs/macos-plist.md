@@ -85,13 +85,18 @@ Three settings are arranged rather than typed and are stored as committed plists
 Re-capture after rearranging:
 
 ```sh
-nix run github:sushydev/nix-plist-manager#capture -- \
+nix run github:SushyDev/nix-plist-manager/v3.0.0#capture -- \
   applications.systemSettings.desktopAndDock.dock.contents hosts/macair/snapshots/contents
-nix run github:sushydev/nix-plist-manager#capture -- \
+nix run github:SushyDev/nix-plist-manager/v3.0.0#capture -- \
   applications.systemSettings.menuBar.layout hosts/macair/snapshots/layout
-nix run github:sushydev/nix-plist-manager#capture -- \
+nix run github:SushyDev/nix-plist-manager/v3.0.0#capture -- \
   applications.systemSettings.wallpaper.wallpaper hosts/macair/snapshots/wallpaper
 ```
+
+`wallpaper/index.plist` is a copy of the whole Wallpaper store (`AllSpacesAndDisplays`,
+per-display `Displays`, `Spaces`, `SystemDefault`) and includes `LastUse`
+timestamps that macOS bumps as it reuses entries, so a re-capture always shows
+some churn there; only the wallpaper choices matter.
 
 Dock contents are restored with a state-discarding Dock restart, so the Dock
 cannot overwrite what was just imported when it quits.
@@ -101,7 +106,7 @@ cannot overwrite what was just imported when it quits.
 The file was produced with:
 
 ```sh
-nix run github:sushydev/nix-plist-manager#current -- \
+nix run github:SushyDev/nix-plist-manager/v3.0.0#current -- \
   hosts/macair/mac.nix --scope user --snapshots hosts/macair/snapshots
 ```
 
@@ -137,9 +142,15 @@ sudo darwin-rebuild switch --flake .
 After changing something in System Settings, print just the difference:
 
 ```sh
-nix run github:sushydev/nix-plist-manager#current -- \
-  --scope user --against hosts/macair/mac.nix
+nix run github:SushyDev/nix-plist-manager/v3.0.0#current -- \
+  --scope user --against hosts/macair/plist-options.nix
 ```
+
+`plist-options.nix` is just `(import ./mac.nix).programs.nix-plist-manager.options`.
+`--against` imports its argument and looks option paths up from the root
+(`applications.systemSettings…`), so handing it `mac.nix` itself — a
+home-manager module — makes every lookup miss and it reports that all ~126
+readable settings differ.
 
 The tool writes plists with `/usr/bin/defaults` in an activation script
 (`home.activation."nix-plist-manager"`, after `writeBoundary`). A refused step

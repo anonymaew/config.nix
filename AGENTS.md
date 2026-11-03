@@ -41,6 +41,7 @@ nix run github:serokell/deploy-rs -- .#linode-us
 ├── hosts/                 # Host configurations
 │   ├── macair/default.nix               # Darwin config (nix, launchd, PAM, hostname)
 │   ├── macair/mac.nix                   # macOS System Settings via nix-plist-manager (user scope, HM)
+│   ├── macair/plist-options.nix         # bare options tree, for `--against` diffs
 │   ├── macair/snapshots/                # dock contents, menu bar layout, wallpaper plists
 │   ├── homelab-n150/default.nix         # NixOS config (k3s server, podman, tailscale)
 │   ├── homelab-3070/default.nix         # NixOS config (k3s agent, disko layout)
@@ -97,14 +98,14 @@ Then `git add` and test with `nix flake check` + `darwin-rebuild switch --flake 
 | Host | Type | Description |
 | ------ | ------ | ------------- |
 | macair | Darwin | macOS laptop — 17 programs (desktop + dev + k8s) |
-| homelab-n150 | NixOS | Home server — k3s server (k8s node name stays `homelab`), podman, tailscale |
+| homelab-n150 | NixOS | Home server — k3s server (k8s node name `homelab-n150`), podman, tailscale |
 | homelab-3070 | NixOS | Home server — k3s agent/worker, NVMe box (install process: docs/install-nixos-on-homelab-3070.md) |
 | linode-us | NixOS | Linode VPS — minimal hardened server (install process: docs/install-nixos-on-linode.md) |
 
-**k3s node names ≠ OS hostnames.** `homelab-n150` runs kubelet with
-`--node-name=homelab` because 49 local-path PVs are pinned to
-`kubernetes.io/hostname=homelab` and PV nodeAffinity is immutable. `kubectl get
-nodes` shows `homelab` and `homelab-3070`; never "fix" that by renaming.
+**k3s node names match the OS names.** `homelab-n150` runs kubelet with
+`--node-name=homelab-n150`; `kubectl get nodes` shows `homelab-n150` and
+`homelab-3070`. The embedded etcd member name (`homelab-36fb7d02`) is stored in
+`/var/lib/rancher/k3s/server/db/etcd/name` and is independent of the node name.
 
 ## Common Tasks
 
@@ -129,10 +130,17 @@ a single writer per plist. Options are named after the System Settings UI; see
 
 ```sh
 # what differs from the file after a change in System Settings
-nix run github:sushydev/nix-plist-manager#current -- --scope user --against hosts/macair/mac.nix
+nix run github:SushyDev/nix-plist-manager/v3.0.0#current -- \
+  --scope user --against hosts/macair/plist-options.nix
 # re-capture an arranged snapshot (dock / menu bar / wallpaper)
-nix run github:sushydev/nix-plist-manager#capture -- applications.systemSettings.menuBar.layout hosts/macair/snapshots/layout
+nix run github:SushyDev/nix-plist-manager/v3.0.0#capture -- applications.systemSettings.menuBar.layout hosts/macair/snapshots/layout
 ```
+
+`--against` takes `plist-options.nix`, not `mac.nix`: it imports its argument
+and reads option paths from the root, and `mac.nix` is a home-manager module
+where that tree lives under `programs.nix-plist-manager.options`. Handing it
+`mac.nix` makes every lookup miss, so it reports all ~126 readable settings as
+differing.
 
 Key repeat, input sources and the menu bar layout only take effect in a new session.
 `system.keyboard.remapCapsLockToEscape` is *not* covered upstream and stays in

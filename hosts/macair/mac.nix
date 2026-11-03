@@ -2,12 +2,18 @@
 #
 # Captured from this Mac with:
 #
-#   nix run github:sushydev/nix-plist-manager#current -- \
-#     hosts/macair/mac.nix --scope user --snapshots hosts/macair/snapshots
+#   nix run github:SushyDev/nix-plist-manager/v3.0.0#current -- \
+#     --scope user --snapshots hosts/macair/snapshots
 #
 # then trimmed by hand: settings still at macOS's default, and ones we have no
-# opinion about, were removed. Re-capture with `--against hosts/macair/mac.nix`
-# after changing something in System Settings to see just what differs.
+# opinion about, were removed. After changing something in System Settings, see
+# just what differs with:
+#
+#   nix run github:SushyDev/nix-plist-manager/v3.0.0#current -- \
+#     --scope user --against hosts/macair/plist-options.nix
+#
+# (pass `plist-options.nix`, not this file: `--against` imports its argument and
+# reads option paths from the root, which only works for the bare options tree.)
 #
 # Where each setting lives:
 #   - What used to be `system.defaults` in hosts/macair/default.nix (dock,
@@ -21,6 +27,9 @@
 #
 # Snapshots (hosts/macair/snapshots/*) are re-captured by hand when arranged:
 #   desktopAndDock.dock.contents, menuBar.layout, wallpaper.wallpaper
+#
+#   nix run github:SushyDev/nix-plist-manager/v3.0.0#capture -- \
+#     applications.systemSettings.<option> hosts/macair/snapshots/<name>
 #
 # mac.nix is a home-manager module: it must be imported into the user, not into
 # the darwin host (see modules/darwin.nix).
