@@ -19,6 +19,12 @@
 # env cannot work here — the env is a store path. Nodes that only import
 # packages already present (or ship pure-python) install fine via
 # ComfyUI-Manager or by dropping them in custom_nodes/.
+#
+# MLX (`services.comfyui.enableMlx`): mflux in ComfyUI's env, since a store
+# path cannot be pip-installed into. Also puts the `mflux-*` CLIs on PATH.
+# Node must be cloned by hand into custom_nodes/ (Manager's pip step fails):
+#   ComfyUI-mflux-AnyModel — no FLUX 3 support; use `mflux-generate-flux3`.
+# Never add `--lowvram` here: unified memory, offloading only hurts.
 { ... }:
 {
   flake.homeModules.comfyui =
@@ -34,6 +40,48 @@
       # Writable runtime state. Kept in the same place the upstream patch
       # picks by default, so plain `comfyui` and the wrapper share models.
       dataDir = "${config.home.homeDirectory}/.local/share/comfyui";
+
+      # ── MLX / mflux ───────────────────────────────────────────────
+      # nixpkgs pins mflux 0.15.4; 0.24.0 is what supports Qwen-Image 2.1 and
+      # FLUX 3. Re-pin locally instead of a global overlay.
+      mfluxVersion = "0.24.0";
+
+      pythonMlx = pkgs.python3.override {
+        packageOverrides = pyFinal: pyPrev: {
+          mflux = pyPrev.mflux.overridePythonAttrs (old: {
+            version = mfluxVersion;
+            src = pkgs.fetchFromGitHub {
+              owner = "mflux-community";
+              repo = "mflux";
+              tag = "v.${mfluxVersion}";
+              hash = "sha256-S4JjxJSHxebSku8ppxxgWWR6gOkzUN8NoTT5/Mh+Djw=";
+            };
+            postPatch = ""; # old patch targets the dropped uv_build pin
+            pythonRelaxDeps = [ # nixpkgs floors: pillow 12.3 vs 13, urllib3 2.7 vs 2.8
+              "pillow"
+              "huggingface-hub"
+              "mlx"
+              "urllib3"
+            ];
+            dependencies = old.dependencies ++ [
+              pyFinal.hf-transfer
+              pyFinal.protobuf
+              pyFinal.pyyaml
+            ];
+            doCheck = false; # needs network + image generation
+          });
+        };
+      };
+
+      # mflux importable from ComfyUI's own env (needed by the MLX node).
+      comfyuiPackage =
+        if cfg.enableMlx then
+          cfg.package.override {
+            python3 = pythonMlx;
+            extraPackages = ps: [ ps.mflux ];
+          }
+        else
+          cfg.package;
 
       serveArgs = [
         "--listen"
@@ -56,7 +104,7 @@
           for d in models/checkpoints custom_nodes input output user; do
             mkdir -p ${lib.escapeShellArg cfg.dataDir}/"$d"
           done
-          exec ${lib.getExe cfg.package} ${lib.escapeShellArgs serveArgs} "$@"
+          exec ${lib.getExe comfyuiPackage} ${lib.escapeShellArgs serveArgs} "$@"
         '';
       };
     in
@@ -96,13 +144,21 @@
           '';
         };
 
+        enableMlx = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = ''
+            Put MLX (`mflux`) in ComfyUI's env and on PATH — the declarative
+            stand-in for `pip install mflux`, which a store path cannot take.
+            Larger ComfyUI closure; re-pins mflux to 0.24.0 locally.
+          '';
+        };
+
         extraArgs = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [ ];
-          example = [
-            "--lowvram"
-            "--use-split-cross-attention"
-          ];
+          # No `--lowvram` in the example: unified memory, it only hurts.
+          example = [ "--preview-method" "auto" ];
           description = "Extra arguments appended to the ComfyUI command line.";
         };
       };
@@ -114,9 +170,10 @@
 
         (lib.mkIf cfg.enable {
           home.packages = [
-            cfg.package
+            comfyuiPackage
             serve
-          ];
+          ]
+          ++ lib.optional cfg.enableMlx pythonMlx.pkgs.mflux;
         })
       ];
     };

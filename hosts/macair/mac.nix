@@ -34,6 +34,12 @@
 # mac.nix is a home-manager module: it must be imported into the user, not into
 # the darwin host (see modules/darwin.nix).
 {
+  # ── ComfyUI / MLX ─────────────────────────────────────────────────
+  # mflux in ComfyUI's env (a store path cannot be pip-installed into), plus
+  # the `mflux-*` CLIs. Host-scoped: `mlx` is darwin-aarch64 only.
+  # See programs/comfyui/default.nix for the mflux pin.
+  services.comfyui.enableMlx = true;
+
   programs.nix-plist-manager = {
     enable = true;
 
