@@ -89,10 +89,11 @@ at the configuration boundary.
   `flake.nixosConfigurations.homelab-n150`, `.homelab-3070` and `.linode-us`.
   The `deploy.nodes` for the remote hosts are declared in `output.nix`.
 
-- **k3s node names are not the OS names.** `homelab-n150` runs kubelet with
-  `--node-name=homelab`: 49 local-path PVs carry
-  `nodeAffinity: kubernetes.io/hostname=homelab` and PV nodeAffinity is
-  immutable. `kubectl get nodes` therefore shows `homelab` and `homelab-3070`.
+- **k3s node names match the OS names.** `homelab-n150` runs kubelet with
+  `--node-name=homelab-n150`, so `kubectl get nodes` shows `homelab-n150` and
+  `homelab-3070`. (Before the rename the node was pinned to `homelab` because
+  local-path PV `nodeAffinity` is immutable; the PVs were recreated with
+  `services/local-path-storage/migrate-pvs-node-name.sh` in homelab-helm.)
 
 ## Adding a program
 

@@ -3,8 +3,12 @@
 **Executed:** 2026-10-20
 **Host:** i7-7700K / GTX 3070 / 3.8 GB RAM / TEAM TM8FP6256G 238.5 GB NVMe
 **Role:** second k3s node — an **agent/worker** joined to the `homelab-n150`
-server (k8s node name `homelab`). See
-[`PLAN.md`](../PLAN.md) §9–§13 for the full migration context.
+server. See [`PLAN.md`](../PLAN.md) §9–§13 for the full migration context.
+
+> **Node name note:** when this was executed the N150's k8s node name was
+> `homelab`; it is now `homelab-n150` (see
+> `homelab-helm/services/local-path-storage/migrate-pvs-node-name.sh`). The
+> `homelab` node references in this historical record are therefore outdated.
 
 The old occupant of the disk was an Alpine box (`homelab.local`,
 192.168.1.194) that had previously been a Proxmox host. Its data was
@@ -261,40 +265,43 @@ the root filesystem.
 ## 7. local-path storage
 
 `local-path` (the `local-path-provisioner-standalone` Deployment) is
-capacity-unaware and provisions on whichever node the pod runs. Its
-`config.json` therefore needs an explicit entry for the new node, otherwise
-pods scheduled here would get a `${VOL_DIR}` inside `/mnt/fast` (a path that
-does not exist on this box):
+capacity-unaware and provisions on whichever node the pod runs. Both nodes
+now use the same canonical k3s path, so the map needs no per-node entries:
 
 ```json
 {
   "nodePathMap": [
-    { "node": "homelab-3070", "paths": ["/var/lib/rancher/k3s/storage"] },
-    { "node": "DEFAULT_PATH_FOR_NON_LISTED_NODES", "paths": ["/mnt/fast"] }
+    { "node": "DEFAULT_PATH_FOR_NON_LISTED_NODES",
+      "paths": ["/var/lib/rancher/k3s/storage"] }
   ]
 }
 ```
 
-`nodePathMap[].node` matches the **k8s node name**. The N150 stays covered by
-`DEFAULT_PATH_FOR_NON_LISTED_NODES`; if it is ever added explicitly it must say
-`homelab`, never `homelab-n150`.
+Background: the N150 originally stored fast-tier volumes in `/mnt/fast`, a
+directory on its root btrfs filesystem (not a separate mount). Those 41 volume
+directories were moved to `/var/lib/rancher/k3s/storage` in place and
+`/mnt/fast` was left behind as a **symlink** to that directory — the existing
+PV objects have immutable `hostPath=/mnt/fast/...` values, so the symlink must
+stay as long as those PVs exist. New volumes on either node are created at the
+canonical path.
 
-Apply either by editing
-`~/code/homelab-helm/services/local-path-storage/standalone.yml` (keep the
-manifest as the source of truth) or, to avoid re-applying the whole file
-(the repo's `kustomization.yml` is dirty), patch only the ConfigMap:
+`nodePathMap[].node` matches the **k8s node name**. If the N150 is ever added
+explicitly it must say `homelab-n150`.
+
+Apply from `~/code/homelab-helm` (the manifest is the source of truth):
 
 ```sh
-kubectl -n kube-system patch cm local-path-config --type=merge \
-  -p "$(jq -Rn --arg c "$(cat /tmp/local-path-config.json)" '{data:{"config.json":$c}}')"
+kubectl apply -k services/local-path-storage/
 ```
 
-No restart: the provisioner re-reads it every 30 s. Verify with a 10 MiB PVC
-pinned to the node — the PV path must be
+No restart: the provisioner re-reads the ConfigMap every 30 s (allow ~1 min
+for the mounted file to refresh). Verify with a 10 MiB PVC pinned to the node —
+the PV path must be
 `/var/lib/rancher/k3s/storage/pvc-<uid>_default_smoke-3070` and the
-`local.path.provisioner/selected-node` annotation must be `homelab-3070`
-(both confirmed). The PV is deleted (`reclaimPolicy: Delete` + `rm -rf`) when
-the PVC is removed.
+`local.path.provisioner/selected-node` annotation must be `homelab-3070`.
+The PV is deleted (`reclaimPolicy: Delete` + `rm -rf`) when the PVC is removed.
+To confirm the N150's compatibility symlink still serves existing volumes,
+mount an existing fast-tier PVC read-only from a pod on `homelab` and list it.
 
 Negative check: a `storageClassName: local-large` PVC with a pod pinned to
 `homelab-3070` must stay **Pending** — `local-large` only exists on the N150.
@@ -351,5 +358,5 @@ Also done while installing:
 - On this box, `nix config show` as **root** shows compiled defaults — the
   NixOS settings live in `/etc/nix/nix.custom.conf` and are only visible in
   `nix config show` when run as a non-root user (the daemon serves them).
-- The k3s node name of the N150 is still `homelab`. Any `nodeSelector`,
-  `nodePathMap` or PV `nodeAffinity` must keep using `homelab` for that node.
+- The k3s node name of the N150 is `homelab-n150`. Any `nodeSelector`,
+  `nodePathMap` or PV `nodeAffinity` must use `homelab-n150` for that node.

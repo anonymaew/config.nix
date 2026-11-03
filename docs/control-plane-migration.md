@@ -2,8 +2,10 @@
 
 > **NOTE (2026-10-20):** the host described here as `homelab` is now
 > **`homelab-n150`** in this repo, in Tailscale and in deploy-rs. The k3s node
-> name is still `homelab` (`--node-name=homelab`) because the local-path PVs are
-> pinned to it. The historical text below is intentionally left as written.
+> name was later changed to `homelab-n150` as well; the local-path PVs were
+> recreated for it (no data moved) — see
+> `homelab-helm/services/local-path-storage/migrate-pvs-node-name.sh`. The
+> historical text below is intentionally left as written.
 >
 > **STATUS: EXECUTED 2026-09-23** — this field guide was run to completion on
 > `mig/join-homelab-phase1` (merged into `refactor/dry`). Execution record,

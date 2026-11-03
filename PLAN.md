@@ -7,6 +7,14 @@
 > Proxmox LVM signature, DHCP address change) are in
 > [`docs/install-nixos-on-homelab-3070.md`](docs/install-nixos-on-homelab-3070.md).
 > The text below is left as the pre-execution handoff.
+>
+> **UPDATE — k8s node rename executed.** The N150's k3s node name is now
+> `homelab-n150` (not `homelab`). The 48 local-path PVs were deleted and
+> recreated with `nodeAffinity: kubernetes.io/hostname=homelab-n150` while
+> keeping their original `hostPath` (no data moved); the embedded etcd member
+> kept its identity (`homelab-36fb7d02`). Runbook + script:
+> `homelab-helm/services/local-path-storage/migrate-pvs-node-name.sh`.
+> Any statement below that the node name "stays `homelab`" is historical.
 
 **Status:** analysis complete, ready to execute
 **Date:** 2026-10-20
@@ -897,7 +905,7 @@ kubectl delete pod p3070 pn150 --ignore-not-found
 | 3070 joins but is NotReady | Check flannel/MTU/tailnet reachability first (§13 cross-node test); keep k3s enabled but cordon the node, fix `--node-ip`/`--flannel-iface`/firewall, then uncordon. |
 | 3070 must be decommissioned | Cordon/drain first, delete bound PVCs/PVs intentionally, `kubectl delete node homelab-3070`, then remove its `config.json` entry. Deleting a node while a local-path PV is bound orphans that PV. |
 | deploy-rs reports failure after a successful activation | deploy-rs `magicRollback` may already have reverted the system; check `kubectl get nodes` / the host before manually rolling back. |
-| Full k8s node rename is ever attempted | Do not. PV `nodeAffinity` is immutable and the single etcd member name is derived from the node name. It requires deleting/recreating 49 PVs, moving data, and etcd snapshot/restore. Not worth the cosmetic gain. |
+| Full k8s node rename | Superseded: the rename to `homelab-n150` was executed without moving data (PV objects deleted/recreated with the same `hostPath`, etcd member name preserved). Use `homelab-helm/services/local-path-storage/migrate-pvs-node-name.sh`; do not do it casually — read its header first. |
 
 ---
 
