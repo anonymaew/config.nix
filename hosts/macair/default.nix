@@ -192,13 +192,23 @@ in
     mkdir -p /var/lib/linux-builder
   '';
 
-  launchd.daemons.nix-gc = {
-    command = "/nix/var/nix/profiles/default/bin/nix-collect-garbage --delete-generations +4 7d";
-    serviceConfig.StartCalendarInterval = {
-      Hour = 3;
-      Minute = 15;
-    };
-  };
+  # ── Garbage collection (7d generation rule) ─────────────────────
+  # No launchd timer: generations older than 7 days are pruned at the end of
+  # every switch instead. The previous `launchd.daemons.nix-gc` job was a no-op
+  # — `nix-collect-garbage` is a symlink to Determinate's `nix` binary, whose
+  # shim dropped the old `--delete-generations` flag, so the job exited 1 on
+  # every run (`launchctl print system/org.nixos.nix-gc` -> "runs = 12,
+  # last exit code = 1") and 97 generations had piled up since install.
+  #
+  # Placement matters: postActivation runs *before* /run/current-system is
+  # re-pointed (activation-scripts.nix: `postActivation.text` then `ln -sfn ...
+  # /run/current-system`), so the outgoing system is still a GC root while this
+  # prunes, and the incoming one is already rooted by its `system-N-link`.
+  # First switch pays the full backlog; afterwards it's seconds.
+  system.activationScripts.postActivation.text = lib.mkAfter ''
+    /nix/var/nix/profiles/default/bin/nix-collect-garbage --delete-older-than 7d \
+      >/dev/null 2>&1 || true
+  '';
 
   # ── PAM / sudo with Touch ID ─────────────────────────────────────
   security.pam.services.sudo_local = {
