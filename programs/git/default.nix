@@ -39,6 +39,11 @@
           delta = {
             navigate = true; # use n and N to move between diff sections
             dark = true; # or light = true, or omit for auto-detection
+            # VS Code "Dark+" palette. delta embeds bat's themes at compile
+            # time, so only the bundled list is valid — check it with
+            # `delta --list-syntax-themes` (arbitrary .tmTheme files are not
+            # loadable: "[bat warning] Unknown theme, using default").
+            syntax-theme = "Visual Studio Dark+";
           };
           merge.conflictStyle = "zdiff3";
           credential."https://${forgeHost}".helper = [
