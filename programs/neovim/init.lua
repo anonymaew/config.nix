@@ -74,6 +74,31 @@ local lsp_servers = {
 vim.lsp.config('tinymist', { -- typst: compile PDF on save (titled doc)
 	settings = { exportPdf = 'onDocumentHasTitle' },
 })
+vim.lsp.config('harper_ls', { -- english: settings must be an object under a "harper-ls" key
+	-- Required on v2 *and* v3: `Config::from_lsp_config` bails with "Settings must
+	-- be an object." when the client pushes `settings = null` (nvim does that when
+	-- no settings are configured) and also unless the object has a "harper-ls"
+	-- key. Verified in the v3.0.0 source; upstream issue #3151 is still open.
+	-- Skipping this writes the ERROR to ~/.local/state/nvim/lsp.log on every
+	-- config pull / buffer attach (50MB in one month). All 15 config keys and the
+	-- linter names below are unchanged between 2.13.0 and 3.0.0.
+	settings = {
+		['harper-ls'] = {
+			dialect = 'American',        -- American|British|Australian|Canadian|Indian
+			diagnosticSeverity = 'hint', -- error|warning|information|hint; v3 default is hint
+			-- NOTE: the nvim config dir is nix-managed (read-only symlinks), so keep
+			-- the dictionary in the data dir instead of ~/.config/nvim.
+			userDictPath = vim.fn.stdpath('data') .. '/harper-dict.txt',
+			maxFileLength = 120000, -- v3 default; skip linting huge scratch files
+			linters = {
+				SpellCheck = true,
+				RepeatedWords = true,
+				LongSentences = true,
+				Spaces = true,
+			},
+		},
+	},
+})
 vim.lsp.config('lua_ls', { -- lua: making awareness of vim api
 	settings = {
 		Lua = {
