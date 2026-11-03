@@ -7,23 +7,25 @@
 		<key>module:AudioVideoModule</key>
 		<real>555.5</real>
 		<key>module:Battery</key>
-		<real>163.5</real>
+		<real>155.0</real>
 		<key>module:BentoBox-0</key>
-		<real>137.5</real>
+		<real>129.0</real>
 		<key>module:Clock</key>
 		<real>0.0</real>
 		<key>module:WiFi</key>
-		<real>189.5</real>
+		<real>181.0</real>
 		<key>status:AeroSpace::Item-0</key>
 		<real>498.5</real>
 		<key>status:Bitwarden::Item-0</key>
-		<real>466.5</real>
+		<real>458.0</real>
 		<key>status:Stats::CombinedModules</key>
-		<real>255.5</real>
+		<real>247.0</real>
 		<key>status:com.apple.TextInputMenuAgent::Item-0</key>
-		<real>211.5</real>
+		<real>203.0</real>
+		<key>status:com.demiao.caffeinate-disablesleep::Item-0</key>
+		<real>490.0</real>
 		<key>status:io.tailscale.ipn.macsys::Item-0</key>
-		<real>428.5</real>
+		<real>420.0</real>
 		<key>status:zoom.us::Item-0</key>
 		<real>523.5</real>
 	</dict>
