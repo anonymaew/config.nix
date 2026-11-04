@@ -40,6 +40,17 @@
   # See programs/comfyui/default.nix for the mflux pin.
   services.comfyui.enableMlx = true;
 
+  # Don't litter .DS_Store on the code-stash SMB mount or USB volumes.
+  # nix-plist-manager's option tree has no entry for this domain, so use
+  # home-manager's darwin targets (writes via `defaults import` in the user
+  # domain at activation). There is no supported way to stop Finder writing
+  # ~/.DS_Store itself — only network/USB stores are configurable. Takes
+  # effect after the next logout.
+  targets.darwin.defaults."com.apple.desktopservices" = {
+    DSDontWriteNetworkStores = true;
+    DSDontWriteUSBStores = true;
+  };
+
   programs.nix-plist-manager = {
     enable = true;
 
