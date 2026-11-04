@@ -245,7 +245,8 @@ nix flake check
   - [ ] kube config `~/.kube`
 - **Data**
   - [ ] Zen history/sessions/cookies
-  - [ ] pi-coding-agent sessions at `~/.pi/agent/sessions`
+  - [ ] pi-coding-agent sessions at `~/.local/share/pi/agent/sessions` (pi's
+        `PI_CODING_AGENT_DIR`, see `programs/pi/default.nix`)
   - [ ] tmux (resurrect) sessions at `~/.local/share/tmux/resurrect/last`
 
 ## Docs
