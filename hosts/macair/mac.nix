@@ -112,28 +112,28 @@
 
           # Native replacements for the removed aerospace/skhd bindings.
           # macOS Space switching + fixed-grid tiling (Sequoia+).
-          keyboardShortcuts = {
-            missionControl = {
-              # was `alt-1..5 = workspace N`
-              switchToDesktop1 = "⌥1";
-              switchToDesktop2 = "⌥2";
-              switchToDesktop3 = "⌥3";
-              switchToDesktop4 = "⌥4";
-              switchToDesktop5 = "⌥5";
-              # was `alt-tab = workspace-back-and-forth`
-              moveLeftASpace = "⌥←";
-              moveRightASpace = "⌥→";
-            };
-            windows = {
-              # fixed-grid tiling (was yabai/aerospace move + resize)
-              tileLeftHalf = "⌥⌘←";
-              tileRightHalf = "⌥⌘→";
-              tileTopHalf = "⌥⌘↑";
-              tileBottomHalf = "⌥⌘↓";
-              fill = "⌥⌘F";
-              minimize = "⌥⌘M";
-            };
-          };
+          # keyboardShortcuts = {
+          #   missionControl = {
+          #     # was `alt-1..5 = workspace N`
+          #     switchToDesktop1 = "⌥1";
+          #     switchToDesktop2 = "⌥2";
+          #     switchToDesktop3 = "⌥3";
+          #     switchToDesktop4 = "⌥4";
+          #     switchToDesktop5 = "⌥5";
+          #     # was `alt-tab = workspace-back-and-forth`
+          #     moveLeftASpace = "⌥←";
+          #     moveRightASpace = "⌥→";
+          #   };
+          #   windows = {
+          #     # fixed-grid tiling (was yabai/aerospace move + resize)
+          #     tileLeftHalf = "⌥⌘←";
+          #     tileRightHalf = "⌥⌘→";
+          #     tileTopHalf = "⌥⌘↑";
+          #     tileBottomHalf = "⌥⌘↓";
+          #     fill = "⌥⌘F";
+          #     minimize = "⌥⌘M";
+          #   };
+          # };
         };
 
         menuBar = {
