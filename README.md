@@ -49,7 +49,7 @@ at the configuration boundary.
 │   └── linode-us/         # NixOS — nftables DNAT ingress proxy
 ├── users/                 # Home Manager core for the primary user
 │   └── napatsc/default.nix
-├── secrets/               # SOPS-encrypted secrets (age recipients in .sops.yaml)
+├── secrets/               # SOPS-encrypted secrets, one dir per host (see secrets/README.md)
 └── docs/                  # field guides and migration records
 ```
 

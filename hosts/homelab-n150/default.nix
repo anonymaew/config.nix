@@ -13,18 +13,12 @@
     ./hardware-configuration.nix
   ];
 
-  sops = {
-    defaultSopsFile = ../../secrets + "/homelab.yaml";
-    defaultSopsFormat = "yaml";
-    # The file keeps its historical name on purpose (the relative depth is
-    # unchanged by the host-directory rename). It still holds `k3s-token`,
-    # `smb-password` and the legacy wireguard keys; the k3s server on this
-    # box does not consume any of them.
-    # Machine-side decryption: convert SSH host key to age key
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-    age.generateKey = true;
-    age.keyFile = "/var/lib/sops-nix/key.txt";
-  };
+  # No sops config on this host, deliberately: nothing on the k3s *server*
+  # needs a decrypted secret. The join token is generated on disk here
+  # (/var/lib/rancher/k3s/server/token) and handed to workers through their
+  # own secrets/hosts/<host>/ files. Re-add `sops.age.sshKeyPaths` and a
+  # `defaultSopsFile` if that ever changes — the age key for this box is
+  # still listed in .sops.yaml.
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave

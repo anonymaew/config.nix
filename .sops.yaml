@@ -1,28 +1,45 @@
 # sops-nix configuration
-# age keys: admin (mac), homelab, hetzner
+#
+# Layout: secrets/hosts/<host>/ — one directory per machine that decrypts.
+# creation_rules are scoped to those directories rather than to a bare
+# basename: a basename rule like `homelab\.yaml$` also matches any same-named
+# file anywhere else in the repo, which silently hands it the wrong
+# recipients. Run `sops` from the repo root so the leading path matches.
+#
+# Within a host directory the split is mechanical:
+#   scalars          -> <host>.yaml, one key each (`key = "<name>"`)
+#   structured blobs -> their own file, whole-file (`key = ""`)
+# A blob cannot move into <host>.yaml: sops-nix's `key` option documents that
+# "no tested data structures are supported", so extracting a nested object is
+# unsupported. pi also reads auth.json / models.json / go-bars.json as three
+# distinct files, so they stay separate by contract anyway.
 
 keys:
-      - &admin_age age1ll734w28scas47nedsr0ct94z3add3gm4ylr27yc54hwalga3v4qnk34gf
-      - &homelab_age age1xc8pv9d0tw4l0zn2yytksnejluck8nvtv325q8vk4aurvuqswvjs5ft63k # yamllint disable-line line-length
+      # admin (macair) — the only key that edits secrets
+      - &admin_age
+        age1ll734w28scas47nedsr0ct94z3add3gm4ylr27yc54hwalga3v4qnk34gf
       # homelab-3070 — derived from its own /etc/ssh/ssh_host_ed25519_key
       # (the installer's key, so it must be re-derived if the host key is
       # ever regenerated: ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub)
-      - &homelab_3070_age age19naff7j89cny5dwufm4uppfkvac4p5vx3f8ejeyyeuf2nlcxdvaswz73s6 # yamllint disable-line line-length
+      - &homelab_3070_age
+        age19naff7j89cny5dwufm4uppfkvac4p5vx3f8ejeyyeuf2nlcxdvaswz73s6
+
+# homelab-n150 has no creation rule: it is the k3s *server*, generates its
+# join token on disk and decrypts nothing. Its public key is kept here, not as
+# an anchor, so a future n150 secret does not need re-derivation:
+#   age1xc8pv9d0tw4l0zn2yytksnejluck8nvtv325q8vk4aurvuqswvjs5ft63k
+
 creation_rules:
-      # Personal secrets (darwin, auth, go-bars, models) — age only, no shamir
-      - path_regex: (darwin|auth|go-bars|models)\.(json|yaml)$
+      # macair — laptop-local credentials only: pi's provider keys, the
+      # self-hosted forge token, and the homelab SMB password. Admin key
+      # alone; no server mounts any of these.
+      - path_regex: (^|/)secrets/hosts/macair/
         key_groups:
               - age:
                       - *admin_age
-      # Machine secrets (homelab) — age with all machine keys
-      - path_regex: homelab\.yaml$
-        key_groups:
-              - age:
-                      - *admin_age
-                      - *homelab_age
-      # Second k3s node. Separate rule on purpose: the `homelab.yaml` regex
-      # above is anchored and does not match `homelab-3070.yaml`.
-      - path_regex: homelab-3070\.yaml$
+      # homelab-3070 — the k3s join token and nothing else. The worker
+      # decrypts with its own SSH host key; admin keeps access for rotation.
+      - path_regex: (^|/)secrets/hosts/homelab-3070/
         key_groups:
               - age:
                       - *admin_age

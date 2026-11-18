@@ -31,7 +31,7 @@
   # The k3s join token only. Encrypted to the admin key and to this box's
   # own host key (see .sops.yaml); no other secret is needed on a worker.
   sops = {
-    defaultSopsFile = ../../secrets + "/homelab-3070.yaml";
+    defaultSopsFile = ../../secrets/hosts/homelab-3070/k3s.yaml;
     defaultSopsFormat = "yaml";
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     age.generateKey = true;

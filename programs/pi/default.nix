@@ -1,7 +1,9 @@
 # pi — AI coding agent for the terminal
 { ... }:
 let
-  secrets-dir = ../../secrets;
+  # Per-host secrets layout (see .sops.yaml): macair's credentials live under
+  # secrets/hosts/macair/, encrypted to the admin age key only.
+  secrets-dir = ../../secrets/hosts/macair;
 
   # Declarative base settings. Kept OUT of `programs.pi-coding-agent.settings`
   # because that option materializes settings.json as a read-only nix-store

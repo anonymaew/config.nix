@@ -87,7 +87,8 @@
   # cleans, or backs it up — unlike /Volumes (root-owned), ~/Documents
   # (iCloud/Spotlight/app dialogs), or the XDG dirs (app namespaces).
   # User-writable, so no root daemon is needed; optionally add to Finder sidebar.
-  # Credentials: user `samba`, password in secrets/homelab.yaml (smb-password).
+  # Credentials: user `samba`, password in secrets/hosts/macair/macair.yaml
+  # (smb-password).
   # sops-nix decrypts it to ~/.config/sops-nix/secrets/smb-password (no
   # keychain dependency — the keychain item vanished once and broke the mount).
   # NOTE: mount_smbfs -N does NOT consult the keychain on this macOS, so the
@@ -148,7 +149,8 @@
   };
 
   sops.secrets.smb-password = {
-    sopsFile = ../../secrets/homelab.yaml;
+    # Scalars live in the host's own yaml; `key` defaults to the secret name.
+    sopsFile = ../../secrets/hosts/macair/macair.yaml;
   };
 
   sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";

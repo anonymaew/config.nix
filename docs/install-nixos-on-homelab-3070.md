@@ -224,16 +224,21 @@ the root filesystem.
    # → age19naff7j89cny5dwufm4uppfkvac4p5vx3f8ejeyyeuf2nlcxdvaswz73s6
 ```text
 
-   Add it to `.sops.yaml` under a **new** rule (`homelab\.yaml$` is anchored
-   and does not match `homelab-3070.yaml`), then create the file with only the
-   k3s join token:
+   Add it to `.sops.yaml` under a **new** rule — creation rules are scoped to
+   the host directory, so a new host needs its own `path_regex`
+   (`(^|/)secrets/hosts/homelab-3070/`) — then create the file with only the
+   k3s join token. The authoritative source is the running server, not a copy
+   in the repo:
 
    ```sh
    umask 077
-   sops -d --extract '["k3s-token"]' secrets/homelab.yaml | sed 's/^/k3s-token: /' > /tmp/t.yaml
-   sops encrypt --filename-override secrets/homelab-3070.yaml --output secrets/homelab-3070.yaml /tmp/t.yaml
+   ssh root@homelab-n150 'cat /var/lib/rancher/k3s/server/token' \
+     | sed 's/^/k3s-token: /' > /tmp/t.yaml
+   sops encrypt --filename-override secrets/hosts/homelab-3070/k3s.yaml \
+     --output secrets/hosts/homelab-3070/k3s.yaml /tmp/t.yaml
    rm -f /tmp/t.yaml
-   sops -d --extract '["k3s-token"]' secrets/homelab-3070.yaml | grep -q '^K10' && echo ok
+   sops -d --extract '["k3s-token"]' secrets/hosts/homelab-3070/k3s.yaml \
+     | grep -q '^K10' && echo ok
    ```
 
 2. **Tailscale** (interactive, like every other host):

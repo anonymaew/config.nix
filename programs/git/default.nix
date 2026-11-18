@@ -18,9 +18,9 @@
       home.packages = with pkgs; [ delta ];
 
       sops.secrets.git-napatsc-token = {
-        sopsFile = ../../secrets/darwin.json;
+        sopsFile = ../../secrets/hosts/macair/macair.yaml;
         key = "git-napatsc-token";
-        format = "json";
+        format = "yaml";
       };
 
       programs.git = {
