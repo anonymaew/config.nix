@@ -63,12 +63,18 @@ end
 -- LSP related --
 -----------------
 -- Servers to enable.
--- NOTE: "ty" is not a valid lspconfig/Mason server name so it was removed.
---       If you need a spell-checker LSP try "typos_lsp" instead.
+-- NOTE: "ty" (astral's python type checker + language server) is not in the Mason
+--       registry, and mason-lspconfig rejects unknown `ensure_installed` entries.
+--       So it is added only on Nix, where servers come from extraPackages.
+--       Elsewhere: `uv tool install ty`.
+--       Not to be confused with "typos_lsp", the spell checker.
 local lsp_servers = {
 	'eslint', 'harper_ls', 'html', 'lua_ls', 'nil_ls', 'ruff', 'rust_analyzer',
 	'svelte', 'tinymist', 'ts_ls'
 };
+if vim.g.nix_mode then -- nvim-lspconfig ships lsp/ty.lua: { cmd = { 'ty', 'server' } }
+	table.insert(lsp_servers, 'ty')
+end
 
 -- Custom LSP configs (must be set BEFORE enabling servers, so overrides take effect)
 vim.lsp.config('tinymist', { -- typst: compile PDF on save (titled doc)
@@ -126,15 +132,19 @@ else
 end
 
 -- start treesitter automatically
+-- The autocmd fires for EVERY filetype, including ones that have no grammar at
+-- all (oil/oil_preview buffers, pickers, quickfix, `text`, ...). vim.treesitter
+-- .start() raises "Parser could not be created for buffer N and language X" for
+-- those, so check the parser first and skip silently instead of notifying.
+-- language.add() returns nil (no error) when no parser is installed.
 vim.api.nvim_create_autocmd('FileType', {
-	callback = function()
-		local ok, _ = pcall(vim.treesitter.start)
-		if not ok then -- fail-safe start
-			vim.notify(
-				"Tree‑sitter: parser not available for this buffer",
-				vim.log.levels.WARN
-			)
+	callback = function(args)
+		local ft = vim.bo[args.buf].filetype
+		local lang = vim.treesitter.language.get_lang(ft) or ft
+		if not vim.treesitter.language.add(lang) then
+			return -- no grammar for this filetype (oil, text, ...): nothing to do
 		end
+		vim.treesitter.start(args.buf, lang)
 	end,
 })
 

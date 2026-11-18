@@ -22,6 +22,7 @@
           rust-analyzer
           svelte-language-server
           tinymist
+          ty
           typescript-language-server
           typos-lsp
           vscode-langservers-extracted
@@ -29,6 +30,32 @@
         ];
 
         plugins = with pkgs.vimPlugins; [
+          # Treesitter grammars. Neovim 0.12 only bundles c, lua, markdown,
+          # markdown_inline, query, vim and vimdoc; init.lua calls
+          # vim.treesitter.start() on every FileType, so anything else warns
+          # "parser not available" (and foldexpr = treesitter is a no-op).
+          # nvim-treesitter ships the queries (highlights/folds/indents); the
+          # parsers come in as plugin dependencies of withPlugins.
+          (nvim-treesitter.withPlugins (p: with p; [
+            bash
+            css
+            diff
+            html
+            javascript
+            json
+            lua
+            markdown
+            markdown_inline
+            nix
+            python
+            rust
+            svelte
+            toml
+            tsx
+            typescript
+            typst
+            yaml
+          ]))
           nvim-lspconfig
           vscode-nvim
           nvim-web-devicons
