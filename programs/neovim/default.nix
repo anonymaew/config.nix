@@ -36,6 +36,10 @@
           indent-blankline-nvim
           oil-nvim
           nvim-origami
+          # Session manager for the herdr editor restore: one session per
+          # working directory, loaded when nvim starts with no file argument.
+          # See herdr-sessions.lua for the label the shell hook reads.
+          resession-nvim
         ];
       };
 
@@ -44,5 +48,7 @@
         dofile(vim.fn.stdpath("config") .. "/nvim.lua")
       '';
       xdg.configFile."nvim/nvim.lua".source = sharedInit;
+      # Autoloaded from nvim/plugin/, so init.lua stays untouched.
+      xdg.configFile."nvim/plugin/herdr-sessions.lua".source = ./herdr-sessions.lua;
     };
 }

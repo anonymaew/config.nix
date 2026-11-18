@@ -41,6 +41,10 @@
     libreoffice-bin
     parallel
     podman
+    # ripgrep — pi's bash tool injects its own bundled rg into PATH, but plain
+    # shells (tmux, herdr, scripts, skills) had none: `rg` resolved only inside
+    # pi. Verified: `env -i zsh -lc 'command -v rg'` printed nothing.
+    ripgrep
     rsync
     smartmontools
     uutils-coreutils-noprefix

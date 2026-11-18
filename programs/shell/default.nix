@@ -34,6 +34,44 @@
         # not exist) and an alias only covers interactive shells, so scripts
         # kept recreating ~/.wget-hsts. WGETRC + `hstsfile` below covers every
         # invocation. Tested against wget 1.25.0.
+
+        # herdr-agent-resume (third-party mod under ~/.config/herdr-app/mods):
+        # after a reboot, a restored herdr terminal re-starts the agent it had
+        # on its first prompt. herdr-core brings the pane back as a bare shell
+        # and never re-runs the original command, so this is the only thing
+        # that resumes a pi/nvim-less pane. Guarded by HC_TERMINAL_ID, which
+        # only herdr sets, so it is a no-op in tmux, ssh and plain shells.
+        # Opt out per shell with AGENT_RESUME_AUTO=0. The same block is what
+        # `install.py --auto` would append to .zshrc — written here because
+        # ~/.config/zsh/.zshrc is a home-manager symlink into the store.
+        initContent = ''
+          if [[ -o interactive && -n "$HC_TERMINAL_ID" ]]; then
+              __agent_resume() {
+                  add-zsh-hook -d precmd __agent_resume
+                  unfunction __agent_resume
+                  local script="${config.home.homeDirectory}/.config/herdr-app/mods/agent-resume/agent_resume.py"
+                  if [[ "$AGENT_RESUME_AUTO" != 0 && -f "$script" ]]; then
+                      command python3 "$script" here || command python3 "$script" after $?
+                  fi
+              }
+              autoload -Uz add-zsh-hook && add-zsh-hook precmd __agent_resume
+          fi
+
+          # Herdr editor restore: a restored terminal that held an nvim gets it
+          # back (programs/herdr/nvim-resume.py decides from the herdr.nvim
+          # label, written by programs/neovim/herdr-sessions.lua). Same guard
+          # and same one-shot shape as the block above; opt out with
+          # AGENT_NVIM_AUTO=0.
+          if [[ -o interactive && -n "$HC_TERMINAL_ID" ]]; then
+              __herdr_nvim_resume() {
+                  add-zsh-hook -d precmd __herdr_nvim_resume
+                  unfunction __herdr_nvim_resume
+                  local resume="${config.home.homeDirectory}/.local/libexec/herdr/nvim-resume.py"
+                  [[ -f "$resume" ]] && command python3 "$resume"
+              }
+              autoload -Uz add-zsh-hook && add-zsh-hook precmd __herdr_nvim_resume
+          fi
+        '';
       };
 
       home.sessionVariables = {
