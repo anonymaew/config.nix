@@ -166,8 +166,6 @@
     extraFlags = [
       "--disable=traefik" # installed via helm (homelab-helm), not the bundled chart
       "--disable=local-storage" # replaced by our standalone provisioner in homelab-helm
-      "--disable-network-policy" # k3s#12639: netpol init hits "failed to find interface with specified node ip"
-      # (node IP pinned to P2P tailscale0), causing a shutdown/restart loop
       "--node-external-ip=100.89.132.36" # advertise the (stable) tailnet IP
       "--node-ip=100.89.132.36" # pin kubelet to the tailnet IP (wg-client is gone)
       "--flannel-iface=tailscale0" # pod network rides the tailnet overlay
@@ -182,6 +180,28 @@
       "--etcd-snapshot-schedule-cron='0 */6 * * *'" # hardening: this is now THE etcd
     ];
   };
+
+  # k3s#12639: the k3s network-policy controller resolves the node IP
+  # (100.89.132.36, which lives on tailscale0) at startup and exits fatally with
+  # "failed to find interface with specified node ip" if the interface is not up
+  # yet — a shutdown/restart loop on boot, because k3s raced tailscaled.
+  #
+  # `--disable-network-policy` was the workaround; ordering k3s after tailscaled
+  # is the fix, and it is what the worker already does (homelab-3070). The
+  # controller runs on the server, so this flag was disabling NetworkPolicy
+  # enforcement cluster-wide — verified 2026-11-16 by curling a probe Service
+  # from an unlabelled pod on both nodes: 200 with a deny-all policy applied.
+  #
+  # Re-adding "--disable-network-policy" is the rollback if k3s ever fails to
+  # start with "Failed to start networking".
+  systemd.services.k3s.after = [
+    "network-online.target"
+    "tailscaled.service"
+  ];
+  systemd.services.k3s.wants = [
+    "network-online.target"
+    "tailscaled.service"
+  ];
 
   # Fast-tier local-path storage lives at the canonical k3s path on every
   # node: /var/lib/rancher/k3s/storage. The N150 used to use /mnt/fast; that
