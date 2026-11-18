@@ -65,8 +65,18 @@
   services.tailscale.enable = true;
 
   # ── Public ingress proxy (kernel nftables DNAT, no userspace daemon) ──
-  # Internet → linode :80/:443 → tailnet → homelab-n150 traefik NodePorts.
-  # TLS stays end-to-end (traefik + cert-manager terminate inside the cluster).
+  # Internet → linode :80/:443 → tailnet → homelab-n150 edge-gateway NodePorts.
+  # TLS stays end-to-end (agentgateway terminates it inside the cluster, using
+  # the cert-manager wildcard).
+  #
+  # ⚠️ The NodePorts below are pinned on the cluster side, not assigned
+  # dynamically: `AgentgatewayParameters/edge` in homelab-helm sets
+  #   port 80  -> nodePort 31557
+  #   port 443 -> nodePort 32724
+  # If that pin is removed, Kubernetes picks new numbers, this DNAT keeps
+  # forwarding to the old ones, and every *.napatsc.com host dies while
+  # *.napatsc.net (LAN address) keeps working — which looks like a DNS fault.
+  #
   # Trade-off: homelab-n150 sees every client as linode's tailnet IP
   # (100.84.229.73) — real client IPs would need a userspace PROXY-protocol
   # proxy (nginx/haproxy).
@@ -76,9 +86,10 @@
     content = ''
       chain prerouting {
         type nat hook prerouting priority dstnat; policy accept;
-        iifname "eth0" tcp dport 80  dnat to 100.89.132.36:31557 # traefik http NodePort
-        iifname "eth0" tcp dport 443 dnat to 100.89.132.36:32724 # traefik https NodePort
-        iifname "eth0" udp dport 443 dnat to 100.89.132.36:31999 # QUIC/HTTP3 (traefik-udp)
+        iifname "eth0" tcp dport 80  dnat to 100.89.132.36:31557 # edge-gateway http NodePort
+        iifname "eth0" tcp dport 443 dnat to 100.89.132.36:32724 # edge-gateway https NodePort
+        # No QUIC/HTTP3 rule: Traefik's udp 443 -> :31999 forward went away with
+        # Traefik, and agentgateway has no QUIC listener at all.
       }
       chain postrouting {
         type nat hook postrouting priority srcnat; policy accept;
@@ -96,12 +107,12 @@
   networking.firewall.enable = true;
   # Tailscale direct connections: inbound UDP 41641 (relay via DERP works
   # without it — this just improves p2p connectivity).
+  # UDP 443 was opened only for the HTTP/3 route and is no longer needed.
   networking.firewall.allowedTCPPorts = [
     80
     443
   ];
   networking.firewall.allowedUDPPorts = [
     41641
-    443
   ];
 }
