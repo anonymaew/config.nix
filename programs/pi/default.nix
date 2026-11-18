@@ -19,7 +19,6 @@ let
     packages = [
       "https://github.com/donrami/pi-go-bars"
       "https://github.com/apmantza/pi-lens"
-      "npm:@duarteocarmo/pi-jumper"
       # "npm:pi-subagents-lite"
       "npm:pi-subagents"
       # Restores the exact pi session per tmux pane via tmux-resurrect.
@@ -100,34 +99,6 @@ in
         ${pkgs.coreutils}/bin/ln -sf ${config.xdg.configHome}/sops-nix/secrets/pi-models ${piDir}/models.json
         ${pkgs.coreutils}/bin/ln -sf ${config.xdg.configHome}/sops-nix/secrets/pi-auth ${piDir}/auth.json
         ${pkgs.coreutils}/bin/ln -sf ${config.xdg.configHome}/sops-nix/secrets/pi-go-bars ${piDir}/pi-go-bars.json
-      '';
-
-      # pi-jumper (npm:@duarteocarmo/pi-jumper) is the only package that ignores
-      # PI_CODING_AGENT_DIR: src/registry.ts hardcodes
-      # join(homedir(), ".pi", "agent", "pi-jumper") as its STATE_DIRECTORY, so
-      # every session kept writing into a ~/.pi tree.
-      #
-      # It ships TypeScript source only (files: index.ts + src/*.ts, no dist/)
-      # and pi loads src/registry.ts directly, so patching the source is live —
-      # no build step. `pi update` reinstalls the npm package and wipes the edit,
-      # hence an activation instead of a one-off: re-applied on every switch and
-      # a no-op once the line already carries the env-var fallback. If upstream
-      # ever rewrites that line, the second grep reports it instead of failing
-      # the switch.
-      home.activation.piJumperXdg = lib.hm.dag.entryAfter [ "writeActivation" ] ''
-        run ${pkgs.coreutils}/bin/mkdir -p ${piDir}/pi-jumper
-        f="${piDir}/npm/node_modules/@duarteocarmo/pi-jumper/src/registry.ts"
-        if [ -f "$f" ]; then
-          if ${pkgs.gnugrep}/bin/grep -q 'join(homedir(), "\.pi", "agent", "pi-jumper")' "$f"; then
-            run ${pkgs.gnused}/bin/sed -i \
-              's|join(homedir(), "\.pi", "agent", "pi-jumper")|join(process.env.PI_CODING_AGENT_DIR ?? join(homedir(), ".pi", "agent"), "pi-jumper")|' "$f"
-          fi
-          if ${pkgs.gnugrep}/bin/grep -q 'PI_CODING_AGENT_DIR' "$f"; then
-            echo "pi-jumper: STATE_DIRECTORY honours PI_CODING_AGENT_DIR"
-          else
-            echo "pi-jumper: patch did not apply — upstream changed src/registry.ts" >&2
-          fi
-        fi
       '';
 
       # Write settings.json as a MUTABLE real file (not a store symlink).
