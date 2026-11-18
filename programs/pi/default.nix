@@ -51,6 +51,12 @@ in
       programs.pi-coding-agent = {
         enable = true;
 
+        # nixpkgs' derivation deletes the @earendil-works/pi-schema workspace
+        # while pi-ai/dist/providers/compat-schema.js still imports it, so every
+        # child subagent session died with "Cannot find module
+        # '@earendil-works/pi-schema'". See pi-schema-fix.nix for the details.
+        package = import ./pi-schema-fix.nix { inherit pkgs; };
+
         extraPackages = with pkgs; [
           agent-browser
           nodejs_latest
