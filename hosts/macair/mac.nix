@@ -145,6 +145,11 @@
             displayTheTimeWithSeconds = true; # was menuExtraClock.ShowSeconds
             showTheDayOfTheWeek = true;
           };
+          # Menu bar layout only: the item order (`com.apple.MenuBar`
+          # TrailingItemPreferredPositions) and whether the Spotlight icon shows.
+          # Control Center's `trackedApplications` app cache and the empty
+          # `showSiri` key were dropped on purpose; both are rebuilt/absent
+          # anyway, and restoring them only committed machine state.
           layout = ./snapshots/layout;
         };
 

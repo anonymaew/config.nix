@@ -14,8 +14,6 @@
 		<real>0.0</real>
 		<key>module:WiFi</key>
 		<real>181.0</real>
-		<key>status:AeroSpace::Item-0</key>
-		<real>498.5</real>
 		<key>status:Bitwarden::Item-0</key>
 		<real>458.0</real>
 		<key>status:Stats::CombinedModules</key>

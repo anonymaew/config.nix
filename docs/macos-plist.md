@@ -79,7 +79,7 @@ effect on macOS 27. Worth a separate look.
 Three settings are arranged rather than typed and are stored as committed plists:
 
 - `desktopAndDock.dock.contents` → `snapshots/contents/{apps,others}.plist`
-- `menuBar.layout` → `snapshots/layout/{applications,positions,showSiri,showSpotlight}.plist`
+- `menuBar.layout` → `snapshots/layout/{positions,showSpotlight}.plist`
 - `wallpaper.wallpaper` → `snapshots/wallpaper/index.plist`
 
 Re-capture after rearranging:
@@ -92,6 +92,30 @@ nix run github:SushyDev/nix-plist-manager/v3.0.0#capture -- \
 nix run github:SushyDev/nix-plist-manager/v3.0.0#capture -- \
   applications.systemSettings.wallpaper.wallpaper hosts/macair/snapshots/wallpaper
 ```
+
+`snapshots/layout` keeps only the two files that carry the menu bar itself:
+`positions.plist` (`com.apple.MenuBar` `TrailingItemPreferredPositions`, i.e. item
+order) and `showSpotlight.plist`. Two files that came with the original capture
+are deliberately absent:
+
+- `applications.plist` (`group.com.apple.controlcenter` `trackedApplications`) is
+  Control Center's own cache of app bundle IDs, adhoc binary paths
+  (`~/Applications/Home Manager Apps/…`) and per-app `isAllowed` flags. It is
+  machine state, it listed three apps that are no longer installed, and Control
+  Center rebuilds it as apps launch.
+- `showSiri.plist` was an empty dict (the key is not set on this machine).
+
+The snapshot codec restores *every* storage key of an option, so those two keys
+are still touched: activation deletes them and the follow-up
+`defaults import <missing>.plist` fails, printing a
+`nix-plist-manager: failed: …` line per key. That is expected, not a config
+error. To silence it, re-add empty `{}` stubs (`git checkout HEAD -- <file>`).
+
+A re-capture writes all four files again — delete the two unwanted ones
+afterwards.
+
+No `status:AeroSpace::Item-0` entry in `positions.plist`: AeroSpace is gone from
+the configuration, so its stale position was pruned.
 
 `wallpaper/index.plist` is a copy of the whole Wallpaper store (`AllSpacesAndDisplays`,
 per-display `Displays`, `Spaces`, `SystemDefault`) and includes `LastUse`
