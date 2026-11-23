@@ -2,7 +2,12 @@
 # See https://starship.rs/config/
 
 continuation_prompt = "[>   ](grey)"
-format = "$shlvl$shell$env_var$username[@](green)$hostname:$directory$git_branch$git_status$fill$all$status$cmd_duration$line_break$character"
+# $fill is what draws the divider: it pads to the terminal width, so inline is
+# the only way to get a full-width rule. right_format cannot do this — since
+# starship 1.27 the zsh init renders it as RPROMPT (`starship prompt --right`)
+# and zsh aligns that itself, leaving the gap empty. It also drops an RPROMPT
+# that does not fit, so a $fill inside right_format renders nothing at all.
+format = "$env_var$username[@](green)$hostname:$directory$git_branch$git_status$fill$all$status$cmd_duration$line_break$character"
 
 # ---- character --------------------------------------------------------------
 
@@ -52,11 +57,20 @@ symbol = ""
 format = "([$all_status$ahead_behind]($style))"
 style = "yellow"
 
+# package manager detected in the current dir — icon only, never the version
+[package]
+format = "[$symbol]($style)"
+
 # ---- shell status -----------------------------------------------------------
 
+# the divider. symbol:
+#   "─"  a rule           "·"  light dots         plain space = invisible gap
+# when the left side is longer than the terminal, fill shrinks to one symbol and
+# everything after it is appended (see truncation_length under [directory])
 [fill]
 disabled = false
-style = "white"
+style = "bright-black"
+symbol = "─"
 
 [cmd_duration]
 format = "[$duration](yellow) "
@@ -64,6 +78,12 @@ format = "[$duration](yellow) "
 [status]
 disabled = false
 format = "[$status]($style) "
+
+# ---- system -----------------------------------------------------------------
+
+# no battery indicator (and no low-battery warning) in the prompt
+[battery]
+disabled = true
 
 # ---- environments -----------------------------------------------------------
 
@@ -80,9 +100,50 @@ unloaded_msg = "?"
 format = "[$symbol]($style)"
 symbol = " "
 
-[python]
-format = "[$symbol(($virtualenv) )]($style)"
+# the only module allowed to print a version: major.minor, no "v", no patch
+#
+# This replaces starship's builtin [python] module (disabled below). The builtin
+# runs the first python/python2/python3 found in PATH and ignores $VIRTUAL_ENV,
+# .venv/ and .python-version, so under uv (no `source .venv/bin/activate`) PATH
+# holds only /usr/bin/python3 and the prompt showed the machine's 3.9 instead of
+# the project's 3.12. Verified on starship 1.27.0.
+#
+# Resolution, first match wins:
+#   $VIRTUAL_ENV/bin/python          activated venv, or direnv `layout uv`
+#   nearest .venv/bin/python         `uv sync` project, never activated
+#   ./.python-version                pinned, venv not built yet (`3.12` or
+#                                    uv's `cpython-3.12.9`; only digits survive)
+#   first python3/python in PATH     machine default (honest fallback)
+#
+# `d=${d%/*}` empties out at the filesystem root, hence the `-n "$d"` guard: a
+# `[ "$d" != / ]` test never fires there and spins until starship's timeout.
+# No globs for the same class of reason — starship runs `when` through $SHELL,
+# and `*.py` makes zsh abort with "no matches found" before the test runs.
+[custom.python]
+command = '''
+p=$VIRTUAL_ENV/bin/python
+d=$PWD
+while [ ! -x "$p" ] && [ -n "$d" ]; do p=$d/.venv/bin/python; d=${d%/*}; done
+if [ -x "$p" ]; then "$p" --version 2>&1 | cut -d" " -f2 | cut -d. -f1,2
+elif [ -r .python-version ]; then head -n1 .python-version | tr -cd "0-9.\n" | cut -d. -f1,2
+else p=$(command -v python3 || command -v python) && "$p" --version 2>&1 | cut -d" " -f2 | cut -d. -f1,2
+fi
+'''
+when = '''
+d=$PWD
+while [ ! -d "$d/.venv" ] && [ -n "$d" ]; do d=${d%/*}; done
+[ -n "$VIRTUAL_ENV" ] || [ -d "$d/.venv" ] || [ -r .python-version ] && exit 0
+for f in Pipfile pyproject.toml requirements.txt setup.py tox.ini __init__.py; do [ -e "$f" ] && exit 0; done
+exit 1
+'''
+format = "[$symbol $output]($style)"
 symbol = "🐍"
+style = "bold yellow"
+
+# replaced by [custom.python] above — the builtin cannot see a venv it is not
+# on PATH for, and PATH is right in exactly the case we are working around
+[python]
+disabled = true
 
 [gcloud]
 disabled = true
@@ -93,6 +154,9 @@ disabled = true
 format = "[$symbol]($style)"
 
 [bun]
+format = "[$symbol]($style)"
+
+[c]
 format = "[$symbol]($style)"
 
 [cmake]
@@ -114,7 +178,7 @@ format = "[$symbol]($style)"
 format = "[$symbol]($style)"
 
 [dotnet]
-format = "symbol(🎯 $tfm )]($style)"
+format = "[$symbol]($style)"
 
 [elixir]
 format = "[$symbol]($style)"
@@ -128,6 +192,9 @@ format = "[$symbol]($style)"
 [fennel]
 format = "[$symbol]($style)"
 
+[fortran]
+format = "[$symbol]($style)"
+
 [gleam]
 format = "[$symbol]($style)"
 
@@ -135,6 +202,9 @@ format = "[$symbol]($style)"
 format = "[$symbol]($style)"
 
 [gradle]
+format = "[$symbol]($style)"
+
+[haskell]
 format = "[$symbol]($style)"
 
 [haxe]
@@ -155,7 +225,13 @@ format = "[$symbol]($style)"
 [lua]
 format = "[$symbol]($style)"
 
+[maven]
+format = "[$symbol]($style)"
+
 [meson]
+format = "[$symbol]($style)"
+
+[mojo]
 format = "[$symbol]($style)"
 
 [nim]
@@ -166,6 +242,9 @@ format = "[$symbol]($style)"
 
 [ocaml]
 format = "[$symbol(($switch_indicator$switch_name) )]($style)"
+
+[odin]
+format = "[$symbol]($style)"
 
 [opa]
 format = "[$symbol]($style)"
@@ -203,6 +282,9 @@ format = "[$symbol]($style)"
 [rust]
 format = "[$symbol]($style)"
 
+[scala]
+format = "[$symbol]($style)"
+
 [solidity]
 format = "[$symbol]($style)"
 
@@ -216,6 +298,9 @@ format = "[$symbol]($style)"
 format = "[$symbol]($style)"
 
 [vlang]
+format = "[$symbol]($style)"
+
+[xmake]
 format = "[$symbol]($style)"
 
 [zig]
