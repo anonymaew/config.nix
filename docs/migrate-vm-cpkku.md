@@ -49,8 +49,8 @@ node-pinned to `homelab-n150`; this migration neither touches nor adopts them
 | Users | `napatsc` (sudo), `bdi-data`, `group-demo`, `medical` |
 | Failed units | `logrotate.service` (cosmetic) |
 | Installed | `nix`/`k3s`: **no**; `docker` (unusable: user not in group); rootless `podman 5.7.0` |
-| LAN access | jump host **`dinc-vm-cpkku`** = `dinc49`, Ubuntu 24.04.5, `project@10.198.110.49/24`, **1 ms** from vm-cpkku; has git/curl/rsync/tar/openssl/docker, **no `nix`** |
-| LAN SSH | `project@dinc49`'s ed25519 key (comment `dinc-vm-cpkku (10.198.110.49) -> hosts`, no passphrase — batch SSH) was **generated 2026-11-17 and appended to `napatsc@vm-cpkku:~/.ssh/authorized_keys`**; both `dinc49 → vm-cpkku` and `macair -J project@dinc-vm-cpkku → vm-cpkku` are verified. Root on vm-cpkku is **not** keyed yet (needs one interactive `sudo`). |
+| LAN access | jump host **`dinc-vm-cpkku`** = `dinc49`, Ubuntu 24.04.5, `project@10.198.110.49/24`, **1 ms** from vm-cpkku. **SSH bridge only** — no `nix`, no packages added; it just forwards TCP (`git`/`curl`/`rsync`/`openssl`/`docker` happen to be present) |
+| LAN SSH | `project@dinc49`'s ed25519 key (comment `dinc-vm-cpkku (10.198.110.49) -> hosts`, no passphrase — batch SSH) was **generated 2026-11-17 and appended to `napatsc@vm-cpkku:~/.ssh/authorized_keys`**; both `dinc49 → vm-cpkku` and `macair -J project@dinc-vm-cpkku → vm-cpkku` are verified. Root on vm-cpkku is **not** keyed; `nixos-anywhere --sudo` handles that itself (§P2). |
 
 Running rootless-podman stacks (`~napatsc/services/`):
 
@@ -163,9 +163,10 @@ New objects:
 
 Open questions — blocking (§9 + §10, keep them ticked off before P2):
 
-1. KVM console / snapshot access, and whether `project@dinc49` has `sudo` (only
-   needed for the dinc-direct fallback). LAN reachability itself is solved:
-   `dinc-vm-cpkku` is the jump host (its key is already on vm-cpkku).
+1. KVM console / snapshot access. LAN reachability itself is solved:
+   `dinc-vm-cpkku` is the SSH bridge (its key is already on vm-cpkku, and it
+   needs no software installed). `--sudo` covers root on vm-cpkku, so no root key
+   work is needed either — but the sudo password must be to hand.
 2. KKU IT: does `rev-proxy-c02` verify the origin certificate, and does it forward
    `Host` + `X-Forwarded-Proto`? (evidence says "no verify, re-encrypt to :443")
 3. Cloudflare: locally-managed tunnel (credentials JSON in sops, config in git)
@@ -552,23 +553,60 @@ git add -A            # flakes read the index, not the worktree
 
 ### P2 — install NixOS (window opens)
 
-Run over the KKU LAN. There are two ways in, plus a console fallback:
+Run over the KKU LAN. **`dinc-vm-cpkku` is only an SSH bridge**: it needs `sshd`
+and the key that is already in its `~/.ssh`, nothing else. **Do not install `nix`
+(or anything else) on it.** `nixos-anywhere` runs on macair, which already has an
+x86_64-linux builder (`nixosVmBasedLinuxBuilder` + `distributedBuilds` in
+`hosts/macair/default.nix`), so the target closure is built locally and copied.
 
 | Route | When |
 | --- | --- |
-| **`macair` → `-J project@dinc-vm-cpkku` → `10.198.110.45`** (preferred) | keeps the flake and the linux-builder on macair; `nixos-anywhere` reuses the same SSH command — jump host included — for the post-kexec installer session |
-| `dinc-vm-cpkku` directly | fallback if the jump/host-key handling gets in the way; needs `nix` installed there first (`sh <(curl -L https://nixos.org/nix/install) --no-daemon`), which also needs `sudo` on `dinc49` |
-| KVM console + NixOS ISO on `sr0` | if kexec is blocked, or the installer does not keep the target's address |
+| `macair` → `napatsc@10.198.110.45` through the bridge | normal path. `--ssh-option ProxyJump=project@dinc-vm-cpkku` makes the jump part of **every** phase, including the post-kexec installer session — no software on the bridge |
+| same, against a **new address** | if the installer takes a different DHCP lease (§ recovery below) |
+| KVM console + NixOS ISO on `sr0` | if kexec is blocked, or SSH into the installer is impossible |
 
 Both `dinc49 → vm-cpkku` (key authorized, no password) and
 `macair -J project@dinc-vm-cpkku → vm-cpkku` were verified on 2026-11-17.
 
-A note on the jump: `nixos-anywhere` reconnects to the **installer** after kexec,
-so the `-J` must be part of the SSH command it uses for every phase (it is, via
-`--ssh-option`). If the installer comes up on a different DHCP lease than
-`10.198.110.45`, the second connection fails — then either pin the address on the
-launchpad side, or fall back to running `nixos-anywhere` on `dinc-vm-cpkku`
-itself, where the target is one hop away.
+`--ssh-option` takes the *value* of an `ssh -o` option (nixos-anywhere turns it
+into `-o <value>`), so a jump host is spelled **`ProxyJump=…`**, not `-J …`.
+
+Two behaviours of nixos-anywhere 1.13 worth knowing before the window:
+
+- It generates its own install key and `ssh-copy-id`s it (the first connection
+  falls back to your agent keys because it passes `IdentitiesOnly=no`), so
+  `napatsc@` + `--sudo` is enough — no root key has to be installed by hand. After
+  kexec it switches to `root@<host>` on its own.
+- `--sudo` needs an interactive terminal for the password prompt. Run the command
+  in a real shell, not through a non-tty wrapper.
+
+If the installer comes up on a different address than `10.198.110.45`, split the
+run — the bridge is still all you need:
+
+```sh
+# 1. kexec only (the address is still Ubuntu's)
+nix run github:nix-community/nixos-anywhere -- --flake .#vm-cpkku \
+  --target-host napatsc@10.198.110.45 --sudo \
+  --ssh-option ProxyJump=project@dinc-vm-cpkku \
+  --phases kexec
+
+# 2. find the installer's address from the bridge (ARP/DHCP — read-only)
+ssh dinc-vm-cpkku 'ip neigh show dev ens18'
+
+# 3. partition + install against the installer
+nix run github:nix-community/nixos-anywhere -- --flake .#vm-cpkku \
+  --target-host root@<installer-ip> \
+  --ssh-option ProxyJump=project@dinc-vm-cpkku \
+  --phases disko,install --build-on remote --extra-files ./secrets/install
+```
+
+If jump-host key handling is what breaks, replace `-J` with a plain forward from
+the bridge — still no software installed on it:
+
+```sh
+ssh -N -L 2222:<installer-ip>:22 project@dinc-vm-cpkku &
+# … then --target-host root@127.0.0.1 --ssh-option "-p 2222"
+```
 
 The P2 profile is **tailscale on, sops off, k3s off** — the 3070 rule: the age
 recipient cannot be known before the install generates the host key. Produce it
@@ -586,13 +624,15 @@ P3 then re-enables both on `main` (or `mig/vm-cpkku-phase2`) once the host key i
 known.
 
 ```sh
-# nixos-anywhere needs root: either install root's key once (the sudo password is
-# typed by you, over the tailnet: `ssh vm-cpkku`), or pass `--sudo` and let
-# nixos-anywhere prompt. Everything else runs from macair through the jump host.
+# Runs from macair. `--sudo` is what replaces root SSH: nixos-anywhere uploads its
+# own install key and copies it into /root itself (needs one interactive sudo
+# password; the first connection uses your existing key, which is already
+# authorized for napatsc@vm-cpkku). The `--ssh-option` is an `-o` value, so it is
+# ProxyJump=… and not -J ….
 # secrets/install/ is gitignored: var/lib/tailscale/authkey + root/.ssh/authorized_keys
 nix run github:nix-community/nixos-anywhere -- \
-  --flake .#vm-cpkku --target-host root@10.198.110.45 \
-  --ssh-option "-J project@dinc-vm-cpkku" \
+  --flake .#vm-cpkku --target-host napatsc@10.198.110.45 --sudo \
+  --ssh-option ProxyJump=project@dinc-vm-cpkku \
   --build-on remote --extra-files ./secrets/install
 ```
 
@@ -725,11 +765,14 @@ P0 as the only copy of `~/services`, `~/medical` and the litellm database.
 
 `nixos-anywhere` reconnects to the **installer**, which has no Tailscale — so the
 install must be driven from a host that reaches `10.198.110.45` on the KKU LAN.
-`dinc-vm-cpkku` (`project@10.198.110.49`) is that host: use it as a **ProxyJump**
-so macair keeps driving the flake (`--ssh-option "-J project@dinc-vm-cpkku"`), or
-install `nix` there and run `nixos-anywhere` locally. Its ed25519 key is already
-in `napatsc@vm-cpkku:~/.ssh/authorized_keys` (added 2026-11-17), and both hops
-were verified. Root SSH is separate — install root's key or pass `--sudo`.
+`dinc-vm-cpkku` (`project@10.198.110.49`) is that host, used **only as an SSH
+bridge** — `--ssh-option ProxyJump=project@dinc-vm-cpkku`, or a plain `ssh -L`
+forward if the jump gets in the way. Nothing is installed on it; `nixos-anywhere`
+and the x86_64-linux build stay on macair. Its ed25519 key is already in
+`napatsc@vm-cpkku:~/.ssh/authorized_keys` (added 2026-11-17), and both hops were
+verified. Root SSH is not needed: `--sudo` covers the privileged steps, and
+nixos-anywhere copies its own install key into `/root` after the first
+connection (which falls back to your existing key).
 
 That is also the whole reason for `services.tailscale.authKeyFile` plus
 `--extra-files`: after first boot the box rejoins the tailnet unattended, and P3
@@ -801,7 +844,7 @@ then only the delta crosses the ocean.
 
 - [ ] KVM snapshot taken, console access confirmed (open question 1).
 - [ ] LAN hop verified: `ssh -J project@dinc-vm-cpkku napatsc@10.198.110.45`, and
-      root SSH ready (root key installed by hand, or `--sudo` accepted).
+      the sudo password for `napatsc` on vm-cpkku is to hand (for `--sudo`).
 - [ ] `pg_dump` restored successfully somewhere (test the restore, not just the dump).
 - [ ] `~/services` + `~/medical` rsynced off the box and verified.
 - [ ] Cloudflare tunnel token + litellm DB password rotated; new tunnel decided (open question 3).
